@@ -1,6 +1,6 @@
 import styled from "styled-components/macro";
-import { Button, Text, TextInput } from "@primer/components";
-import { useContext, useState } from "react";
+import {Button, Text, TextInput} from "@primer/components";
+import {useContext, useState} from "react";
 import AuthContext from "../context/AuthContext";
 
 export default function LogInPage() {
@@ -9,7 +9,7 @@ export default function LogInPage() {
     password: "",
   });
 
-  const { login } = useContext(AuthContext);
+  const {login} = useContext(AuthContext);
 
   const handleChange = (event) => {
     setCredentials({ ...credentials, [event.target.name]: event.target.value });
@@ -17,7 +17,7 @@ export default function LogInPage() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    /*login(credentials);*/
+    login(credentials);
   };
 
   return (

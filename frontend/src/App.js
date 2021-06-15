@@ -3,17 +3,23 @@ import './App.css';
 import NavHeader from "./components/NavHeader";
 import LoginPage from "./Pages/LoginPage";
 import {ThemeProvider} from '@primer/components'
+import AuthProvider from "./context/AuthProvider";
 
 
 function App() {
   return (
       <ThemeProvider>
-        <NavHeader/>
-        <Switch>
-          <Route path={'/'} exact>
-            <LoginPage/>
-          </Route>
-        </Switch>
+          <AuthProvider>
+              <NavHeader/>
+              <Switch>
+                  <Route path={'/'} exact>
+                      <LoginPage/>
+                  </Route>
+                  <Route path={'/home'} exact>
+                      <LoginPage/>
+                  </Route>
+              </Switch>
+          </AuthProvider>
       </ThemeProvider>
   )
 }
