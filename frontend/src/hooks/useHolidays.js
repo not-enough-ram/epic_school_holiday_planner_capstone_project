@@ -18,7 +18,7 @@ export default function useHolidays() {
             .then((response) => response.data)
             .then(setHolidays)
             .catch((error) => console.error(error.message));
-    }, [user, token]);
+    }, [token]);
 
     return { holidays };
 }
