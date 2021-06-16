@@ -21,7 +21,6 @@ class HolidaysServiceTest {
 
     @BeforeEach
     void setUp() {
-        holidaysRepository.clearAll();
     }
 
     @AfterEach

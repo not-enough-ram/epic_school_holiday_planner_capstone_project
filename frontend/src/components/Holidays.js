@@ -1,4 +1,4 @@
-export default function Holidays(holidays){
+export default function Holidays({holidays}) {
     return (
         <section>
             <h2>{holidays.name}</h2>

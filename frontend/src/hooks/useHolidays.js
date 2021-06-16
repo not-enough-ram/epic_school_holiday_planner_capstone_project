@@ -14,7 +14,7 @@ export default function useHolidays() {
             },
         }
         axios
-            .get(`/api/holidays`, config)
+            .get(`/api/test/holidays`, config)
             .then((response) => response.data)
             .then(setHolidays)
             .catch((error) => console.error(error.message));

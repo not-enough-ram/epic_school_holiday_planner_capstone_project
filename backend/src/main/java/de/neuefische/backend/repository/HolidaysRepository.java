@@ -9,6 +9,4 @@ import java.util.List;
 @Repository
 public interface HolidaysRepository extends PagingAndSortingRepository<Holidays, String> {
     List<Holidays> findAll();
-
-    void clearAll();
 }
