@@ -2,7 +2,7 @@ import {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import AuthContext from "../context/AuthContext";
 
-export default function useHolidays(user) {
+export default function useHolidays() {
 
     const [holidays, setHolidays] = useState([]);
     const {token} = useContext(AuthContext)
