@@ -1,9 +1,10 @@
 import styled from "styled-components/macro";
+import Holidays from "../components/Holidays";
 
 export default function HomePage() {
     return (
         <Wrapper>
-            <h1>Lol</h1>
+            <Holidays/>
         </Wrapper>
     );
 }

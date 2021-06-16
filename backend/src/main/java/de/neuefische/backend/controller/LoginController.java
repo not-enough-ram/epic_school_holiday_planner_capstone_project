@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
@@ -26,20 +29,12 @@ public class LoginController {
         this.jwtService = jwtService;
     }
 
-    @GetMapping
-    public String getAnswer(AppUser data) {
-        System.out.println(data);
-        return data.toString();
-    }
-
     @PostMapping("login")
     public String login(@RequestBody AppUser data) {
         try {
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(data.getUsername(), data.getPassword());
             authenticationManager.authenticate(authentication);
-            // SecurityContextHolder.getContext().setAuthentication(authentication);
             String token = jwtService.createToken(new HashMap<>(), data.getUsername());
-            System.out.println("The answer my friend is " + token);
             return token;
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "bad login data");
