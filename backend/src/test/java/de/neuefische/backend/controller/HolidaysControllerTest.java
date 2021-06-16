@@ -87,7 +87,7 @@ class HolidaysControllerTest {
     private HttpHeaders getHttpHeaderWithAuthToken() {
         appUserRepository.save(AppUser.builder().username("test_username").password(encoder.encode("test_password")).build());
         AppUser appUser = new AppUser("test_username", "test_password");
-        ResponseEntity<String> tokenResponse = testRestTemplate.postForEntity("http://localhost:" + port + "/auth/login", appUser, String.class);
+        ResponseEntity<String> tokenResponse = testRestTemplate.postForEntity("http://localhost:" + port + "/api/auth", appUser, String.class);
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(tokenResponse.getBody());
         return headers;
