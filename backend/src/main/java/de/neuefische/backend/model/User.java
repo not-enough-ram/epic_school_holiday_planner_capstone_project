@@ -1,5 +1,6 @@
 package de.neuefische.backend.model;
 
+import de.neuefische.backend.security.model.AppUser;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +16,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Builder
 public class User {
     @Id
-    private String login;
+    private AppUser appUser;
     private String firstName;
     private String lastName;
     private String role;
