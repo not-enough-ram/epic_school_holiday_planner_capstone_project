@@ -21,6 +21,7 @@ class HolidaysServiceTest {
 
     @BeforeEach
     void setUp() {
+        holidaysRepository.clearAll();
     }
 
     @AfterEach
@@ -55,5 +56,9 @@ class HolidaysServiceTest {
                         .startDate(LocalDate.of(2021, 4, 1))
                         .endDate(LocalDate.of(2022, 5, 17))
                         .build()));
+    }
+
+    @Test
+    void setNewHolidays() {
     }
 }
