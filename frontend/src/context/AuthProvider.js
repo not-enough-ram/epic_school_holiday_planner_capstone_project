@@ -11,7 +11,7 @@ export default function AuthProvider({children}) {
 
   const login = (credentials) => {
     axios
-        .post("/login", credentials)
+        .post("/api/auth/login", credentials)
         .then((response) => response.data)
         .then((data) => {
           setToken(data);
