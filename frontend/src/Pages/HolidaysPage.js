@@ -2,11 +2,17 @@ import styled from "styled-components/macro";
 import HolidayList from "../components/HolidayList";
 
 export default function HolidaysPage() {
-    return (
-        <Wrapper>
-            <HolidayList/>
-        </Wrapper>
-    );
+  return (
+    <Wrapper>
+      <HolidaysPageHeader>
+        <h1>Ferienübersicht</h1>
+      </HolidaysPageHeader>
+      <HolidayList />
+      <section>
+        <h1>Gebuchte Ferien</h1>
+      </section>
+    </Wrapper>
+  );
 }
 
 const Wrapper = styled.div`
@@ -16,3 +22,5 @@ const Wrapper = styled.div`
   grid-gap: 24px;
   justify-content: center;
 `;
+
+const HolidaysPageHeader = styled.div``;

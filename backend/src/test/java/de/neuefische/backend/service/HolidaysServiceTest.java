@@ -1,6 +1,7 @@
 package de.neuefische.backend.service;
 
 import de.neuefische.backend.model.Holidays;
+import de.neuefische.backend.repository.BookedHolidaysRepository;
 import de.neuefische.backend.repository.HolidaysRepository;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +16,8 @@ import static org.mockito.Mockito.when;
 class HolidaysServiceTest {
 
     private final HolidaysRepository holidaysRepository = mock(HolidaysRepository.class);
-    private final HolidaysService holidaysService = new HolidaysService(holidaysRepository);
+    private final BookedHolidaysRepository bookedHolidaysRepository = mock(BookedHolidaysRepository.class);
+    private final HolidaysService holidaysService = new HolidaysService(holidaysRepository, bookedHolidaysRepository);
 
 
     @Test
