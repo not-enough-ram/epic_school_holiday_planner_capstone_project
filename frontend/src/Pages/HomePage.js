@@ -1,10 +1,10 @@
 import styled from "styled-components/macro";
-import Holidays from "../components/Holidays";
+import HolidayList from "../components/HolidayList";
 
 export default function HomePage() {
     return (
         <Wrapper>
-            <Holidays/>
+            <HolidayList/>
         </Wrapper>
     );
 }

@@ -1,30 +1,28 @@
-package de.neuefische.backend.model;
+package de.neuefische.backend.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "holidays")
 @Builder
-public class Holidays {
-    @Id
+public class HolidaysDto {
+
     @NotNull(message = "name cannot be null")
     @NotBlank(message = "name cannot be blank")
+    @Length(max = 40, message = "max length for name is 40 characters")
     private String name;
 
     @NotNull(message = "start date cannot be null")
-    private LocalDate startDate;
+    private String startDate;
 
     @NotNull(message = "end date cannot be null")
-    private LocalDate endDate;
+    private String endDate;
 }

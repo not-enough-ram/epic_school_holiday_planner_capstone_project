@@ -1,7 +1,9 @@
-export default function Holidays() {
+export default function Holidays({holidays}) {
     return (
         <section>
-            <h1>Godzilla</h1>
+            <h2>{holidays.name}</h2>
+            <h2>{holidays.startDate}</h2>
+            <h2>{holidays.endDate}</h2>
         </section>
     )
 }
