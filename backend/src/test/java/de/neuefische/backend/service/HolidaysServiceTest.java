@@ -19,13 +19,6 @@ class HolidaysServiceTest {
     private final HolidaysRepository holidaysRepository = mock(HolidaysRepository.class);
     private final HolidaysService holidaysService = new HolidaysService(holidaysRepository);
 
-    @BeforeEach
-    void setUp() {
-    }
-
-    @AfterEach
-    void tearDown() {
-    }
 
     @Test
     void getListOfHolidaysShouldReturnAListOfAllHolidaysInRepository() {
