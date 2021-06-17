@@ -54,7 +54,6 @@ class HolidaysControllerTest {
                         .startDate(LocalDate.of(2021, 4, 1))
                         .endDate(LocalDate.of(2022, 5, 17))
                         .build()};
-        when(mockedTemplate.getForEntity("http://localhost:" + port + "/api/holidays", Holidays[].class)).thenReturn(ResponseEntity.ok(holidays));
 
         //WHEN
         HttpHeaders headers = getHttpHeaderWithAuthToken();
