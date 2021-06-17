@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/auth")
@@ -21,12 +22,14 @@ public class LoginController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtilsService jwtService;
+    private final AppUserRepository appUserRepository;
 
 
     @Autowired
-    public LoginController(AuthenticationManager authenticationManager, JwtUtilsService jwtService, AppUserRepository appUserRepository) {
+    public LoginController(AuthenticationManager authenticationManager, JwtUtilsService jwtService, AppUserRepository appUserRepository, AppUserRepository appUserRepository1) {
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
+        this.appUserRepository = appUserRepository1;
     }
 
     @PostMapping("login")
@@ -34,7 +37,9 @@ public class LoginController {
         try {
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(data.getUsername(), data.getPassword());
             authenticationManager.authenticate(authentication);
-            String token = jwtService.createToken(new HashMap<>(), data.getUsername());
+            AppUser appUser = appUserRepository.findById(data.getUsername()).get();
+            String userRole = appUser.getUserRole().toString();
+            String token = jwtService.createToken(new HashMap<>(Map.of("userRole", userRole)), data.getUsername());
             return token;
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "bad login data");
