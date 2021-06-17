@@ -1,12 +1,9 @@
-package de.neuefische.backend.security.model;
+package de.neuefische.backend.dto;
 
-
-import de.neuefische.backend.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -19,7 +16,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @Builder
 @Document(collection = "appusers")
-public class AppUser {
+public class AppUserDto {
 
     @Id
     @NotNull(message = "name cannot be null")
@@ -32,5 +29,6 @@ public class AppUser {
     @Size(min = 8, max = 40, message = "password must be between 8 to 20 characters")
     private String password;
 
-    UserRole userRole;
+    @NotNull
+    String userRole;
 }
