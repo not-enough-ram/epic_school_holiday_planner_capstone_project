@@ -19,13 +19,6 @@ class HolidaysServiceTest {
     private final HolidaysRepository holidaysRepository = mock(HolidaysRepository.class);
     private final HolidaysService holidaysService = new HolidaysService(holidaysRepository);
 
-    @BeforeEach
-    void setUp() {
-    }
-
-    @AfterEach
-    void tearDown() {
-    }
 
     @Test
     void getListOfHolidaysShouldReturnAListOfAllHolidaysInRepository() {
@@ -55,9 +48,6 @@ class HolidaysServiceTest {
                         .startDate(LocalDate.of(2021, 4, 1))
                         .endDate(LocalDate.of(2022, 5, 17))
                         .build()));
-    }
-
-    @Test
-    void setNewHolidays() {
+    
     }
 }

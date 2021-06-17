@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/test/holidays")
-
-
+@RequestMapping("api/holidays")
 public class HolidaysController {
 
     private final HolidaysService holidaysService;
