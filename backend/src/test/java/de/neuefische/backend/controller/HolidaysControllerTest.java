@@ -27,8 +27,6 @@ class HolidaysControllerTest {
     @LocalServerPort
     private int port;
 
-    @MockBean
-    private RestTemplate mockedTemplate;
 
     @Autowired
     private TestRestTemplate testRestTemplate;
