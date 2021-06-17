@@ -11,8 +11,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/holidays")
-
-
 public class HolidaysController {
 
     private final HolidaysService holidaysService;
