@@ -1,1 +1,4 @@
-# epic_school_holiday_planner_capstone_project
+# Epic Holiday Planner
+
+## Why?
+Because schools need to acknowledge the existence of the internet
