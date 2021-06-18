@@ -1,6 +1,11 @@
 import styled from "styled-components/macro";
+import { useHistory } from "react-router-dom";
 
 export default function Holidays({ holidays }) {
+  let history = useHistory();
+  function handleClick() {
+    history.push("/details");
+  }
   return (
     <Holiday>
       <div>
@@ -8,6 +13,7 @@ export default function Holidays({ holidays }) {
       </div>
       <h3>{holidays.startDate}</h3>
       <h3>{holidays.endDate}</h3>
+      <button onClick={handleClick}>Details</button>
     </Holiday>
   );
 }

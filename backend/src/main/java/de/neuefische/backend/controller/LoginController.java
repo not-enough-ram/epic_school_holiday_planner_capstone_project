@@ -38,7 +38,7 @@ public class LoginController {
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(data.getUsername(), data.getPassword());
             authenticationManager.authenticate(authentication);
             AppUser appUser = appUserRepository.findById(data.getUsername()).get();
-            String userRole = appUser.getUserRole().toString();
+            String userRole = appUser.getRole().toString();
             String token = jwtService.createToken(new HashMap<>(Map.of("userRole", userRole)), data.getUsername());
             return token;
         } catch (Exception e) {
