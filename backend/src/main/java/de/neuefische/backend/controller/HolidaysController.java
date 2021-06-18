@@ -33,7 +33,7 @@ public class HolidaysController {
     }
 
     @GetMapping("booked")
-    public BookedHolidays bookedHolidays(Principal principal){
+    public BookedHolidays getBookedholidays(Principal principal){
         return holidaysService.getBookedHolidays(principal.getName());
     }
 
@@ -43,7 +43,7 @@ public class HolidaysController {
     }
 
     @PostMapping
-    public void setNewHolidays(@RequestBody HolidaysDto holidays){
-        holidaysService.setNewHolidays(holidays);
+    public Holidays setNewHolidays(@RequestBody HolidaysDto holidays){
+        return holidaysService.setNewHolidays(holidays);
     }
 }

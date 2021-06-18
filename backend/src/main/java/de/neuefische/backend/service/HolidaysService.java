@@ -37,9 +37,9 @@ public class HolidaysService {
         return holidaysRepository.findAll();
     }
 
-    public void setNewHolidays(HolidaysDto holidays) {
+    public Holidays setNewHolidays(HolidaysDto holidays) {
         Holidays addHolidays = dtoToHolidaysObject(holidays);
-        holidaysRepository.save(addHolidays);
+        return holidaysRepository.save(addHolidays);
     }
 
     public Holidays dtoToHolidaysObject(HolidaysDto holidaysDto){
