@@ -3,6 +3,7 @@ package de.neuefische.backend.service;
 import de.neuefische.backend.model.Holidays;
 import de.neuefische.backend.repository.BookedHolidaysRepository;
 import de.neuefische.backend.repository.HolidaysRepository;
+import de.neuefische.backend.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -17,7 +18,8 @@ class HolidaysServiceTest {
 
     private final HolidaysRepository holidaysRepository = mock(HolidaysRepository.class);
     private final BookedHolidaysRepository bookedHolidaysRepository = mock(BookedHolidaysRepository.class);
-    private final HolidaysService holidaysService = new HolidaysService(holidaysRepository, bookedHolidaysRepository);
+    private final UserRepository userRepository = mock(UserRepository.class);
+    private final HolidaysService holidaysService = new HolidaysService(holidaysRepository, bookedHolidaysRepository, userRepository);
 
 
     @Test

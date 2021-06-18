@@ -1,29 +1,35 @@
 package de.neuefische.backend.service;
 
+import de.neuefische.backend.dto.BookedHolidaysDto;
 import de.neuefische.backend.dto.HolidaysDto;
 import de.neuefische.backend.model.BookedHolidays;
 import de.neuefische.backend.model.Holidays;
+import de.neuefische.backend.model.User;
 import de.neuefische.backend.repository.BookedHolidaysRepository;
 import de.neuefische.backend.repository.HolidaysRepository;
-import org.apache.http.HttpException;
+import de.neuefische.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 
 @Service
 public class HolidaysService {
     private final HolidaysRepository holidaysRepository;
     private final BookedHolidaysRepository bookedHolidaysRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public HolidaysService(HolidaysRepository holidaysRepository, BookedHolidaysRepository bookedHolidaysRepository) {
+    public HolidaysService(HolidaysRepository holidaysRepository, BookedHolidaysRepository bookedHolidaysRepository, UserRepository userRepository) {
         this.holidaysRepository = holidaysRepository;
         this.bookedHolidaysRepository = bookedHolidaysRepository;
+        this.userRepository = userRepository;
     }
 
 
@@ -45,8 +51,31 @@ public class HolidaysService {
     }
 
     public BookedHolidays getBookedHolidays(String user){
-        if (bookedHolidaysRepository.findById(user).isPresent())
-            return bookedHolidaysRepository.findById(user).get();
+        if (bookedHolidaysRepository.findById(user).isPresent()){
+            return bookedHolidaysRepository.findById(user).get();}
         return null;
+    }
+
+    public BookedHolidays setBookedHolidays(BookedHolidaysDto bookedHolidaysDto, String user) {
+        if (bookedHolidaysRepository.findById(user).isPresent()){
+            return bookedHolidaysRepository.save(dtoTobookedHolidays(bookedHolidaysDto, user));
+        }
+        else{
+            return bookedHolidaysRepository.save(dtoTobookedHolidays(bookedHolidaysDto, user));}
+    }
+
+    public BookedHolidays dtoTobookedHolidays(BookedHolidaysDto dto, String user){
+        ArrayList<Holidays> holidayList = new ArrayList<Holidays>();
+        if(holidaysRepository.findById(dto.getHolidaysName()).isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Holidays not fount");
+        }
+        LocalDate startDate = holidaysRepository.findById(dto.getHolidaysName()).get().getStartDate();
+        LocalDate endDate = holidaysRepository.findById(dto.getHolidaysName()).get().getEndDate();
+        if(userRepository.findById(user).isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not fount");
+        }
+        User bookingUser = userRepository.findById(user).get();
+        holidayList.add(Holidays.builder().name(dto.getHolidaysName()).startDate(startDate).endDate(endDate).build());
+        return BookedHolidays.builder().holidays(holidayList).user(bookingUser).build();
     }
 }

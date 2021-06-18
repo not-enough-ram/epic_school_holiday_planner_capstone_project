@@ -1,5 +1,6 @@
 package de.neuefische.backend.controller;
 
+import de.neuefische.backend.dto.BookedHolidaysDto;
 import de.neuefische.backend.dto.HolidaysDto;
 import de.neuefische.backend.model.BookedHolidays;
 import de.neuefische.backend.model.Holidays;
@@ -29,6 +30,11 @@ public class HolidaysController {
     @GetMapping("booked")
     public BookedHolidays bookedHolidays(Principal principal){
         return holidaysService.getBookedHolidays(principal.getName());
+    }
+
+    @PostMapping("booked")
+    public BookedHolidays setBookedHolidays(@RequestBody BookedHolidaysDto bookedHolidaysDto, Principal principal){
+        return holidaysService.setBookedHolidays(bookedHolidaysDto, principal.getName());
     }
 
     @PostMapping

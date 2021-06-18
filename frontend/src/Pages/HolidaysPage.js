@@ -1,6 +1,5 @@
 import styled from "styled-components/macro";
 import HolidayList from "../components/HolidayList";
-import DatePicker from "../components/DatePicker";
 
 export default function HolidaysPage() {
   return (
@@ -12,7 +11,6 @@ export default function HolidaysPage() {
       <section>
         <h1>Gebuchte Ferien</h1>
       </section>
-      <DatePicker />
     </Wrapper>
   );
 }

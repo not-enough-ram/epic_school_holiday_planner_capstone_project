@@ -2,7 +2,6 @@ package de.neuefische.backend.controller;
 
 
 import de.neuefische.backend.dto.AppUserDto;
-import de.neuefische.backend.security.model.AppUser;
 import de.neuefische.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
