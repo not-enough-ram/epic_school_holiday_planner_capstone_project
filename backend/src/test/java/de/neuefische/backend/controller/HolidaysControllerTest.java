@@ -66,7 +66,7 @@ class HolidaysControllerTest {
                 .build());
 
         //WHEN
-        Holidays holidays = holidaysService.getHolidaysByName("Sommerferien");
+        Holidays holidays = holidaysController.getHolidaysByName("Sommerferien");
 
         //THEN
         assertThat(holidays, is(Holidays.builder()
@@ -99,7 +99,7 @@ class HolidaysControllerTest {
                         .build());
 
         //WHEN
-        BookedHolidays bookedHolidays = holidaysService.getBookedHolidays("testuser");
+        BookedHolidays bookedHolidays = holidaysController.getBookedholidays(() -> "testuser");
 
         //THEN
         assertThat(bookedHolidays, is(BookedHolidays.builder()
@@ -133,11 +133,11 @@ class HolidaysControllerTest {
                         .build());
 
         //WHEN
-        BookedHolidays bookedHolidays = holidaysService.setBookedHolidays(BookedHolidaysDto.builder()
+        BookedHolidays bookedHolidays = holidaysController.setBookedHolidays(BookedHolidaysDto.builder()
                 .holidaysName("Sommerferien")
                 .startDateBooking("2020-01-01")
                 .endDateBooking("2021-01-01")
-                .build(), "testuser");
+                .build(), (() -> "testuser"));
 
         //THEN
         assertThat(bookedHolidays, is(BookedHolidays.builder()
@@ -176,7 +176,7 @@ class HolidaysControllerTest {
                     .build());
 
         //WHEN
-        Holidays newHolidays = holidaysService.setNewHolidays(HolidaysDto.builder()
+        Holidays newHolidays = holidaysController.setNewHolidays(HolidaysDto.builder()
                 .name("Sommerferien")
                 .startDate("2020-01-01")
                 .endDate("2021-01-01")
