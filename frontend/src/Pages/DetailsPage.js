@@ -1,22 +1,18 @@
-import styled from "styled-components/macro";
 import HolidayList from "../components/HolidayList";
 import DatePicker from "../components/DatePicker";
+import styled from "styled-components/macro";
 
-export default function HolidaysPage() {
+export default function DetailsPage() {
   return (
     <Wrapper>
       <HolidaysPageHeader>
-        <h1>Ferienübersicht</h1>
+        <h1>Wählen Sie die gewünschten Ferien aus</h1>
       </HolidaysPageHeader>
       <HolidayList />
-      <section>
-        <h1>Gebuchte Ferien</h1>
-      </section>
       <DatePicker />
     </Wrapper>
   );
 }
-
 const Wrapper = styled.div`
   padding: 10px;
   text-align: center;
@@ -24,5 +20,4 @@ const Wrapper = styled.div`
   grid-gap: 24px;
   justify-content: center;
 `;
-
 const HolidaysPageHeader = styled.div``;
