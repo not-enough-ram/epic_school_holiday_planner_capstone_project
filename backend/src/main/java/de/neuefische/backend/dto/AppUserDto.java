@@ -30,5 +30,5 @@ public class AppUserDto {
     private String password;
 
     @NotNull
-    String userRole;
+    String role;
 }

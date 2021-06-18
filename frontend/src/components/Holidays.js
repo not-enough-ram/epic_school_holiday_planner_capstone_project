@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 export default function Holidays({ holidays }) {
   let history = useHistory();
   function handleClick() {
-    history.push("/details");
+    history.push("/details/" + holidays.name);
   }
   return (
     <Holiday>

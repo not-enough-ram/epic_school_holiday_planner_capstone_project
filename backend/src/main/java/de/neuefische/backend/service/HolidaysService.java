@@ -78,4 +78,12 @@ public class HolidaysService {
         holidayList.add(Holidays.builder().name(dto.getHolidaysName()).startDate(startDate).endDate(endDate).build());
         return BookedHolidays.builder().holidays(holidayList).user(bookingUser).build();
     }
+
+    public Holidays getHolidaysByName(String name) {
+        if (holidaysRepository.findById(name).isPresent()) {
+            return holidaysRepository.findById(name).get();
+        }
+        else
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Holidays not found");
+    }
 }

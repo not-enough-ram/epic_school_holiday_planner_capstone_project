@@ -7,6 +7,8 @@ import AuthProvider from "./context/AuthProvider";
 import PrivateRoute from "./routing/PrivateRoute";
 import HomePage from "./Pages/HomePage";
 import HolidaysPage from "./Pages/HolidaysPage";
+import HolidayDetails from "./components/HolidayDetails";
+import DetailsPage from "./Pages/DetailsPage";
 
 function App() {
   return (
@@ -19,6 +21,9 @@ function App() {
           </Route>
           <PrivateRoute path={"/home"} exact>
             <HolidaysPage />
+          </PrivateRoute>
+          <PrivateRoute path={"/details/:name"}>
+            <DetailsPage />
           </PrivateRoute>
         </Switch>
       </AuthProvider>

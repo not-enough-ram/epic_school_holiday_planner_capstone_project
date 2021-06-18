@@ -27,6 +27,11 @@ public class HolidaysController {
         return holidaysService.getListOfHolidays();
     }
 
+    @GetMapping("details/{name}")
+    public Holidays getHolidaysByName(@PathVariable String name){
+        return holidaysService.getHolidaysByName(name);
+    }
+
     @GetMapping("booked")
     public BookedHolidays bookedHolidays(Principal principal){
         return holidaysService.getBookedHolidays(principal.getName());

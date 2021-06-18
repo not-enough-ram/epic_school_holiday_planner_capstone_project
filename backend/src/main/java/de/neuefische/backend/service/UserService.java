@@ -27,20 +27,21 @@ public class UserService {
         AppUser newAppUser = AppUser.builder()
                 .username(newUser.getUsername())
                 .password(encoder.encode(newUser.getPassword()))
-                .role(castDtoToModel(newUser.getUserRole()))
+                .role(castDtoToModel(newUser.getRole()))
                 .build();
+        appUserRepository.save(newAppUser);
         return newAppUser.getUsername();
     }
 
     public Role castDtoToModel(String role){
         switch (role){
-            case "USER":
+            case "user":
                 return Role.USER;
-            case "EMPLOYEE":
+            case "employee":
                 return Role.EMPLOYEE;
-            case "MANAGER":
+            case "manager":
                 return Role.MANAGER;
-            case "ADMIN":
+            case "admin":
                 return Role.ADMIN;
             default:
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"no such user role");
