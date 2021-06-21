@@ -1,6 +1,5 @@
 package de.neuefische.backend.model;
 
-import de.neuefische.backend.security.model.AppUser;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,18 +7,17 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "users")
+@NoArgsConstructor
 @Builder
-public class User {
+@Document(collection = "booked_holidays")
+public class BookedHolidays {
+
     @Id
-    private AppUser appUser;
-    private String firstName;
-    private String lastName;
-    private Children[] children;
-    private String phone;
-    private String notes;
+    private User user;
+    private ArrayList<Holidays> holidays;
+
 }

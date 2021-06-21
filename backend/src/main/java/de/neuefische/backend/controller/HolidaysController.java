@@ -1,11 +1,14 @@
 package de.neuefische.backend.controller;
 
+import de.neuefische.backend.dto.BookedHolidaysDto;
 import de.neuefische.backend.dto.HolidaysDto;
+import de.neuefische.backend.model.BookedHolidays;
 import de.neuefische.backend.model.Holidays;
 import de.neuefische.backend.service.HolidaysService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -24,8 +27,23 @@ public class HolidaysController {
         return holidaysService.getListOfHolidays();
     }
 
+    @GetMapping("details/{name}")
+    public Holidays getHolidaysByName(@PathVariable String name){
+        return holidaysService.getHolidaysByName(name);
+    }
+
+    @GetMapping("booked")
+    public BookedHolidays getBookedholidays(Principal principal){
+        return holidaysService.getBookedHolidays(principal.getName());
+    }
+
+    @PostMapping("booked")
+    public BookedHolidays setBookedHolidays(@RequestBody BookedHolidaysDto bookedHolidaysDto, Principal principal){
+        return holidaysService.setBookedHolidays(bookedHolidaysDto, principal.getName());
+    }
+
     @PostMapping
-    public void setNewHolidays(@RequestBody HolidaysDto holidays){
-        holidaysService.setNewHolidays(holidays);
+    public Holidays setNewHolidays(@RequestBody HolidaysDto holidays){
+        return holidaysService.setNewHolidays(holidays);
     }
 }

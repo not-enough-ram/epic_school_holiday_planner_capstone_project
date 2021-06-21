@@ -38,8 +38,8 @@ public class LoginController {
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(data.getUsername(), data.getPassword());
             authenticationManager.authenticate(authentication);
             AppUser appUser = appUserRepository.findById(data.getUsername()).get();
-            String userRole = appUser.getUserRole().toString();
-            String token = jwtService.createToken(new HashMap<>(Map.of("userRole", userRole)), data.getUsername());
+            String role = appUser.getRole().toString();
+            String token = jwtService.createToken(new HashMap<>(Map.of("role", role)), data.getUsername());
             return token;
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "bad login data");

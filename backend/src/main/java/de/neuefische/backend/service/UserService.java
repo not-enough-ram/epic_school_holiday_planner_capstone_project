@@ -1,14 +1,15 @@
 package de.neuefische.backend.service;
 
 import de.neuefische.backend.dto.AppUserDto;
-import de.neuefische.backend.model.User;
 import de.neuefische.backend.repository.UserRepository;
 import de.neuefische.backend.security.model.AppUser;
-import de.neuefische.backend.security.model.UserRole;
+import de.neuefische.backend.security.model.Role;
 import de.neuefische.backend.security.repository.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class UserService {
@@ -22,27 +23,28 @@ public class UserService {
         this.encoder = encoder;
     }
 
-    public AppUser addNewUser(AppUserDto newUser) {
+    public String addNewUser(AppUserDto newUser) {
         AppUser newAppUser = AppUser.builder()
                 .username(newUser.getUsername())
                 .password(encoder.encode(newUser.getPassword()))
-                .userRole(castDtoToModel(newUser.getUserRole()))
+                .role(castDtoToModel(newUser.getRole()))
                 .build();
-        return appUserRepository.save(newAppUser);
+        appUserRepository.save(newAppUser);
+        return newAppUser.getUsername();
     }
 
-    public UserRole castDtoToModel(String userRole){
-        switch (userRole){
-            case "USER":
-                return UserRole.USER;
-            case "EMPLOYEE":
-                return UserRole.EMPLOYEE;
-            case "MANAGER":
-                return UserRole.MANAGER;
-            case "ADMIN":
-                return UserRole.ADMIN;
+    public Role castDtoToModel(String role){
+        switch (role){
+            case "user":
+                return Role.USER;
+            case "employee":
+                return Role.EMPLOYEE;
+            case "manager":
+                return Role.MANAGER;
+            case "admin":
+                return Role.ADMIN;
             default:
-                return UserRole.FORBIDDEN;
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"no such user role");
         }
     }
 }
