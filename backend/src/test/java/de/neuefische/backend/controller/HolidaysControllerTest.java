@@ -4,19 +4,17 @@ import de.neuefische.backend.dto.BookedHolidaysDto;
 import de.neuefische.backend.dto.HolidaysDto;
 import de.neuefische.backend.model.BookedHolidays;
 import de.neuefische.backend.model.Holidays;
-import de.neuefische.backend.model.User;
-import de.neuefische.backend.security.model.AppUser;
 import de.neuefische.backend.service.HolidaysService;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.*;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 class HolidaysControllerTest {
     private final HolidaysService holidaysService = mock(HolidaysService.class);
@@ -89,12 +87,7 @@ class HolidaysControllerTest {
                 .build());
         when(holidaysService.getBookedHolidays("testuser"))
                 .thenReturn(BookedHolidays.builder()
-                        .user(User.builder()
-                                .appUser(AppUser.builder()
-                                        .username("testuser")
-                                        .password("")
-                                        .build())
-                                .build())
+                        .userLogin("testuser")
                         .holidays(holidaysArrayList)
                         .build());
 
@@ -103,12 +96,7 @@ class HolidaysControllerTest {
 
         //THEN
         assertThat(bookedHolidays, is(BookedHolidays.builder()
-                .user(User.builder()
-                        .appUser(AppUser.builder()
-                                .username("testuser")
-                                .password("")
-                                .build())
-                        .build())
+                .userLogin("testuser")
                 .holidays(holidaysArrayList)
                 .build()));
         verify(holidaysService, times(1)).getBookedHolidays("testuser");
@@ -123,12 +111,7 @@ class HolidaysControllerTest {
                 .endDateBooking("2021-01-01")
                 .build(), "testuser"))
                 .thenReturn(BookedHolidays.builder()
-                        .user(User.builder()
-                                .appUser(AppUser.builder()
-                                        .username("testuser")
-                                        .password("")
-                                        .build())
-                                .build())
+                        .userLogin("testuser")
                         .holidays(holidaysArrayList)
                         .build());
 
@@ -141,12 +124,7 @@ class HolidaysControllerTest {
 
         //THEN
         assertThat(bookedHolidays, is(BookedHolidays.builder()
-                .user(User.builder()
-                        .appUser(AppUser.builder()
-                                .username("testuser")
-                                .password("")
-                                .build())
-                        .build())
+                .userLogin("testuser")
                 .holidays(holidaysArrayList)
                 .build()));
         verify(holidaysService,times(1)).setBookedHolidays(BookedHolidaysDto.builder()

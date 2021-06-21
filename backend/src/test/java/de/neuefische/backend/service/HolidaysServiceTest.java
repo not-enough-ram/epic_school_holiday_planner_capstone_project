@@ -102,7 +102,7 @@ class HolidaysServiceTest {
                 .build();
 
         //WHEN
-        Holidays holidays = holidaysService.dtoToHolidaysObject(holidaysDto);
+        Holidays holidays = holidaysService.holidaysDtoToHolidaysDatabaseModel(holidaysDto);
 
         //THEN
         assertThat(holidays, is(Holidays.builder()
@@ -124,12 +124,7 @@ class HolidaysServiceTest {
                 .build());
 
         when(bookedHolidaysRepository.findById("testuser")).thenReturn(Optional.of(BookedHolidays.builder()
-                .user(User.builder()
-                        .appUser(AppUser.builder()
-                                .username("testuser")
-                                .password("")
-                                .build())
-                        .build())
+                .userLogin("testuser")
                 .holidays(holidaysArrayList)
                 .build()));
 
@@ -138,12 +133,7 @@ class HolidaysServiceTest {
 
         //THEN
         assertThat(bookedHolidays, is(BookedHolidays.builder()
-                .user(User.builder()
-                        .appUser(AppUser.builder()
-                                .username("testuser")
-                                .password("")
-                                .build())
-                        .build())
+                .userLogin("testuser")
                 .holidays(holidaysArrayList)
                 .build()));
         verify(bookedHolidaysRepository, times(2)).findById("testuser");
@@ -159,20 +149,10 @@ class HolidaysServiceTest {
                 .endDate(LocalDate.of(2021, 1, 17))
                 .build());
         when(bookedHolidaysRepository.save(BookedHolidays.builder()
-                .user(User.builder()
-                        .appUser(AppUser.builder()
-                                .username("testuser")
-                                .password("")
-                                .build())
-                        .build())
+                .userLogin("testuser")
                 .holidays(holidaysArrayList)
                 .build())).thenReturn(BookedHolidays.builder()
-                .user(User.builder()
-                        .appUser(AppUser.builder()
-                                .username("testuser")
-                                .password("")
-                                .build())
-                        .build())
+                .userLogin("testuser")
                 .holidays(holidaysArrayList)
                 .build());
         when(holidaysRepository.findById("Sommerferien")).thenReturn(Optional.of(Holidays.builder()
@@ -195,12 +175,7 @@ class HolidaysServiceTest {
                 .build(), "testuser");
         //THEN
         assertThat(bookedHolidays, is(BookedHolidays.builder()
-                .user(User.builder()
-                        .appUser(AppUser.builder()
-                                .username("testuser")
-                                .password("")
-                                .build())
-                        .build())
+                .userLogin("testuser")
                 .holidays(holidaysArrayList)
                 .build()));
     }
@@ -236,12 +211,7 @@ class HolidaysServiceTest {
 
         //THEN
         assertThat(bookedHolidays, is(BookedHolidays.builder()
-                .user(User.builder()
-                        .appUser(AppUser.builder()
-                                .username("testuser")
-                                .password("")
-                                .build())
-                        .build())
+                .userLogin("testuser")
                 .holidays(holidaysArrayList)
                 .build()));
     }

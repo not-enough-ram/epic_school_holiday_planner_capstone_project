@@ -17,7 +17,8 @@ import java.util.ArrayList;
 public class BookedHolidays {
 
     @Id
-    private User user;
+    private String childName;
+    private String userLogin;
     private ArrayList<Holidays> holidays;
 
 }
