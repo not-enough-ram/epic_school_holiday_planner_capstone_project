@@ -80,10 +80,6 @@ public class HolidaysService {
     }
 
     public Holidays getHolidaysByName(String name) {
-        if (holidaysRepository.findById(name).isPresent()) {
-            return holidaysRepository.findById(name).get();
-        }
-        else
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Holidays not found");
+          return holidaysRepository.findById(name).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Holidays not found"));
     }
 }
