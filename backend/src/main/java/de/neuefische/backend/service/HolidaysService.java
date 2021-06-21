@@ -67,7 +67,7 @@ public class HolidaysService {
     public BookedHolidays dtoTobookedHolidays(BookedHolidaysDto dto, String user){
         ArrayList<Holidays> holidayList = new ArrayList<Holidays>();
         if(holidaysRepository.findById(dto.getHolidaysName()).isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Holidays not fount");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Holidays not found");
         }
         LocalDate startDate = holidaysRepository.findById(dto.getHolidaysName()).get().getStartDate();
         LocalDate endDate = holidaysRepository.findById(dto.getHolidaysName()).get().getEndDate();
