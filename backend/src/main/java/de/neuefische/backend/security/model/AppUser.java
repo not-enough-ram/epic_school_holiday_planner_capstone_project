@@ -27,7 +27,7 @@ public class AppUser {
 
     @NotNull(message = "password cannot be null")
     @NotBlank(message = "password cannot be blank")
-    @Size(min = 8, max = 40, message = "password must be between 8 to 20 characters")
+    @Size(min = 8, max = 40, message = "password must be between 8 to 40 characters")
     private String password;
 
     Role role;
