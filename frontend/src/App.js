@@ -5,9 +5,7 @@ import LoginPage from "./Pages/LoginPage";
 import { ThemeProvider } from "@primer/components";
 import AuthProvider from "./context/AuthProvider";
 import PrivateRoute from "./routing/PrivateRoute";
-import HomePage from "./Pages/HomePage";
 import HolidaysPage from "./Pages/HolidaysPage";
-import HolidayDetails from "./components/HolidayDetails";
 import DetailsPage from "./Pages/DetailsPage";
 
 function App() {
@@ -22,7 +20,7 @@ function App() {
           <PrivateRoute path={"/home"} exact>
             <HolidaysPage />
           </PrivateRoute>
-          <PrivateRoute path={"/details/:name"}>
+          <PrivateRoute path={"/details/:name"} exact>
             <DetailsPage />
           </PrivateRoute>
         </Switch>

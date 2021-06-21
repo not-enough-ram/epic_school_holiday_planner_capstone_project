@@ -79,11 +79,11 @@ class HolidaysControllerTest {
     @Test
     void getBookedHolidays() {
         //GIVEN
-        ArrayList<Holidays> holidaysArrayList = new ArrayList<>();
-        holidaysArrayList.add(Holidays.builder()
-                .name("Sommerferien")
-                .startDate(LocalDate.of(2021, 10, 1))
-                .endDate(LocalDate.of(2022, 11, 17))
+        ArrayList<BookedHolidaysDto> holidaysArrayList = new ArrayList<>();
+        holidaysArrayList.add(BookedHolidaysDto.builder()
+                .holidaysName("Sommerferien")
+                .startDateBooking(LocalDate.of(2021, 10, 1).toString())
+                .endDateBooking(LocalDate.of(2022, 11, 17).toString())
                 .build());
         when(holidaysService.getBookedHolidays("testuser"))
                 .thenReturn(BookedHolidays.builder()
@@ -104,8 +104,8 @@ class HolidaysControllerTest {
 
     @Test
     void setBookedHolidaysShouldAddANewEntryToRepositoryIfNoneEntryMatchesGivenUser() {
-        ArrayList<Holidays> holidaysArrayList = new ArrayList<>();
-        when(holidaysService.setBookedHolidays(BookedHolidaysDto.builder()
+        ArrayList<BookedHolidaysDto> holidaysArrayList = new ArrayList<>();
+        when(holidaysService.updateBookedHolidays(BookedHolidaysDto.builder()
                 .holidaysName("Sommerferien")
                 .startDateBooking("2020-01-01")
                 .endDateBooking("2021-01-01")
@@ -116,7 +116,7 @@ class HolidaysControllerTest {
                         .build());
 
         //WHEN
-        BookedHolidays bookedHolidays = holidaysController.setBookedHolidays(BookedHolidaysDto.builder()
+        BookedHolidays bookedHolidays = holidaysController.addBookedHolidays(BookedHolidaysDto.builder()
                 .holidaysName("Sommerferien")
                 .startDateBooking("2020-01-01")
                 .endDateBooking("2021-01-01")
@@ -127,7 +127,7 @@ class HolidaysControllerTest {
                 .userLogin("testuser")
                 .holidays(holidaysArrayList)
                 .build()));
-        verify(holidaysService,times(1)).setBookedHolidays(BookedHolidaysDto.builder()
+        verify(holidaysService, times(1)).updateBookedHolidays(BookedHolidaysDto.builder()
                 .holidaysName("Sommerferien")
                 .startDateBooking("2020-01-01")
                 .endDateBooking("2021-01-01")

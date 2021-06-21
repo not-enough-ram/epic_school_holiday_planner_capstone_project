@@ -1,7 +1,10 @@
-import { Avatar, Header, StyledOcticon, Text } from "@primer/components";
+import { Header, StyledOcticon } from "@primer/components";
 import { ListUnorderedIcon } from "@primer/octicons-react";
+import { useContext } from "react";
+import AuthContext from "../context/AuthContext";
 
 export default function NavHeader() {
+  const { jwtDecoded } = useContext(AuthContext);
   return (
     <Header>
       <Header.Item>
@@ -11,14 +14,9 @@ export default function NavHeader() {
         </Header.Link>
       </Header.Item>
       <Header.Item full>Epic Holiday Planner</Header.Item>
-      <Header.Item mr={0}>
-        <Avatar
-          src="https://github.com/octocat.png"
-          size={20}
-          square
-          alt="@octocat"
-        />
-      </Header.Item>
+      {jwtDecoded && (
+        <Header.Item mr={0}>Willkommen {jwtDecoded.sub}</Header.Item>
+      )}
     </Header>
   );
 }

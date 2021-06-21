@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface BookedHolidaysRepository extends PagingAndSortingRepository<BookedHolidays, String> {
     List<BookedHolidays> findAll();
+
+
 }

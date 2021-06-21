@@ -1,16 +1,16 @@
 import styled from "styled-components/macro";
-import HolidayList from "../components/HolidayList";
+import UpcomingHolidays from "../components/UpcomingHolidays";
+import useUpcomingHolidays from "../hooks/useUpcomingHolidays";
 
 export default function HolidaysPage() {
+  const holidays = useUpcomingHolidays();
   return (
     <Wrapper>
       <HolidaysPageHeader>
-        <h1>Ferienübersicht</h1>
+        <h1>Die nächsten Ferien</h1>
       </HolidaysPageHeader>
-      <HolidayList />
-      <section>
-        <h1>Gebuchte Ferien</h1>
-      </section>
+      {/*{holidays && <HolidayList />}*/}
+      {holidays && <UpcomingHolidays />}
     </Wrapper>
   );
 }
