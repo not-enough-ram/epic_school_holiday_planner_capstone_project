@@ -38,13 +38,13 @@ public class HolidaysService {
     }
 
     public Holidays setNewHolidays(HolidaysDto holidays) {
-        Holidays addHolidays = dtoToHolidaysObject(holidays);
+        Holidays addHolidays = holidaysDtoToHolidaysDatabaseModel(holidays);
         return holidaysRepository.save(addHolidays);
     }
 
-    public Holidays dtoToHolidaysObject(HolidaysDto holidaysDto){
+    public Holidays holidaysDtoToHolidaysDatabaseModel(HolidaysDto holidaysDto) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        formatter = formatter.withLocale(Locale.GERMAN );
+        formatter = formatter.withLocale(Locale.GERMAN);
         LocalDate startDate = LocalDate.parse(holidaysDto.getStartDate(), formatter);
         LocalDate endDate = LocalDate.parse(holidaysDto.getEndDate(), formatter);
         return Holidays.builder().name(holidaysDto.getName()).startDate(startDate).endDate(endDate).build();
@@ -76,7 +76,7 @@ public class HolidaysService {
         }
         User bookingUser = userRepository.findById(user).get();
         holidayList.add(Holidays.builder().name(dto.getHolidaysName()).startDate(startDate).endDate(endDate).build());
-        return BookedHolidays.builder().holidays(holidayList).user(bookingUser).build();
+        return BookedHolidays.builder().holidays(holidayList).userLogin(bookingUser.getAppUser().getUsername()).build();
     }
 
     public Holidays getHolidaysByName(String name) {
