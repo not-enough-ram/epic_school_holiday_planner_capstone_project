@@ -72,7 +72,7 @@ public class HolidaysService {
         LocalDate startDate = holidaysRepository.findById(dto.getHolidaysName()).get().getStartDate();
         LocalDate endDate = holidaysRepository.findById(dto.getHolidaysName()).get().getEndDate();
         if(userRepository.findById(user).isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not fount");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         }
         User bookingUser = userRepository.findById(user).get();
         holidayList.add(Holidays.builder().name(dto.getHolidaysName()).startDate(startDate).endDate(endDate).build());
