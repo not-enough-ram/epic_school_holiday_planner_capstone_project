@@ -1,14 +1,13 @@
 import DropDownMenu from "./DropDownMenu";
 
-export default function BookingForm({ holidays }) {
+export default function BookingForm({ holidays, startDate, endDate }) {
   return (
     <form>
+      <p>Für welche Ferien: </p>
       <DropDownMenu holidays={holidays} />
-      {holidays && (
-        <p>
-          Von: {holidays.startDate} bis: {holidays.endDate}
-        </p>
-      )}
+      <p>
+        Von: {startDate} bis: {endDate}
+      </p>
     </form>
   );
 }

@@ -14,9 +14,9 @@ import { blueGrey, cyan } from "@material-ui/core/colors";
 import AuthContext from "./context/AuthContext";
 import { useContext } from "react";
 import BookingPage from "./Pages/BookingPage";
+import HolidaysPage from "./Pages/HolidaysPage";
 
 function App() {
-  const { jwtDecoded } = useContext(AuthContext);
   const { token } = useContext(AuthContext);
   const theme = createMuiTheme({
     palette: {
@@ -51,10 +51,10 @@ function App() {
               <BookingPage />
             </PrivateRoute>
             <PrivateRoute path={"/holidays"} exact>
-              <BookingPage />
+              <HolidaysPage />
             </PrivateRoute>
           </Switch>
-          {token && <BottomNav />}
+          {<BottomNav />}
         </AuthProvider>
       </MaterialThemeProvider>
     </PrimerThemeProvider>

@@ -35,21 +35,27 @@ export default function BottomNavi() {
       showLabels
       className={classes.root}
     >
-      <BottomNavigationAction
-        value={"/booking"}
-        label="Ferien buchen"
-        icon={<AddCircle />}
-      />
-      <BottomNavigationAction
-        value={"/booked"}
-        label="Gebuchte Ferien"
-        icon={<Bookmarks />}
-      />
-      <BottomNavigationAction
-        value={"/profile"}
-        label="Account"
-        icon={<AccountCircle />}
-      />
+      {jwtDecoded && (
+        <BottomNavigationAction
+          value={"/booking"}
+          label="Ferien buchen"
+          icon={<AddCircle />}
+        />
+      )}
+      {jwtDecoded && (
+        <BottomNavigationAction
+          value={"/booked"}
+          label="Gebuchte Ferien"
+          icon={<Bookmarks />}
+        />
+      )}
+      {jwtDecoded && (
+        <BottomNavigationAction
+          value={"/profile"}
+          label="Profil"
+          icon={<AccountCircle />}
+        />
+      )}
     </BottomNavigation>
   );
 }
