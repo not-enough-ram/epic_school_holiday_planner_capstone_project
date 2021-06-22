@@ -233,6 +233,6 @@ class HolidaysServiceTest {
                 .startDate(LocalDate.of(2020, 1, 1))
                 .endDate(LocalDate.of(2021, 1, 17))
                 .build()));
-        verify(holidaysRepository, times(2)).findById("Sommerferien");
+        verify(holidaysRepository, times(1)).findById("Sommerferien");
     }
 }
