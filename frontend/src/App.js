@@ -13,6 +13,7 @@ import { createMuiTheme } from "@material-ui/core/styles";
 import { blue, blueGrey, cyan, grey } from "@material-ui/core/colors";
 import AuthContext from "./context/AuthContext";
 import { useContext } from "react";
+import BookingPage from "./Pages/BookingPage";
 
 function App() {
   const { jwtDecoded } = useContext(AuthContext);
@@ -45,6 +46,9 @@ function App() {
             </PrivateRoute>
             <PrivateRoute path={"/details/:name"} exact>
               <DetailsPage />
+            </PrivateRoute>
+            <PrivateRoute path={"/booking"} exact>
+              <BookingPage />
             </PrivateRoute>
           </Switch>
           {<BottomNav />}
