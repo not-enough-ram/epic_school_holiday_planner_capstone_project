@@ -6,11 +6,11 @@ import { ThemeProvider as MaterialThemeProvider } from "@material-ui/styles";
 import { ThemeProvider as PrimerThemeProvider } from "@primer/components";
 import AuthProvider from "./context/AuthProvider";
 import PrivateRoute from "./routing/PrivateRoute";
-import HolidaysPage from "./Pages/HolidaysPage";
+import HomePage from "./Pages/HomePage";
 import DetailsPage from "./Pages/DetailsPage";
 import BottomNav from "./components/BottomNav";
 import { createMuiTheme } from "@material-ui/core/styles";
-import { blue, blueGrey, cyan, grey } from "@material-ui/core/colors";
+import { blueGrey, cyan } from "@material-ui/core/colors";
 import AuthContext from "./context/AuthContext";
 import { useContext } from "react";
 import BookingPage from "./Pages/BookingPage";
@@ -42,7 +42,7 @@ function App() {
               <LoginPage />
             </Route>
             <PrivateRoute path={"/home"} exact>
-              <HolidaysPage />
+              <HomePage />
             </PrivateRoute>
             <PrivateRoute path={"/details/:name"} exact>
               <DetailsPage />
@@ -50,8 +50,11 @@ function App() {
             <PrivateRoute path={"/booking"} exact>
               <BookingPage />
             </PrivateRoute>
+            <PrivateRoute path={"/holidays"} exact>
+              <BookingPage />
+            </PrivateRoute>
           </Switch>
-          {<BottomNav />}
+          {token && <BottomNav />}
         </AuthProvider>
       </MaterialThemeProvider>
     </PrimerThemeProvider>

@@ -1,5 +1,4 @@
-import { Header, StyledOcticon } from "@primer/components";
-import { ListUnorderedIcon } from "@primer/octicons-react";
+import { Header } from "@primer/components";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import MainMenu from "./MainMenu";

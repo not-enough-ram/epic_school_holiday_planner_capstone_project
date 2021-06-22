@@ -1,14 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Fade from "@material-ui/core/Fade";
 import { ListUnorderedIcon } from "@primer/octicons-react";
 import { StyledOcticon } from "@primer/components";
+import { NavLink, useHistory } from "react-router-dom";
+import { Link } from "@material-ui/core";
 
 export default function MainMenu() {
+  const history = useHistory();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const [page, setPage] = useState("");
+  const handleChange = (event, newPage) => {
+    history.push(newPage);
+    setPage(newPage);
+  };
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -35,10 +43,18 @@ export default function MainMenu() {
         onClose={handleClose}
         TransitionComponent={Fade}
       >
-        <MenuItem onClick={handleClose}>Alle Ferien</MenuItem>
-        <MenuItem onClick={handleClose}>Meine Buchungen</MenuItem>
-        <MenuItem onClick={handleClose}>Profil</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        <MenuItem onClick={handleClose}>
+          <NavLink to={"/holidays"}>Alle Ferien</NavLink>
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <Link>Meine Buchungen</Link>
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <Link>Profil</Link>
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <Link>Logout</Link>
+        </MenuItem>
       </Menu>
     </div>
   );

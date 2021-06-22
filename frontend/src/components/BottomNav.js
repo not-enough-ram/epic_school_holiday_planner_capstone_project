@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import { grey } from "@material-ui/core/colors";
 import { AccountCircle, AddCircle, Bookmarks } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
+import AuthContext from "../context/AuthContext";
 
 const useStyles = makeStyles({
   root: {
@@ -18,6 +19,7 @@ const useStyles = makeStyles({
 });
 
 export default function BottomNavi() {
+  const { jwtDecoded } = useContext(AuthContext);
   const classes = useStyles();
   const [page, setPage] = useState("");
   const history = useHistory();
@@ -38,8 +40,16 @@ export default function BottomNavi() {
         label="Ferien buchen"
         icon={<AddCircle />}
       />
-      <BottomNavigationAction label="Gebuchte Ferien" icon={<Bookmarks />} />
-      <BottomNavigationAction label="Account" icon={<AccountCircle />} />
+      <BottomNavigationAction
+        value={"/booked"}
+        label="Gebuchte Ferien"
+        icon={<Bookmarks />}
+      />
+      <BottomNavigationAction
+        value={"/profile"}
+        label="Account"
+        icon={<AccountCircle />}
+      />
     </BottomNavigation>
   );
 }
