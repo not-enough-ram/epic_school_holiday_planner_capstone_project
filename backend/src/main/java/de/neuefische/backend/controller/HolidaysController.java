@@ -53,7 +53,7 @@ public class HolidaysController {
     }
 
     @PostMapping
-    public Holidays setNewHolidays(@RequestBody HolidaysDto holidays) {
-        return holidaysService.setNewHolidays(holidays);
+    public Holidays addNewHolidays(@RequestBody HolidaysDto holidays) {
+        return holidaysService.addNewHolidays(holidays);
     }
 }

@@ -74,7 +74,7 @@ class HolidaysServiceTest {
                 .build());
 
         //WHEN
-        Holidays newHolidays = holidaysService.setNewHolidays(HolidaysDto.builder()
+        Holidays newHolidays = holidaysService.addNewHolidays(HolidaysDto.builder()
                 .name("Sommerferien")
                 .startDate("2021-10-01")
                 .endDate("2022-11-17")

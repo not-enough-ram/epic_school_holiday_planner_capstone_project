@@ -38,7 +38,7 @@ public class HolidaysService {
         return holidaysRepository.findAll();
     }
 
-    public Holidays setNewHolidays(HolidaysDto holidays) {
+    public Holidays addNewHolidays(HolidaysDto holidays) {
         Holidays addHolidays = holidaysDtoToHolidaysDatabaseModel(holidays);
         return holidaysRepository.save(addHolidays);
     }
@@ -88,10 +88,14 @@ public class HolidaysService {
 
     public Holidays getUpcomingHolidays() {
         List<Holidays> holidayList = getListOfHolidays();
-        Collections.sort(holidayList, (h1, h2) -> {
+        return sortHolidaysByStartDate(holidayList).iterator().next();
+    }
+
+    public List<Holidays> sortHolidaysByStartDate(List<Holidays> holidaysList){
+        Collections.sort(holidaysList, (h1, h2) -> {
             if (h1.getStartDate().isBefore(h2.getStartDate())) return -1;
             else return 1;
         });
-        return holidayList.iterator().next();
+        return holidaysList;
     }
 }
