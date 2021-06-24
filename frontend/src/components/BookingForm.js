@@ -1,7 +1,11 @@
 import DropDownMenu from "./DropDownMenu";
 import { Formik, Field, Form } from "formik";
+import axios from "axios";
+import AuthContext from "../context/AuthContext";
+import { useContext } from "react";
 
 export default function BookingForm({ holidays, startDate, endDate }) {
+  const { token } = useContext(AuthContext);
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   return (
     <div>
@@ -9,20 +13,25 @@ export default function BookingForm({ holidays, startDate, endDate }) {
         initialValues={{
           startDate: "",
           endDate: "",
-          holidaysselect: "",
+          holidaysselectmenu: "",
           checked: [],
         }}
         onSubmit={async (values) => {
           await sleep(500);
+          await axios.post("api/holidays/booked", values, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
           alert(JSON.stringify(values, null, 2));
         }}
       >
         {({ values }) => (
           <Form>
-            <label htmlFor={"holidaysselect"}>
+            <label htmlFor={"holidaysselectmenu"}>
               Bitte wähle die gewünschten Ferien
             </label>
-            <DropDownMenu holidays={holidays} name={"holidaysselect"} />
+            <DropDownMenu holidays={holidays} />
             <label>Startdatum *</label>
             <Field
               type="date"

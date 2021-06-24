@@ -9,7 +9,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -24,9 +23,8 @@ public class BookedHolidays {
     private String id = childName + userLogin;
     private ArrayList<BookedHolidaysDto> holidays;
 
-    public List<BookedHolidaysDto> addBookedHolidaysToArray(BookedHolidaysDto bookedHolidaysDto) {
+    public void addBookedHolidaysToArray(BookedHolidaysDto bookedHolidaysDto) {
         holidays.add(bookedHolidaysDto);
-        return holidays;
     }
 
 }

@@ -1,21 +1,26 @@
 import React from "react";
+import { Field } from "formik";
 import "bootstrap/dist/css/bootstrap.min.css";
-import useHolidays from "../hooks/useHolidays";
-function MenuItems() {
-  const { holidays } = useHolidays();
-  return holidays.map((holiday) => (
-    <option name={"holidaysselect"} value={holiday.name}>
-      {holiday.name}
-    </option>
-  ));
+function MenuItems({ holidays }) {
+  return (
+    <>
+      {holidays.map((holiday) => (
+        <option value={holiday.name}>{holiday.name}</option>
+      ))}
+    </>
+  );
 }
 
-export default function DropDownMenu() {
+export default function DropDownMenu({ holidays }) {
   return (
     <div>
-      <select name={"holidaysselect"} id={"holidaysselect"}>
-        <MenuItems />
-      </select>
+      <Field
+        as={"select"}
+        name={"holidaysselectmenu"}
+        id={"holidaysselectmenu"}
+      >
+        <MenuItems holidays={holidays} />
+      </Field>
     </div>
   );
 }
