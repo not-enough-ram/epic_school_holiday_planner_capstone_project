@@ -1,6 +1,7 @@
 import styled from "styled-components/macro";
 import UpcomingHolidays from "../components/UpcomingHolidays";
 import useUpcomingHolidays from "../hooks/useUpcomingHolidays";
+import CheckBoxes from "../components/ChildrenCheckboxes";
 
 export default function HolidaysPage() {
   const holidays = useUpcomingHolidays();

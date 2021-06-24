@@ -1,61 +1,57 @@
 import DropDownMenu from "./DropDownMenu";
+import { Formik, Field, Form } from "formik";
 
 export default function BookingForm({ holidays, startDate, endDate }) {
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   return (
-    <form>
-      <p>Für welche Ferien: </p>
-      <DropDownMenu holidays={holidays} />
-      <p>
-        Von: {startDate} bis: {endDate}
-      </p>
-      <div className="form-group">
-        <label>Startdatum *</label>
-        <input
-          type="date"
-          className="form-control form-control-sm"
-          name="startDate"
-          value=""
-        />
-      </div>
-      <div className="form-group">
-        <label>Enddatum *</label>
-        <input
-          type="date"
-          className="form-control form-control-sm"
-          name="endDate"
-          value=""
-        />
-      </div>
-      <div className="form-group">
-        <label>Kind / Kinder auswählen</label>
-        <div className="form-check">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            name="checkbox_name_1"
-            value="Kind1Name"
-          />
-          <label className="form-check-label">Kind 1</label>
-        </div>
-        <div className="form-check">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            name="checkbox_name_2"
-            value="Kind2Name"
-          />
-          <label className="form-check-label">Kind 2</label>
-        </div>
-      </div>
-      <div className="form-group">
-        <input
-          type="submit"
-          className="btn btn-primary"
-          name="button_name"
-          value="Senden"
-        />
-      </div>
-      <small>Felder markiert mit * sind Pflichtfelder.</small>
-    </form>
+    <div>
+      <Formik
+        initialValues={{
+          startDate: "",
+          endDate: "",
+          holidaysselect: "",
+          checked: [],
+        }}
+        onSubmit={async (values) => {
+          await sleep(500);
+          alert(JSON.stringify(values, null, 2));
+        }}
+      >
+        {({ values }) => (
+          <Form>
+            <label htmlFor={"holidaysselect"}>
+              Bitte wähle die gewünschten Ferien
+            </label>
+            <DropDownMenu holidays={holidays} name={"holidaysselect"} />
+            <label>Startdatum *</label>
+            <Field
+              type="date"
+              id={"startDate"}
+              name="startDate"
+              value={startDate}
+            />
+            <label>Enddatum *</label>
+            <Field type="date" id={"endDate"} name="endDate" value={endDate} />
+            <div id="checkbox-group">Kinder auswählen</div>
+            <div role="group" aria-labelledby="checkbox-group">
+              <label>
+                <Field type="checkbox" name="checked" value="One" />
+                One
+              </label>
+              <label>
+                <Field type="checkbox" name="checked" value="Two" />
+                Two
+              </label>
+              <label>
+                <Field type="checkbox" name="checked" value="Three" />
+                Three
+              </label>
+            </div>
+            <input type="submit" name="submit" value="Senden" />
+            <small>Felder markiert mit * sind Pflichtfelder.</small>
+          </Form>
+        )}
+      </Formik>
+    </div>
   );
 }

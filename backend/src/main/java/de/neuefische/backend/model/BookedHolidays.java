@@ -18,9 +18,10 @@ import java.util.List;
 @Document(collection = "booked_holidays")
 public class BookedHolidays {
 
-    @Id
     private String childName;
     private String userLogin;
+    @Id
+    private String id = childName + userLogin;
     private ArrayList<BookedHolidaysDto> holidays;
 
     public List<BookedHolidaysDto> addBookedHolidaysToArray(BookedHolidaysDto bookedHolidaysDto) {
