@@ -19,7 +19,7 @@ public class User {
     private AppUser appUser;
     private String firstName;
     private String lastName;
-    private Children[] children;
+    private Child[] children;
     private String phone;
     private String notes;
 }

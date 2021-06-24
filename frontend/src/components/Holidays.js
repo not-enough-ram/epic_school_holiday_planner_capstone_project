@@ -11,8 +11,8 @@ export default function Holidays({ holidays }) {
       <div>
         <h1>{holidays.name}</h1>
       </div>
-      <h3>{holidays.startDate}</h3>
-      <h3>{holidays.endDate}</h3>
+      <h3>Beginnen: {holidays.startDate}</h3>
+      <h3>Enden: {holidays.endDate}</h3>
       <button onClick={handleClick}>Details</button>
     </Holiday>
   );
@@ -21,7 +21,4 @@ export default function Holidays({ holidays }) {
 const Holiday = styled.section`
   display: flex;
   flex-direction: column;
-  background: darkgrey;
-  border: black thin;
-  border-radius: 25px;
 `;

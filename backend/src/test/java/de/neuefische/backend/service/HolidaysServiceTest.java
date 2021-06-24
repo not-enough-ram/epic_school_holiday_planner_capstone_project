@@ -74,7 +74,7 @@ class HolidaysServiceTest {
                 .build());
 
         //WHEN
-        Holidays newHolidays = holidaysService.setNewHolidays(HolidaysDto.builder()
+        Holidays newHolidays = holidaysService.addNewHolidays(HolidaysDto.builder()
                 .name("Sommerferien")
                 .startDate("2021-10-01")
                 .endDate("2022-11-17")
@@ -116,11 +116,11 @@ class HolidaysServiceTest {
     @Test
     void getBookedHolidaysShouldReturnBookedHolidaysForGivenUser() {
         //GIVEN
-        ArrayList<Holidays> holidaysArrayList = new ArrayList<>();
-        holidaysArrayList.add(Holidays.builder()
-                .name("Sommerferien")
-                .startDate(LocalDate.of(2021, 10, 1))
-                .endDate(LocalDate.of(2022, 11, 17))
+        ArrayList<BookedHolidaysDto> holidaysArrayList = new ArrayList<>();
+        holidaysArrayList.add(BookedHolidaysDto.builder()
+                .holidaysName("Sommerferien")
+                .startDateBooking(LocalDate.of(2020, 1, 1).toString())
+                .endDateBooking(LocalDate.of(2021, 1, 17).toString())
                 .build());
 
         when(bookedHolidaysRepository.findById("testuser")).thenReturn(Optional.of(BookedHolidays.builder()
@@ -142,11 +142,11 @@ class HolidaysServiceTest {
     @Test
     void setBookedHolidays() {
         //GIVEN
-        ArrayList<Holidays> holidaysArrayList = new ArrayList<>();
-        holidaysArrayList.add(Holidays.builder()
-                .name("Sommerferien")
-                .startDate(LocalDate.of(2020, 1, 1))
-                .endDate(LocalDate.of(2021, 1, 17))
+        ArrayList<BookedHolidaysDto> holidaysArrayList = new ArrayList<>();
+        holidaysArrayList.add(BookedHolidaysDto.builder()
+                .holidaysName("Sommerferien")
+                .startDateBooking(LocalDate.of(2020, 1, 1).toString())
+                .endDateBooking(LocalDate.of(2021, 1, 17).toString())
                 .build());
         when(bookedHolidaysRepository.save(BookedHolidays.builder()
                 .userLogin("testuser")
@@ -168,7 +168,7 @@ class HolidaysServiceTest {
                 .build()));
 
         //WHEN
-        BookedHolidays bookedHolidays = holidaysService.setBookedHolidays(BookedHolidaysDto.builder()
+        BookedHolidays bookedHolidays = holidaysService.updateBookedHolidays(BookedHolidaysDto.builder()
                 .holidaysName("Sommerferien")
                 .startDateBooking("2020-01-01")
                 .endDateBooking("2021-01-01")
@@ -199,11 +199,11 @@ class HolidaysServiceTest {
                 .startDateBooking("2020-01-01")
                 .endDateBooking("2021-01-01")
                 .build();
-        ArrayList<Holidays> holidaysArrayList = new ArrayList<>();
-        holidaysArrayList.add(Holidays.builder()
-                .name("Sommerferien")
-                .startDate(LocalDate.of(2020, 1, 1))
-                .endDate(LocalDate.of(2021, 1, 17))
+        ArrayList<BookedHolidaysDto> holidaysArrayList = new ArrayList<>();
+        holidaysArrayList.add(BookedHolidaysDto.builder()
+                .holidaysName("Sommerferien")
+                .startDateBooking(LocalDate.of(2020, 1, 1).toString())
+                .endDateBooking(LocalDate.of(2021, 1, 17).toString())
                 .build());
 
         //WHEN
@@ -233,6 +233,6 @@ class HolidaysServiceTest {
                 .startDate(LocalDate.of(2020, 1, 1))
                 .endDate(LocalDate.of(2021, 1, 17))
                 .build()));
-        verify(holidaysRepository, times(2)).findById("Sommerferien");
+        verify(holidaysRepository, times(1)).findById("Sommerferien");
     }
 }

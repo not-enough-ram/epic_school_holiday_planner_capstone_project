@@ -28,22 +28,32 @@ public class HolidaysController {
     }
 
     @GetMapping("details/{name}")
-    public Holidays getHolidaysByName(@PathVariable String name){
+    public Holidays getHolidaysByName(@PathVariable String name) {
         return holidaysService.getHolidaysByName(name);
     }
 
+    @GetMapping("upcoming")
+    public Holidays getUpcomingHolidays() {
+        return holidaysService.getUpcomingHolidays();
+    }
+
     @GetMapping("booked")
-    public BookedHolidays getBookedholidays(Principal principal){
+    public BookedHolidays getBookedholidays(Principal principal) {
         return holidaysService.getBookedHolidays(principal.getName());
     }
 
     @PostMapping("booked")
-    public BookedHolidays setBookedHolidays(@RequestBody BookedHolidaysDto bookedHolidaysDto, Principal principal){
-        return holidaysService.setBookedHolidays(bookedHolidaysDto, principal.getName());
+    public BookedHolidays addBookedHolidays(@RequestBody BookedHolidaysDto bookedHolidaysDto, Principal principal) {
+        return holidaysService.updateBookedHolidays(bookedHolidaysDto, principal.getName());
+    }
+
+    @PutMapping("booked")
+    public BookedHolidays updateBookedHolidays(@RequestBody BookedHolidaysDto bookedHolidaysDto, Principal principal) {
+        return holidaysService.updateBookedHolidays(bookedHolidaysDto, principal.getName());
     }
 
     @PostMapping
-    public Holidays setNewHolidays(@RequestBody HolidaysDto holidays){
-        return holidaysService.setNewHolidays(holidays);
+    public Holidays addNewHolidays(@RequestBody HolidaysDto holidays) {
+        return holidaysService.addNewHolidays(holidays);
     }
 }

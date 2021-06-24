@@ -16,6 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -37,7 +38,7 @@ public class HolidaysService {
         return holidaysRepository.findAll();
     }
 
-    public Holidays setNewHolidays(HolidaysDto holidays) {
+    public Holidays addNewHolidays(HolidaysDto holidays) {
         Holidays addHolidays = holidaysDtoToHolidaysDatabaseModel(holidays);
         return holidaysRepository.save(addHolidays);
     }
@@ -56,16 +57,18 @@ public class HolidaysService {
         return null;
     }
 
-    public BookedHolidays setBookedHolidays(BookedHolidaysDto bookedHolidaysDto, String user) {
-        if (bookedHolidaysRepository.findById(user).isPresent()){
+    public BookedHolidays updateBookedHolidays(BookedHolidaysDto bookedHolidaysDto, String user) {
+        if (bookedHolidaysRepository.findById(user).isPresent()) {
+            BookedHolidays bookedHolidays = bookedHolidaysRepository.findById(user).get();
+            bookedHolidays.addBookedHolidaysToArray(bookedHolidaysDto);
+            return bookedHolidaysRepository.save(bookedHolidays);
+        } else {
             return bookedHolidaysRepository.save(dtoTobookedHolidays(bookedHolidaysDto, user));
         }
-        else{
-            return bookedHolidaysRepository.save(dtoTobookedHolidays(bookedHolidaysDto, user));}
     }
 
     public BookedHolidays dtoTobookedHolidays(BookedHolidaysDto dto, String user){
-        ArrayList<Holidays> holidayList = new ArrayList<Holidays>();
+        ArrayList<BookedHolidaysDto> holidayList = new ArrayList<BookedHolidaysDto>();
         if(holidaysRepository.findById(dto.getHolidaysName()).isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Holidays not found");
         }
@@ -75,11 +78,24 @@ public class HolidaysService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         }
         User bookingUser = userRepository.findById(user).get();
-        holidayList.add(Holidays.builder().name(dto.getHolidaysName()).startDate(startDate).endDate(endDate).build());
+        holidayList.add(BookedHolidaysDto.builder().holidaysName(dto.getHolidaysName()).startDateBooking(startDate.toString()).endDateBooking(endDate.toString()).build());
         return BookedHolidays.builder().holidays(holidayList).userLogin(bookingUser.getAppUser().getUsername()).build();
     }
 
     public Holidays getHolidaysByName(String name) {
-          return holidaysRepository.findById(name).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Holidays not found"));
+        return holidaysRepository.findById(name).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Holidays not found"));
+    }
+
+    public Holidays getUpcomingHolidays() {
+        List<Holidays> holidayList = getListOfHolidays();
+        return sortHolidaysByStartDate(holidayList).iterator().next();
+    }
+
+    public List<Holidays> sortHolidaysByStartDate(List<Holidays> holidaysList){
+        Collections.sort(holidaysList, (h1, h2) -> {
+            if (h1.getStartDate().isBefore(h2.getStartDate())) return -1;
+            else return 1;
+        });
+        return holidaysList;
     }
 }

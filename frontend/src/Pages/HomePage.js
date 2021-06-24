@@ -1,12 +1,18 @@
 import styled from "styled-components/macro";
-import HolidayList from "../components/HolidayList";
+import UpcomingHolidays from "../components/UpcomingHolidays";
+import useUpcomingHolidays from "../hooks/useUpcomingHolidays";
+import CheckBoxes from "../components/ChildrenCheckboxes";
 
-export default function HomePage() {
-    return (
-        <Wrapper>
-            <HolidayList/>
-        </Wrapper>
-    );
+export default function HolidaysPage() {
+  const holidays = useUpcomingHolidays();
+  return (
+    <Wrapper>
+      <HolidaysPageHeader>
+        <h1>Die nächsten Ferien</h1>
+      </HolidaysPageHeader>
+      {holidays && <UpcomingHolidays />}
+    </Wrapper>
+  );
 }
 
 const Wrapper = styled.div`
@@ -16,3 +22,5 @@ const Wrapper = styled.div`
   grid-gap: 24px;
   justify-content: center;
 `;
+
+const HolidaysPageHeader = styled.div``;
