@@ -16,10 +16,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Builder
 public class User {
     @Id
-    private AppUser appUser;
+    private String login;
     private String firstName;
     private String lastName;
-    private Child[] child;
     private String phone;
     private String notes;
 }

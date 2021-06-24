@@ -18,7 +18,7 @@ import java.time.LocalDate;
 public class Booking {
 
     private String childName;
-    private String userLogin;
+    private String login;
     private String holidayName;
     private LocalDate startDate;
     private LocalDate endDate;
