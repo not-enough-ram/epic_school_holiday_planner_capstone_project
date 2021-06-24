@@ -1,8 +1,8 @@
 package de.neuefische.backend.service;
 
-import de.neuefische.backend.dto.BookedHolidaysDto;
+import de.neuefische.backend.dto.BookingDto;
 import de.neuefische.backend.dto.HolidaysDto;
-import de.neuefische.backend.model.BookedHolidays;
+import de.neuefische.backend.model.Booking;
 import de.neuefische.backend.model.Holidays;
 import de.neuefische.backend.model.User;
 import de.neuefische.backend.repository.BookedHolidaysRepository;
@@ -116,23 +116,23 @@ class HolidaysServiceTest {
     @Test
     void getBookedHolidaysShouldReturnBookedHolidaysForGivenUser() {
         //GIVEN
-        ArrayList<BookedHolidaysDto> holidaysArrayList = new ArrayList<>();
-        holidaysArrayList.add(BookedHolidaysDto.builder()
+        ArrayList<BookingDto> holidaysArrayList = new ArrayList<>();
+        holidaysArrayList.add(BookingDto.builder()
                 .holidaysName("Sommerferien")
-                .startDateBooking(LocalDate.of(2020, 1, 1).toString())
-                .endDateBooking(LocalDate.of(2021, 1, 17).toString())
+                .startDate(LocalDate.of(2020, 1, 1).toString())
+                .endDate(LocalDate.of(2021, 1, 17).toString())
                 .build());
 
-        when(bookedHolidaysRepository.findById("testuser")).thenReturn(Optional.of(BookedHolidays.builder()
+        when(bookedHolidaysRepository.findById("testuser")).thenReturn(Optional.of(Booking.builder()
                 .userLogin("testuser")
                 .holidays(holidaysArrayList)
                 .build()));
 
         //WHEN
-        BookedHolidays bookedHolidays = holidaysService.getBookedHolidays("testuser");
+        Booking booking = holidaysService.getBookedHolidays("testuser");
 
         //THEN
-        assertThat(bookedHolidays, is(BookedHolidays.builder()
+        assertThat(booking, is(Booking.builder()
                 .userLogin("testuser")
                 .holidays(holidaysArrayList)
                 .build()));
@@ -142,16 +142,16 @@ class HolidaysServiceTest {
     @Test
     void setBookedHolidays() {
         //GIVEN
-        ArrayList<BookedHolidaysDto> holidaysArrayList = new ArrayList<>();
-        holidaysArrayList.add(BookedHolidaysDto.builder()
+        ArrayList<BookingDto> holidaysArrayList = new ArrayList<>();
+        holidaysArrayList.add(BookingDto.builder()
                 .holidaysName("Sommerferien")
-                .startDateBooking(LocalDate.of(2020, 1, 1).toString())
-                .endDateBooking(LocalDate.of(2021, 1, 17).toString())
+                .startDate(LocalDate.of(2020, 1, 1).toString())
+                .endDate(LocalDate.of(2021, 1, 17).toString())
                 .build());
-        when(bookedHolidaysRepository.save(BookedHolidays.builder()
+        when(bookedHolidaysRepository.save(Booking.builder()
                 .userLogin("testuser")
                 .holidays(holidaysArrayList)
-                .build())).thenReturn(BookedHolidays.builder()
+                .build())).thenReturn(Booking.builder()
                 .userLogin("testuser")
                 .holidays(holidaysArrayList)
                 .build());
@@ -168,13 +168,13 @@ class HolidaysServiceTest {
                 .build()));
 
         //WHEN
-        BookedHolidays bookedHolidays = holidaysService.updateBookedHolidays(BookedHolidaysDto.builder()
+        Booking booking = holidaysService.updateBookedHolidays(BookingDto.builder()
                 .holidaysName("Sommerferien")
-                .startDateBooking("2020-01-01")
-                .endDateBooking("2021-01-01")
+                .startDate("2020-01-01")
+                .endDate("2021-01-01")
                 .build(), "testuser");
         //THEN
-        assertThat(bookedHolidays, is(BookedHolidays.builder()
+        assertThat(booking, is(Booking.builder()
                 .userLogin("testuser")
                 .holidays(holidaysArrayList)
                 .build()));
@@ -194,23 +194,23 @@ class HolidaysServiceTest {
                         .password("")
                         .build())
                 .build()));
-        BookedHolidaysDto bookedHolidaysDto = BookedHolidaysDto.builder()
+        BookingDto bookingDto = BookingDto.builder()
                 .holidaysName("Sommerferien")
-                .startDateBooking("2020-01-01")
-                .endDateBooking("2021-01-01")
+                .startDate("2020-01-01")
+                .endDate("2021-01-01")
                 .build();
-        ArrayList<BookedHolidaysDto> holidaysArrayList = new ArrayList<>();
-        holidaysArrayList.add(BookedHolidaysDto.builder()
+        ArrayList<BookingDto> holidaysArrayList = new ArrayList<>();
+        holidaysArrayList.add(BookingDto.builder()
                 .holidaysName("Sommerferien")
-                .startDateBooking(LocalDate.of(2020, 1, 1).toString())
-                .endDateBooking(LocalDate.of(2021, 1, 17).toString())
+                .startDate(LocalDate.of(2020, 1, 1).toString())
+                .endDate(LocalDate.of(2021, 1, 17).toString())
                 .build());
 
         //WHEN
-        BookedHolidays bookedHolidays = holidaysService.dtoTobookedHolidays(bookedHolidaysDto, "testuser");
+        Booking booking = holidaysService.dtoTobookedHolidays(bookingDto, "testuser");
 
         //THEN
-        assertThat(bookedHolidays, is(BookedHolidays.builder()
+        assertThat(booking, is(Booking.builder()
                 .userLogin("testuser")
                 .holidays(holidaysArrayList)
                 .build()));

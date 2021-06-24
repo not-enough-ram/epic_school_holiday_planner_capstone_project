@@ -4,11 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.Instant;
+import java.time.LocalDate;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BookedHolidaysDto {
+public class BookingDto {
 
     @JsonProperty("checked")
     private String[] children;
@@ -17,9 +21,9 @@ public class BookedHolidaysDto {
     private String holidaysName;
 
     @JsonProperty("startDate")
-    private String startDateBooking;
+    private LocalDate startDate;
 
     @JsonProperty("endDate")
-    private String endDateBooking;
+    private LocalDate endDate;
 
 }

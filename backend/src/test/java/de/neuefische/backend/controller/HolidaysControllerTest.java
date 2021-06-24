@@ -1,12 +1,13 @@
 package de.neuefische.backend.controller;
 
-import de.neuefische.backend.dto.BookedHolidaysDto;
+import de.neuefische.backend.dto.BookingDto;
 import de.neuefische.backend.dto.HolidaysDto;
-import de.neuefische.backend.model.BookedHolidays;
+import de.neuefische.backend.model.Booking;
 import de.neuefische.backend.model.Holidays;
 import de.neuefische.backend.service.HolidaysService;
 import org.junit.jupiter.api.Test;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -78,23 +79,23 @@ class HolidaysControllerTest {
     @Test
     void getBookedHolidays() {
         //GIVEN
-        ArrayList<BookedHolidaysDto> holidaysArrayList = new ArrayList<>();
-        holidaysArrayList.add(BookedHolidaysDto.builder()
+        ArrayList<BookingDto> holidaysArrayList = new ArrayList<>();
+        holidaysArrayList.add(BookingDto.builder()
                 .holidaysName("Sommerferien")
-                .startDateBooking(LocalDate.of(2021, 10, 1).toString())
-                .endDateBooking(LocalDate.of(2022, 11, 17).toString())
+                .startDate(LocalDate.of(2021, 10, 1).toString())
+                .endDate(LocalDate.of(2022, 11, 17).toString())
                 .build());
         when(holidaysService.getBookedHolidays("testuser"))
-                .thenReturn(BookedHolidays.builder()
+                .thenReturn(Booking.builder()
                         .userLogin("testuser")
                         .holidays(holidaysArrayList)
                         .build());
 
         //WHEN
-        BookedHolidays bookedHolidays = holidaysController.getBookedholidays(() -> "testuser");
+        Booking booking = holidaysController.getBookedholidays(() -> "testuser");
 
         //THEN
-        assertThat(bookedHolidays, is(BookedHolidays.builder()
+        assertThat(booking, is(Booking.builder()
                 .userLogin("testuser")
                 .holidays(holidaysArrayList)
                 .build()));
@@ -123,33 +124,41 @@ class HolidaysControllerTest {
 
     @Test
     void addBookedHolidaysShouldAddANewEntryToRepositoryIfNoneEntryMatchesGivenUser() {
-        ArrayList<BookedHolidaysDto> holidaysArrayList = new ArrayList<>();
-        when(holidaysService.updateBookedHolidays(BookedHolidaysDto.builder()
+        ArrayList<BookingDto> holidaysArrayList = new ArrayList<>();
+        when(holidaysService.updateBookedHolidays(BookingDto.builder()
                 .holidaysName("Sommerferien")
-                .startDateBooking("2020-01-01")
-                .endDateBooking("2021-01-01")
+                .startDate(LocalDate.of(2020,1,1))
+                .endDate(LocalDate.of(2021,1,1))
+                .children(new String[]{"foo"})
                 .build(), "testuser"))
-                .thenReturn(BookedHolidays.builder()
+                .thenReturn(Booking.builder()
                         .userLogin("testuser")
-                        .holidays(holidaysArrayList)
+                        .holidayName("Sommerferien")
+                        .startDate(LocalDate.of(2020,1,1))
+                        .endDate(LocalDate.of(2021,1,1))
+                        .childName("foo")
                         .build());
 
         //WHEN
-        BookedHolidays bookedHolidays = holidaysController.addBookedHolidays(BookedHolidaysDto.builder()
+        Booking booking = holidaysController.addBookedHolidays(BookingDto.builder()
                 .holidaysName("Sommerferien")
-                .startDateBooking("2020-01-01")
-                .endDateBooking("2021-01-01")
+                .startDate(LocalDate.of(2020, 1, 1))
+                .endDate(LocalDate.of(2021, 1, 1))
                 .build(), (() -> "testuser"));
 
         //THEN
-        assertThat(bookedHolidays, is(BookedHolidays.builder()
+        assertThat(booking, is(Booking.builder()
                 .userLogin("testuser")
-                .holidays(holidaysArrayList)
+                .holidayName("Sommerferien")
+                .startDate(LocalDate.of(2020,1,1))
+                .endDate(LocalDate.of(2021,1,1))
+                .childName("foo")
                 .build()));
-        verify(holidaysService, times(1)).updateBookedHolidays(BookedHolidaysDto.builder()
+        verify(holidaysService, times(1)).updateBookedHolidays(BookingDto.builder()
                 .holidaysName("Sommerferien")
-                .startDateBooking("2020-01-01")
-                .endDateBooking("2021-01-01")
+                .startDate(LocalDate.of(2020,1,1))
+                .endDate(LocalDate.of(2021,1,1))
+                .children(new String[]{"foo"})
                 .build(), "testuser");
 
     }
@@ -157,36 +166,36 @@ class HolidaysControllerTest {
     @Test
     void updateBookedHolidaysShouldUpdateBookedHolidaysWithSameId(){
         //GIVEN
-        ArrayList<BookedHolidaysDto> holidaysArrayList = new ArrayList<>();
-        holidaysArrayList.add(BookedHolidaysDto.builder()
+        ArrayList<BookingDto> holidaysArrayList = new ArrayList<>();
+        holidaysArrayList.add(BookingDto.builder()
                 .holidaysName("Sommerferien")
-                .startDateBooking(LocalDate.of(2021, 10, 1).toString())
-                .endDateBooking(LocalDate.of(2022, 11, 17).toString())
+                .startDate(LocalDate.of(2021, 10, 1))
+                .endDate(LocalDate.of(2022, 11, 17))
                 .build());
-        when(holidaysService.updateBookedHolidays(BookedHolidaysDto.builder()
+        when(holidaysService.updateBookedHolidays(BookingDto.builder()
                 .holidaysName("Sommerferien")
-                .startDateBooking(LocalDate.of(2021, 10, 1).toString())
-                .endDateBooking(LocalDate.of(2022, 11, 17).toString())
+                .startDate(LocalDate.of(2021, 10, 1))
+                .endDate(LocalDate.of(2022, 11, 17))
                 .build(),"testuser"))
-                .thenReturn(BookedHolidays.builder()
+                .thenReturn(Booking.builder()
                         .userLogin("testuser")
                         .holidays(holidaysArrayList)
                         .build());
         //WHEN
-        BookedHolidays updatedHolidays = holidaysController.updateBookedHolidays(BookedHolidaysDto.builder()
+        Booking updatedHolidays = holidaysController.updateBookedHolidays(BookingDto.builder()
                 .holidaysName("Sommerferien")
-                .startDateBooking(LocalDate.of(2021, 10, 1).toString())
-                .endDateBooking(LocalDate.of(2022, 11, 17).toString())
+                .startDate(LocalDate.of(2021, 10, 1).toString())
+                .endDate(LocalDate.of(2022, 11, 17).toString())
                 .build(), ()->"testuser");
         //THEN
-        assertThat(updatedHolidays, is(BookedHolidays.builder()
+        assertThat(updatedHolidays, is(Booking.builder()
                 .userLogin("testuser")
                 .holidays(holidaysArrayList)
                 .build()));
-        verify(holidaysService, times(1)).updateBookedHolidays(BookedHolidaysDto.builder()
+        verify(holidaysService, times(1)).updateBookedHolidays(BookingDto.builder()
                 .holidaysName("Sommerferien")
-                .startDateBooking(LocalDate.of(2021, 10, 1).toString())
-                .endDateBooking(LocalDate.of(2022, 11, 17).toString())
+                .startDate(LocalDate.of(2021, 10, 1).toString())
+                .endDate(LocalDate.of(2022, 11, 17).toString())
                 .build(), "testuser");
     }
 
