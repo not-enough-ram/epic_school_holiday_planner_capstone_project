@@ -1,16 +1,22 @@
 import styled from "styled-components/macro";
-import UpcomingHolidays from "../components/UpcomingHolidays";
 import useUpcomingHolidays from "../hooks/useUpcomingHolidays";
-import CheckBoxes from "../components/ChildrenCheckboxes";
+import useMyBookings from "../hooks/useMyBookings";
+import MyBookingList from "../components/MyBookingList";
+import Holidays from "../components/Holidays";
 
 export default function HolidaysPage() {
-  const holidays = useUpcomingHolidays();
+  const { upcomingHolidays } = useUpcomingHolidays();
+  const { myBookings } = useMyBookings();
   return (
     <Wrapper>
       <HolidaysPageHeader>
         <h1>Die nächsten Ferien</h1>
       </HolidaysPageHeader>
-      {holidays && <UpcomingHolidays />}
+      {upcomingHolidays && <Holidays holidays={upcomingHolidays[0]} />}
+      <HolidaysPageHeader>
+        <h1>Meine Buchungen</h1>
+      </HolidaysPageHeader>
+      {myBookings && <MyBookingList myBookings={myBookings} />}
     </Wrapper>
   );
 }

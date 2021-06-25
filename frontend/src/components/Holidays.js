@@ -9,10 +9,10 @@ export default function Holidays({ holidays }) {
   return (
     <Holiday>
       <div>
-        <h1>{holidays.name}</h1>
+        <h1>{holidays?.name}</h1>
       </div>
-      <h3>Beginnen: {holidays.startDate}</h3>
-      <h3>Enden: {holidays.endDate}</h3>
+      <h3>Beginnen: {holidays?.startDate}</h3>
+      <h3>Enden: {holidays?.endDate}</h3>
       <button onClick={handleClick}>Details</button>
     </Holiday>
   );

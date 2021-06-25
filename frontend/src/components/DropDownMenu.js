@@ -1,6 +1,7 @@
 import React from "react";
 import { Field } from "formik";
 import "bootstrap/dist/css/bootstrap.min.css";
+
 function MenuItems({ holidays }) {
   return (
     <>
@@ -19,6 +20,7 @@ export default function DropDownMenu({ holidays }) {
         name={"holidaysselectmenu"}
         id={"holidaysselectmenu"}
       >
+        <option value={""} label={"Bitte wähle die gewünschten Ferien..."} />
         <MenuItems holidays={holidays} />
       </Field>
     </div>

@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.Instant;
 import java.time.LocalDate;
 
 @Data
@@ -23,6 +22,6 @@ public class Booking {
     private LocalDate startDate;
     private LocalDate endDate;
     @Id
-    private String id = childName + holidayName;
+    private String id;
 
 }
