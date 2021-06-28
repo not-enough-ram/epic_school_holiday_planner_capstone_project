@@ -39,6 +39,11 @@ public class UserController {
         return userService.updateUser(user, principal.getName());
     }
 
+    @GetMapping("children")
+    public List<Child> getChildByUser(Principal user) {
+        return userService.getChildByUser(user.getName());
+    }
+
     @PostMapping("children")
     public List<Child> addChildren(@RequestBody List<Child> children, Principal user) {
         return userService.addChildren(children, user.getName());

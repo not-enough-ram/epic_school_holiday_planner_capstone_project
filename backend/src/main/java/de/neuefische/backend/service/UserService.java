@@ -10,6 +10,9 @@ import de.neuefische.backend.security.model.AppUser;
 import de.neuefische.backend.security.model.Role;
 import de.neuefische.backend.security.repository.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,14 +26,16 @@ public class UserService {
     private final PasswordEncoder encoder;
     private final UserRepository userRepository;
     private final ChildRepository childRepository;
+    private final MongoTemplate mongoTemplate;
 
 
     @Autowired
-    public UserService(AppUserRepository appUserRepository, PasswordEncoder encoder, UserRepository userRepository, ChildRepository childRepository) {
+    public UserService(AppUserRepository appUserRepository, PasswordEncoder encoder, UserRepository userRepository, ChildRepository childRepository, MongoTemplate mongoTemplate) {
         this.appUserRepository = appUserRepository;
         this.encoder = encoder;
         this.userRepository = userRepository;
         this.childRepository = childRepository;
+        this.mongoTemplate = mongoTemplate;
     }
 
     public String addNewAppUser(AppUserDto newUser) {
@@ -99,5 +104,11 @@ public class UserService {
 
     public List<Child> addChildren(List<Child> children, String login) {
         return childRepository.saveAll(children);
+    }
+
+    public List<Child> getChildByUser(String login) {
+        Query query = new Query()
+                .addCriteria(Criteria.where("login").is(login));
+        return mongoTemplate.find(query, Child.class);
     }
 }

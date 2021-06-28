@@ -17,8 +17,10 @@ import BookingPage from "./Pages/BookingPage";
 import HolidaysPage from "./Pages/HolidaysPage";
 import MyBookingList from "./components/MyBookingList";
 import ProfilePage from "./Pages/ProfilePage";
+import useUser from "./hooks/useUser";
 
 function App() {
+  const { user } = useUser();
   const { token } = useContext(AuthContext);
   const theme = createMuiTheme({
     palette: {
@@ -59,7 +61,7 @@ function App() {
               <MyBookingList />
             </PrivateRoute>
             <PrivateRoute path={"/profile"} exact>
-              <ProfilePage />
+              <ProfilePage user={user} />
             </PrivateRoute>
           </Switch>
           {<BottomNav />}
