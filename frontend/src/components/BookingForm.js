@@ -5,7 +5,7 @@ import AuthContext from "../context/AuthContext";
 import { useContext } from "react";
 import * as Yup from "yup";
 
-export default function BookingForm({ holidays, startDate, endDate }) {
+export default function BookingForm({ holidays }) {
   const { token } = useContext(AuthContext);
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   const firstHoliday = holidays[0]?.name;
@@ -44,14 +44,14 @@ export default function BookingForm({ holidays, startDate, endDate }) {
                 type="date"
                 id={"startDate"}
                 name="startDate"
-                value={startDate}
+                value={holidays.startDate}
               />
               <label>Enddatum *</label>
               <Field
                 type="date"
                 id={"endDate"}
                 name="endDate"
-                value={endDate}
+                value={holidays.endDate}
               />
               <div id="checkbox-group">Kinder auswählen</div>
               <div role="group" aria-labelledby="checkbox-group">
