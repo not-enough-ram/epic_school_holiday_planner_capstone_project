@@ -8,8 +8,6 @@ import * as Yup from "yup";
 export default function BookingForm({ holidays }) {
   const { token } = useContext(AuthContext);
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-  const firstHoliday = holidays[0]?.name;
-  console.log(firstHoliday);
   const validation = Yup.object().shape({
     holidayselectmenu: Yup.string().required("Required"),
   });

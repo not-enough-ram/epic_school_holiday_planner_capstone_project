@@ -2,15 +2,18 @@ package de.neuefische.backend.controller;
 
 
 import de.neuefische.backend.dto.AppUserDto;
+import de.neuefische.backend.dto.UserDto;
+import de.neuefische.backend.model.Child;
+import de.neuefische.backend.model.User;
 import de.neuefische.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
+import java.util.List;
 
 @RestController
-@RequestMapping("api/user/test")
+@RequestMapping("api/user/")
 public class UserController {
 
     private final UserService userService;
@@ -20,9 +23,29 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("new")
+    @PostMapping("new/appuser")
     public String addNewAppUser(@RequestBody AppUserDto newUser) {
         userService.addNewAppUser(newUser);
         return newUser.getUsername();
+    }
+
+    @PostMapping("new/user")
+    public User addNewAppUser(@RequestBody User newUser) {
+        return userService.addNewUser(newUser);
+    }
+
+    @PutMapping("update")
+    public User updateUser(@RequestBody UserDto user, Principal principal) {
+        return userService.updateUser(user, principal.getName());
+    }
+
+    @PostMapping("children")
+    public List<Child> addChildren(@RequestBody List<Child> children, Principal user) {
+        return userService.addChildren(children, user.getName());
+    }
+
+    @GetMapping
+    public User getUser(Principal user) {
+        return userService.getUser(user.getName());
     }
 }
