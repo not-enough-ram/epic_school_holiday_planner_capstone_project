@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import styled from "styled-components/macro";
+import axios from "axios";
+import AuthContext from "../context/AuthContext";
 
 const initialValues = {
   firstName: "",
@@ -16,10 +18,6 @@ const validSchema = Yup.object().shape({
   phone: Yup.string().required("Benötigt"),
 });
 
-const handleSubmit = (values) => {
-  alert(JSON.stringify(values, null, 2));
-};
-
 const ProfileForm = ({ errors, touched, handleSubmit }) => (
   <Form>
     <label>
@@ -30,7 +28,6 @@ const ProfileForm = ({ errors, touched, handleSubmit }) => (
       ) : null}
     </label>
     <label>
-      {" "}
       Nachname:
       <Field name={"lastName"} type={"text"} />
       {errors.lastName && touched.lastName ? (
@@ -38,7 +35,6 @@ const ProfileForm = ({ errors, touched, handleSubmit }) => (
       ) : null}
     </label>
     <label>
-      {" "}
       Telefon:
       <Field name={"phone"} type={"text"} />
       {errors.phone && touched.phone ? <div>{errors.phone}</div> : null}
@@ -52,16 +48,31 @@ const ProfileForm = ({ errors, touched, handleSubmit }) => (
   </Form>
 );
 
-export const ProfileBookingForm = () => (
-  <Wrapper>
-    <Formik
-      initialValues={initialValues}
-      onSubmit={handleSubmit}
-      validationSchema={validSchema}
-      children={ProfileForm}
-    />
-  </Wrapper>
-);
+export function ProfileBookingForm() {
+  const { token } = useContext(AuthContext);
+
+  const handleSubmit = (values) => {
+    setTimeout(() => {
+      axios.post("api/user", values, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    }, 500);
+  };
+
+  return (
+    <Wrapper>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
+        validationSchema={validSchema}
+        children={ProfileForm}
+      />
+    </Wrapper>
+  );
+}
+
 const Wrapper = styled.section`
   padding: 10px;
   text-align: left;

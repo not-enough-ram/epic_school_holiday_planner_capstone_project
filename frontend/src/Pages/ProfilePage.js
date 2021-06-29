@@ -1,17 +1,17 @@
 import { ProfileBookingForm } from "../components/ProfileBookingForm";
 import styled from "styled-components/macro";
-import ChildrenList from "../components/ChildrenList";
-import { useHistory } from "react-router-dom";
 import useChildren from "../hooks/useChildren";
+import useHolidays from "../hooks/useHolidays";
+import Child from "../components/Child";
 
 export default function ProfilePage({ user }) {
-  const history = useHistory();
   const { children } = useChildren();
+  const { holidays } = useHolidays();
   return (
     <Wrapper>
-      <ProfileBookingForm />
+      {holidays && <ProfileBookingForm holidays={holidays} />}
       <h3>Kinder</h3>
-      {children && <ChildrenList children={children} />}
+      {children && children.map((child) => <Child child={child} />)}
     </Wrapper>
   );
 }

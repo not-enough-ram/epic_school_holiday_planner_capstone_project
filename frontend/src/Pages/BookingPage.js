@@ -1,10 +1,12 @@
-import BookingForm from "../components/BookingForm";
+import { HolidayBookingForm } from "../components/HolidayBookingForm";
 import useHolidays from "../hooks/useHolidays";
 import styled from "styled-components/macro";
 
 export default function BookingPage() {
   const { holidays } = useHolidays();
-  return <Wrapper>{holidays && <BookingForm holidays={holidays} />}</Wrapper>;
+  return (
+    <Wrapper>{holidays && <HolidayBookingForm holidays={holidays} />}</Wrapper>
+  );
 }
 
 const Wrapper = styled.section`

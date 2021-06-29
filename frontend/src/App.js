@@ -11,8 +11,6 @@ import DetailsPage from "./Pages/DetailsPage";
 import BottomNav from "./components/BottomNav";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { blueGrey, cyan } from "@material-ui/core/colors";
-import AuthContext from "./context/AuthContext";
-import { useContext } from "react";
 import BookingPage from "./Pages/BookingPage";
 import HolidaysPage from "./Pages/HolidaysPage";
 import MyBookingList from "./components/MyBookingList";
@@ -21,7 +19,6 @@ import useUser from "./hooks/useUser";
 
 function App() {
   const { user } = useUser();
-  const { token } = useContext(AuthContext);
   const theme = createMuiTheme({
     palette: {
       primary: {

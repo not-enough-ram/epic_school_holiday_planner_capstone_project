@@ -1,11 +1,11 @@
 export default function MyBooking({ booking }) {
   return (
     <section>
-      <h1>{booking.childName}</h1>
-      <h2>{booking.holidayName}</h2>
-      <h3>
+      <p>{booking.childName}</p>
+      <p>{booking.holidayName}</p>
+      <p>
         Von: {booking.startDate} bis: {booking.endDate}
-      </h3>
+      </p>
     </section>
   );
 }

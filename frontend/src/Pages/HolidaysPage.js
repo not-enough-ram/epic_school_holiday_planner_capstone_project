@@ -6,9 +6,7 @@ export default function HolidaysPage() {
   const holidays = useUpcomingHolidays();
   return (
     <Wrapper>
-      <HolidaysPageHeader>
-        <h1>Alle Ferien im Überblick</h1>
-      </HolidaysPageHeader>
+      <h1>Alle Ferien im Überblick</h1>
       {holidays && <HolidayList />}
     </Wrapper>
   );
