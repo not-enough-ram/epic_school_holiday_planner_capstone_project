@@ -12,7 +12,7 @@
     <artifactId>backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>backend</name>
-    <description>epic holiday planner for schools</description>
+    <description>epic holidays planner for schools</description>
     <properties>
         <java.version>16</java.version>
     </properties>

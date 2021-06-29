@@ -4,6 +4,7 @@ import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import { grey } from "@material-ui/core/colors";
 import { AccountCircle, AddCircle, Bookmarks } from "@material-ui/icons";
+import HomeIcon from "@material-ui/icons/Home";
 import { useHistory } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 
@@ -35,6 +36,13 @@ export default function BottomNavi() {
       showLabels
       className={classes.root}
     >
+      {jwtDecoded && (
+        <BottomNavigationAction
+          value={"/home"}
+          label="Home"
+          icon={<HomeIcon />}
+        />
+      )}
       {jwtDecoded && (
         <BottomNavigationAction
           value={"/booking"}

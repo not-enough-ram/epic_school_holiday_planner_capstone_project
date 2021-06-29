@@ -1,7 +1,5 @@
 import Holidays from "./Holidays";
-import useUpcomingHolidays from "../hooks/useUpcomingHolidays";
 
-export default function UpcomingHolidays() {
-  const { upcomingHolidays } = useUpcomingHolidays();
-  return <Holidays holidays={upcomingHolidays} />;
+export default function UpcomingHolidays({ holidays }) {
+  return <Holidays holidays={holidays} />;
 }

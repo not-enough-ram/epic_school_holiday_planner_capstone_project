@@ -15,6 +15,7 @@ import AuthContext from "./context/AuthContext";
 import { useContext } from "react";
 import BookingPage from "./Pages/BookingPage";
 import HolidaysPage from "./Pages/HolidaysPage";
+import MyBookingList from "./components/MyBookingList";
 
 function App() {
   const { token } = useContext(AuthContext);
@@ -52,6 +53,9 @@ function App() {
             </PrivateRoute>
             <PrivateRoute path={"/holidays"} exact>
               <HolidaysPage />
+            </PrivateRoute>
+            <PrivateRoute path={"/booked"} exact>
+              <MyBookingList />
             </PrivateRoute>
           </Switch>
           {<BottomNav />}

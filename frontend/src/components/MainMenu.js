@@ -5,7 +5,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Fade from "@material-ui/core/Fade";
 import { ListUnorderedIcon } from "@primer/octicons-react";
 import { StyledOcticon } from "@primer/components";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function MainMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -36,19 +36,17 @@ export default function MainMenu() {
         onClose={handleClose}
         TransitionComponent={Fade}
       >
-        <NavLink to={"/holidays"}>
-          <MenuItem onClick={handleClose} value={"/holidays"}>
-            Alle Ferien
-          </MenuItem>
-        </NavLink>
-        <MenuItem onClick={handleClose}>
-          <NavLink to={"/bookings"}>Meine Buchungen</NavLink>
+        <MenuItem onClick={handleClose} component={Link} to={"/holidays"}>
+          Alle Ferien
         </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <NavLink to={"/profile"}>Profil</NavLink>
+        <MenuItem onClick={handleClose} component={Link} to="/booked">
+          Meine Buchungen
         </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <NavLink to={"/"}>Logout</NavLink>
+        <MenuItem onClick={handleClose} component={Link} to={"/profile"}>
+          Profil
+        </MenuItem>
+        <MenuItem onClick={handleClose} component={Link} to={"/"}>
+          Logout
         </MenuItem>
       </Menu>
     </div>

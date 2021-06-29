@@ -1,230 +1,193 @@
 package de.neuefische.backend.controller;
 
-import de.neuefische.backend.dto.BookedHolidaysDto;
-import de.neuefische.backend.dto.HolidaysDto;
-import de.neuefische.backend.model.BookedHolidays;
+import de.neuefische.backend.dto.BookingDto;
+import de.neuefische.backend.model.Booking;
 import de.neuefische.backend.model.Holidays;
 import de.neuefische.backend.service.HolidaysService;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.*;
 
 class HolidaysControllerTest {
-    private final HolidaysService holidaysService = mock(HolidaysService.class);
-    private final HolidaysController holidaysController = new HolidaysController(holidaysService);
+    HolidaysService holidaysService = mock(HolidaysService.class);
 
     @Test
-    void getListOfHolidaysShouldReturnAListOfAllHolidays() {
+    void holidayListReturnsAListOfAllHolidays() {
         //GIVEN
-        List<Holidays> holidays = List.of(
-                Holidays.builder()
-                        .name("Sommerferien")
-                        .startDate(LocalDate.of(2021, 10, 1))
-                        .endDate(LocalDate.of(2022, 11, 17))
-                        .build(),
-                Holidays.builder()
-                        .name("Herbstferien")
-                        .startDate(LocalDate.of(2021, 4, 1))
-                        .endDate(LocalDate.of(2022, 5, 17))
-                        .build());
-        when(holidaysService.getListOfHolidays()).thenReturn(holidays);
+        when(holidaysService.getListOfHolidays())
+                .thenReturn(List.of(
+                        Holidays.builder()
+                                .name("Sommerferien 2020")
+                                .startDate(LocalDate.of(2020, 1, 1))
+                                .endDate(LocalDate.of(2021, 1, 1))
+                                .build(),
+                        Holidays.builder()
+                                .name("Sommerferien 2021")
+                                .startDate(LocalDate.of(2021, 1, 1))
+                                .endDate(LocalDate.of(2022, 1, 1))
+                                .build()));
 
         //WHEN
-        List<Holidays> listOfHolidays = holidaysController.holidayList();
+        List<Holidays> holidaysList = holidaysService.getListOfHolidays();
 
         //THEN
-        assertThat(listOfHolidays, containsInAnyOrder(Holidays.builder()
-                        .name("Sommerferien")
-                        .startDate(LocalDate.of(2021, 10, 1))
-                        .endDate(LocalDate.of(2022, 11, 17))
+        assertThat(holidaysList, is(List.of(
+                Holidays.builder()
+                        .name("Sommerferien 2020")
+                        .startDate(LocalDate.of(2020, 1, 1))
+                        .endDate(LocalDate.of(2021, 1, 1))
                         .build(),
                 Holidays.builder()
-                        .name("Herbstferien")
-                        .startDate(LocalDate.of(2021, 4, 1))
-                        .endDate(LocalDate.of(2022, 5, 17))
-                        .build()));
-
+                        .name("Sommerferien 2021")
+                        .startDate(LocalDate.of(2021, 1, 1))
+                        .endDate(LocalDate.of(2022, 1, 1))
+                        .build())));
         verify(holidaysService, times(1)).getListOfHolidays();
     }
 
     @Test
-    void getHolidaysByNameShouldReturnHolidaysWithMatchingName() {
+    void getHolidaysByNameReturnsHolidaysWithNameMatchingGivenString() {
         //GIVEN
-        when(holidaysService.getHolidaysByName("Sommerferien")).thenReturn(Holidays.builder()
-                .name("Sommerferien")
-                .startDate(LocalDate.of(2021, 10, 1))
-                .endDate(LocalDate.of(2022, 11, 17))
+        when(holidaysService.getHolidaysByName("Sommerferien 2020")).thenReturn(Holidays.builder()
+                .name("Sommerferien 2020")
+                .startDate(LocalDate.of(2020, 1, 1))
+                .endDate(LocalDate.of(2021, 1, 1))
                 .build());
 
         //WHEN
-        Holidays holidays = holidaysController.getHolidaysByName("Sommerferien");
+        Holidays holidays = holidaysService.getHolidaysByName("Sommerferien 2020");
 
         //THEN
         assertThat(holidays, is(Holidays.builder()
-                        .name("Sommerferien")
-                        .startDate(LocalDate.of(2021, 10, 1))
-                        .endDate(LocalDate.of(2022, 11, 17))
-                        .build()));
-        verify(holidaysService, times(1)).getHolidaysByName("Sommerferien");
-
+                .name("Sommerferien 2020")
+                .startDate(LocalDate.of(2020, 1, 1))
+                .endDate(LocalDate.of(2021, 1, 1))
+                .build()));
+        verify(holidaysService, times(1)).getHolidaysByName("Sommerferien 2020");
     }
 
     @Test
-    void getBookedHolidays() {
+    void getUpcomingHolidaysReturnsFirstHolidaysSortedByStartDate() {
         //GIVEN
-        ArrayList<BookedHolidaysDto> holidaysArrayList = new ArrayList<>();
-        holidaysArrayList.add(BookedHolidaysDto.builder()
-                .holidaysName("Sommerferien")
-                .startDateBooking(LocalDate.of(2021, 10, 1).toString())
-                .endDateBooking(LocalDate.of(2022, 11, 17).toString())
-                .build());
-        when(holidaysService.getBookedHolidays("testuser"))
-                .thenReturn(BookedHolidays.builder()
-                        .userLogin("testuser")
-                        .holidays(holidaysArrayList)
-                        .build());
+        when(holidaysService.getUpcomingHolidays()).thenReturn(List.of(Holidays.builder()
+                .name("Sommerferien 2020")
+                .startDate(LocalDate.of(2020, 1, 1))
+                .endDate(LocalDate.of(2021, 1, 1))
+                .build()));
 
         //WHEN
-        BookedHolidays bookedHolidays = holidaysController.getBookedholidays(() -> "testuser");
+        List<Holidays> holidaysList = holidaysService.getUpcomingHolidays();
 
         //THEN
-        assertThat(bookedHolidays, is(BookedHolidays.builder()
-                .userLogin("testuser")
-                .holidays(holidaysArrayList)
-                .build()));
-        verify(holidaysService, times(1)).getBookedHolidays("testuser");
-    }
-
-    @Test
-    void getUpcomingHolidaysShouldReturnHolidaysWhichAreClosestToNow() {
-        //GIVEN
-        when(holidaysService.getUpcomingHolidays()).thenReturn(Holidays.builder()
-                .name("Herbstferien")
-                .startDate(LocalDate.of(2021, 4, 1))
-                .endDate(LocalDate.of(2022, 5, 17))
-                .build());
-        //WHEN
-        Holidays upcomingHolidays = holidaysController.getUpcomingHolidays();
-
-        //THEN
-        assertThat(upcomingHolidays, is(Holidays.builder()
-                .name("Herbstferien")
-                .startDate(LocalDate.of(2021, 4, 1))
-                .endDate(LocalDate.of(2022, 5, 17))
-                .build()));
+        assertThat(holidaysList, is(List.of(Holidays.builder()
+                .name("Sommerferien 2020")
+                .startDate(LocalDate.of(2020, 1, 1))
+                .endDate(LocalDate.of(2021, 1, 1))
+                .build())));
         verify(holidaysService, times(1)).getUpcomingHolidays();
     }
 
     @Test
-    void addBookedHolidaysShouldAddANewEntryToRepositoryIfNoneEntryMatchesGivenUser() {
-        ArrayList<BookedHolidaysDto> holidaysArrayList = new ArrayList<>();
-        when(holidaysService.updateBookedHolidays(BookedHolidaysDto.builder()
-                .holidaysName("Sommerferien")
-                .startDateBooking("2020-01-01")
-                .endDateBooking("2021-01-01")
-                .build(), "testuser"))
-                .thenReturn(BookedHolidays.builder()
-                        .userLogin("testuser")
-                        .holidays(holidaysArrayList)
-                        .build());
-
-        //WHEN
-        BookedHolidays bookedHolidays = holidaysController.addBookedHolidays(BookedHolidaysDto.builder()
-                .holidaysName("Sommerferien")
-                .startDateBooking("2020-01-01")
-                .endDateBooking("2021-01-01")
-                .build(), (() -> "testuser"));
-
-        //THEN
-        assertThat(bookedHolidays, is(BookedHolidays.builder()
-                .userLogin("testuser")
-                .holidays(holidaysArrayList)
-                .build()));
-        verify(holidaysService, times(1)).updateBookedHolidays(BookedHolidaysDto.builder()
-                .holidaysName("Sommerferien")
-                .startDateBooking("2020-01-01")
-                .endDateBooking("2021-01-01")
-                .build(), "testuser");
-
-    }
-
-    @Test
-    void updateBookedHolidaysShouldUpdateBookedHolidaysWithSameId(){
+    void getBookedholidaysReturnsListOfAllBookedHolidays() {
         //GIVEN
-        ArrayList<BookedHolidaysDto> holidaysArrayList = new ArrayList<>();
-        holidaysArrayList.add(BookedHolidaysDto.builder()
-                .holidaysName("Sommerferien")
-                .startDateBooking(LocalDate.of(2021, 10, 1).toString())
-                .endDateBooking(LocalDate.of(2022, 11, 17).toString())
-                .build());
-        when(holidaysService.updateBookedHolidays(BookedHolidaysDto.builder()
-                .holidaysName("Sommerferien")
-                .startDateBooking(LocalDate.of(2021, 10, 1).toString())
-                .endDateBooking(LocalDate.of(2022, 11, 17).toString())
-                .build(),"testuser"))
-                .thenReturn(BookedHolidays.builder()
-                        .userLogin("testuser")
-                        .holidays(holidaysArrayList)
-                        .build());
+        when(holidaysService.getBookings("foobar"))
+                .thenReturn(List.of(
+                        Booking.builder()
+                                .holidayName("Sommerferien 2020")
+                                .childName("baz")
+                                .id("bazSommerferien 2020")
+                                .startDate(LocalDate.of(2020, 1, 1))
+                                .endDate(LocalDate.of(2021, 1, 1))
+                                .build()));
+
         //WHEN
-        BookedHolidays updatedHolidays = holidaysController.updateBookedHolidays(BookedHolidaysDto.builder()
-                .holidaysName("Sommerferien")
-                .startDateBooking(LocalDate.of(2021, 10, 1).toString())
-                .endDateBooking(LocalDate.of(2022, 11, 17).toString())
-                .build(), ()->"testuser");
+        List<Booking> bookingList = holidaysService.getBookings("foobar");
+
         //THEN
-        assertThat(updatedHolidays, is(BookedHolidays.builder()
-                .userLogin("testuser")
-                .holidays(holidaysArrayList)
-                .build()));
-        verify(holidaysService, times(1)).updateBookedHolidays(BookedHolidaysDto.builder()
-                .holidaysName("Sommerferien")
-                .startDateBooking(LocalDate.of(2021, 10, 1).toString())
-                .endDateBooking(LocalDate.of(2022, 11, 17).toString())
-                .build(), "testuser");
+        assertThat(bookingList, is(List.of(
+                Booking.builder()
+                        .holidayName("Sommerferien 2020")
+                        .childName("baz")
+                        .id("bazSommerferien 2020")
+                        .startDate(LocalDate.of(2020, 1, 1))
+                        .endDate(LocalDate.of(2021, 1, 1))
+                        .build())));
+        verify(holidaysService, times(1)).getBookings("foobar");
     }
 
     @Test
-    void setNewHolidays() {
-        HolidaysDto.builder()
-                .name("Sommerferien")
-                .startDate("2020-01-01")
-                .endDate("2021-01-01")
-                .build();
-        when(holidaysService.addNewHolidays(HolidaysDto.builder()
-                    .name("Sommerferien")
-                    .startDate("2020-01-01")
-                    .endDate("2021-01-01")
-                    .build()))
-                .thenReturn(Holidays.builder()
-                    .name("Sommerferien")
-                    .startDate(LocalDate.of(2020, 1,1))
-                    .endDate(LocalDate.of(2021, 1,1))
-                    .build());
-
+    void addBookedHolidaysStoresBookingInDbAndReturnsSavedBooking() {
+        when(holidaysService.addBookedHolidays(BookingDto.builder()
+                .holidaysName("Sommerferien 2020")
+                .children(new String[]{"baz"})
+                .startDate(LocalDate.of(2020, 1, 1))
+                .endDate(LocalDate.of(2021, 1, 1))
+                .build(), "foobar"))
+                .thenReturn(List.of(Booking.builder()
+                        .holidayName("Sommerferien 2020")
+                        .childName("baz")
+                        .id("bazSommerferien 2020")
+                        .startDate(LocalDate.of(2020, 1, 1))
+                        .endDate(LocalDate.of(2021, 1, 1))
+                        .build()));
         //WHEN
-        Holidays newHolidays = holidaysController.addNewHolidays(HolidaysDto.builder()
-                .name("Sommerferien")
-                .startDate("2020-01-01")
-                .endDate("2021-01-01")
-                .build());
+        List<Booking> bookingList = holidaysService.addBookedHolidays(BookingDto.builder()
+                .holidaysName("Sommerferien 2020")
+                .children(new String[]{"baz"})
+                .startDate(LocalDate.of(2020, 1, 1))
+                .endDate(LocalDate.of(2021, 1, 1))
+                .build(), "foobar");
 
         //THEN
-        assertThat(newHolidays, is(Holidays.builder()
-                .name("Sommerferien")
-                .startDate(LocalDate.of(2020, 1,1))
-                .endDate(LocalDate.of(2021, 1,1))
+        assertThat(bookingList, is(List.of(Booking.builder()
+                .holidayName("Sommerferien 2020")
+                .childName("baz")
+                .id("bazSommerferien 2020")
+                .startDate(LocalDate.of(2020, 1, 1))
+                .endDate(LocalDate.of(2021, 1, 1))
+                .build())));
+        verify(holidaysService, times(1)).addBookedHolidays(BookingDto.builder()
+                .holidaysName("Sommerferien 2020")
+                .children(new String[]{"baz"})
+                .startDate(LocalDate.of(2020, 1, 1))
+                .endDate(LocalDate.of(2021, 1, 1))
+                .build(), "foobar");
+    }
+
+    @Test
+    void addNewHolidaysSavesNewHolidaysInDbAndReturnsSavedHolidays() {
+        //GIVEN
+        when(holidaysService.addNewHolidays(Holidays.builder()
+                .name("Sommerferien 2020")
+                .startDate(LocalDate.of(2020, 1, 1))
+                .endDate(LocalDate.of(2021, 1, 1))
+                .build()))
+                .thenReturn(Holidays.builder()
+                        .name("Sommerferien 2020")
+                        .startDate(LocalDate.of(2020, 1, 1))
+                        .endDate(LocalDate.of(2021, 1, 1))
+                        .build());
+        //WHEN
+        Holidays holidays = holidaysService.addNewHolidays(Holidays.builder()
+                .name("Sommerferien 2020")
+                .startDate(LocalDate.of(2020, 1, 1))
+                .endDate(LocalDate.of(2021, 1, 1))
+                .build());
+        //THEN
+        assertThat(holidays, is(Holidays.builder()
+                .name("Sommerferien 2020")
+                .startDate(LocalDate.of(2020, 1, 1))
+                .endDate(LocalDate.of(2021, 1, 1))
                 .build()));
-        verify(holidaysService, times(1)).addNewHolidays(HolidaysDto.builder()
-                .name("Sommerferien")
-                .startDate("2020-01-01")
-                .endDate("2021-01-01")
+        verify(holidaysService, times(1)).addNewHolidays(Holidays.builder()
+                .name("Sommerferien 2020")
+                .startDate(LocalDate.of(2020, 1, 1))
+                .endDate(LocalDate.of(2021, 1, 1))
                 .build());
     }
 }

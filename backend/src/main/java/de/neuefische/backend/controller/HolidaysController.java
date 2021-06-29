@@ -1,8 +1,7 @@
 package de.neuefische.backend.controller;
 
-import de.neuefische.backend.dto.BookedHolidaysDto;
-import de.neuefische.backend.dto.HolidaysDto;
-import de.neuefische.backend.model.BookedHolidays;
+import de.neuefische.backend.dto.BookingDto;
+import de.neuefische.backend.model.Booking;
 import de.neuefische.backend.model.Holidays;
 import de.neuefische.backend.service.HolidaysService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,27 +32,22 @@ public class HolidaysController {
     }
 
     @GetMapping("upcoming")
-    public Holidays getUpcomingHolidays() {
+    public List<Holidays> getUpcomingHolidays() {
         return holidaysService.getUpcomingHolidays();
     }
 
     @GetMapping("booked")
-    public BookedHolidays getBookedholidays(Principal principal) {
-        return holidaysService.getBookedHolidays(principal.getName());
+    public List<Booking> getBookedholidays(Principal principal) {
+        return holidaysService.getBookings(principal.getName());
     }
 
     @PostMapping("booked")
-    public BookedHolidays addBookedHolidays(@RequestBody BookedHolidaysDto bookedHolidaysDto, Principal principal) {
-        return holidaysService.updateBookedHolidays(bookedHolidaysDto, principal.getName());
-    }
-
-    @PutMapping("booked")
-    public BookedHolidays updateBookedHolidays(@RequestBody BookedHolidaysDto bookedHolidaysDto, Principal principal) {
-        return holidaysService.updateBookedHolidays(bookedHolidaysDto, principal.getName());
+    public List<Booking> addBookedHolidays(@RequestBody BookingDto bookingDto, Principal principal) {
+        return holidaysService.addBookedHolidays(bookingDto, principal.getName());
     }
 
     @PostMapping
-    public Holidays addNewHolidays(@RequestBody HolidaysDto holidays) {
+    public Holidays addNewHolidays(@RequestBody Holidays holidays) {
         return holidaysService.addNewHolidays(holidays);
     }
 }

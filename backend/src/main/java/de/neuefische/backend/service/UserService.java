@@ -23,7 +23,7 @@ public class UserService {
         this.encoder = encoder;
     }
 
-    public String addNewUser(AppUserDto newUser) {
+    public String addNewAppUser(AppUserDto newUser) {
         AppUser newAppUser = AppUser.builder()
                 .username(newUser.getUsername())
                 .password(encoder.encode(newUser.getPassword()))

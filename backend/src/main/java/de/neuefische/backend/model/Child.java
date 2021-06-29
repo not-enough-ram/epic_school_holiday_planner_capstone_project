@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class Child {
+    private String login;
     private String firstName;
     private String lastName;
     private String schoolClass;
