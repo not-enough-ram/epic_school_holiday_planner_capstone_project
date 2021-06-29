@@ -1,19 +1,34 @@
 import React, { useState } from "react";
 
-export default function HolidayBookingForm({ holidays }) {
+export default function HolidayBookingForm({ holidays, children }) {
+  const [checkedState, setCheckedState] = useState(
+    new Array(children.length).fill(false)
+  );
   const [value, setValue] = useState({
     holidayName: "",
     startDate: "",
     endDate: "",
-    children: [],
+  });
+  const [child, setChild] = useState({
+    childArray: [],
   });
 
   function handleChange(event) {
     setValue({ ...value, [event.target.name]: event.target.value });
   }
 
+  function handleCheckBoxChange(event) {
+    let oldChildArray = child.childArray;
+    if (event.target.checked) {
+      oldChildArray = [...oldChildArray, event.target.value];
+    } else {
+      oldChildArray.filter((child) => child.firstName !== event.target.value);
+    }
+    setChild({ childArray: oldChildArray });
+  }
+
   function handleSubmit(event) {
-    console.log({ ...value });
+    console.log({ ...value, ...child });
     event.preventDefault();
   }
 
@@ -21,11 +36,15 @@ export default function HolidayBookingForm({ holidays }) {
     <form onSubmit={handleSubmit}>
       <label>
         Bitte wähle die gewünschten Ferien
-        <select name={"holidayName"}>
+        <select
+          name={"holidayName"}
+          value={value.holidayName}
+          onChange={handleChange}
+        >
           <option value={""} label={"Bitte wähle die gewünschten Ferien..."} />
           {holidays.map((holiday) => (
             <option
-              id={holiday.name}
+              key={holiday.name}
               value={holiday.name}
               label={holiday.name}
             />
@@ -37,7 +56,7 @@ export default function HolidayBookingForm({ holidays }) {
         <input
           type="date"
           name="startDate"
-          value={holidays.startDate}
+          value={value.startDate}
           onChange={handleChange}
         />
       </label>
@@ -46,40 +65,26 @@ export default function HolidayBookingForm({ holidays }) {
         <input
           type="date"
           name="endDate"
-          value={holidays.endDate}
+          value={value.endDate}
           onChange={handleChange}
         />
       </label>
-      <div id="checkbox-group">Kinder auswählen</div>
-      <div role="group" aria-labelledby="checkbox-group">
-        <label>
-          <input
-            type="checkbox"
-            name="children"
-            value="One"
-            onChange={handleChange}
-          />
-          One
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            name="children"
-            value="One"
-            onChange={handleChange}
-          />
-          Two
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            name="children"
-            value="Three"
-            onChange={handleChange}
-          />
-          Three
-        </label>
-      </div>
+      <section className={"checkBoxes"}>
+        <div id="checkbox-group">Kinder auswählen</div>
+        {children.map((child, index) => (
+          <label>
+            <input
+              id={`custom-checkbox-${index}`}
+              key={child.firstName}
+              type={"checkbox"}
+              value={child.firstName}
+              name={child.firstName}
+              onChange={handleCheckBoxChange}
+            />
+            {child.firstName}
+          </label>
+        ))}
+      </section>
       <input type={"submit"} value={"Abschicken"} />
     </form>
   );

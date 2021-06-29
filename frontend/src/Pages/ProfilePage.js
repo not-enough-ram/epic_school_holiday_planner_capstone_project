@@ -1,4 +1,4 @@
-import { ProfileForm } from "../components/ProfileForm";
+import ProfileForm from "../components/ProfileForm";
 import styled from "styled-components/macro";
 import useChildren from "../hooks/useChildren";
 import useHolidays from "../hooks/useHolidays";

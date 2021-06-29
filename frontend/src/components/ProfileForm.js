@@ -1,83 +1,41 @@
-import React, { useContext } from "react";
-import { Field, Form, Formik } from "formik";
-import * as Yup from "yup";
-import styled from "styled-components/macro";
-import axios from "axios";
-import AuthContext from "../context/AuthContext";
+import { useState } from "react";
 
-const initialValues = {
-  firstName: "",
-  lastName: "",
-  phone: "",
-  notes: "",
-};
+export default function ProfileForm(children) {
+  const [value, setValue] = useState({
+    firstName: "",
+    lastName: "",
+    phone: "",
+    notes: "",
+  });
 
-const validSchema = Yup.object().shape({
-  firstName: Yup.string().required("Benötigt"),
-  lastName: Yup.string().required("Benötigt"),
-  phone: Yup.string().required("Benötigt"),
-});
+  function handleChange(event) {
+    setValue({ ...value, [event.target.name]: event.target.value });
+  }
 
-const profileForm = ({ errors, touched, handleSubmit }) => (
-  <Form>
-    <label>
-      Vorname:
-      <Field name={"firstName"} type={"text"} />
-      {errors.firstName && touched.firstName ? (
-        <div>{errors.firstName}</div>
-      ) : null}
-    </label>
-    <label>
-      Nachname:
-      <Field name={"lastName"} type={"text"} />
-      {errors.lastName && touched.lastName ? (
-        <div>{errors.lastName}</div>
-      ) : null}
-    </label>
-    <label>
-      Telefon:
-      <Field name={"phone"} type={"text"} />
-      {errors.phone && touched.phone ? <div>{errors.phone}</div> : null}
-    </label>
-    <label>
-      Notizen
-      <Field name={"notes"} type={"text"} />
-      {errors.notes && touched.notes ? <div>{errors.notes}</div> : null}
-    </label>
-    <input type={"submit"} value={"Submit"} onSubmit={handleSubmit} />
-  </Form>
-);
-
-export function ProfileForm() {
-  const { token } = useContext(AuthContext);
-
-  const handleSubmit = (values) => {
-    setTimeout(() => {
-      axios.post("api/user", values, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-    }, 500);
-  };
+  function handleSubmit(event) {
+    console.log({ ...value });
+    event.preventDefault();
+  }
 
   return (
-    <Wrapper>
-      <Formik
-        initialValues={initialValues}
-        onSubmit={handleSubmit}
-        validationSchema={validSchema}
-        children={profileForm}
-      />
-    </Wrapper>
+    <form onSubmit={handleSubmit}>
+      <label>
+        Vorname:
+        <input name={"firstName"} type={"text"} onChange={handleChange} />
+      </label>
+      <label>
+        Nachname:
+        <input name={"lastName"} type={"text"} onChange={handleChange} />
+      </label>
+      <label>
+        Telefon:
+        <input name={"phone"} type={"text"} onChange={handleChange} />
+      </label>
+      <label>
+        Notizen
+        <input name={"notes"} type={"text"} onChange={handleChange} />
+      </label>
+      <input type={"submit"} value={"Submit"} onSubmit={handleSubmit} />
+    </form>
   );
 }
-
-const Wrapper = styled.section`
-  padding: 10px;
-  text-align: left;
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: space-evenly;
-  margin: 10px;
-`;
