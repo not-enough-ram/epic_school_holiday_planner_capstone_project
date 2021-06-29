@@ -18,7 +18,7 @@ const validSchema = Yup.object().shape({
   phone: Yup.string().required("Benötigt"),
 });
 
-const ProfileForm = ({ errors, touched, handleSubmit }) => (
+const profileForm = ({ errors, touched, handleSubmit }) => (
   <Form>
     <label>
       Vorname:
@@ -48,7 +48,7 @@ const ProfileForm = ({ errors, touched, handleSubmit }) => (
   </Form>
 );
 
-export function ProfileBookingForm() {
+export function ProfileForm() {
   const { token } = useContext(AuthContext);
 
   const handleSubmit = (values) => {
@@ -67,7 +67,7 @@ export function ProfileBookingForm() {
         initialValues={initialValues}
         onSubmit={handleSubmit}
         validationSchema={validSchema}
-        children={ProfileForm}
+        children={profileForm}
       />
     </Wrapper>
   );

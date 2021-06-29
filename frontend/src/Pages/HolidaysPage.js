@@ -19,5 +19,3 @@ const Wrapper = styled.div`
   grid-gap: 24px;
   justify-content: center;
 `;
-
-const HolidaysPageHeader = styled.div``;

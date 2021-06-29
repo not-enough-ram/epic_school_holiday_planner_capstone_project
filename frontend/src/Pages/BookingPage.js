@@ -1,4 +1,4 @@
-import { HolidayBookingForm } from "../components/HolidayBookingForm";
+import HolidayBookingForm from "../components/HolidayBookingForm";
 import useHolidays from "../hooks/useHolidays";
 import styled from "styled-components/macro";
 

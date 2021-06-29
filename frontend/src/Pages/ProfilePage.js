@@ -1,4 +1,4 @@
-import { ProfileBookingForm } from "../components/ProfileBookingForm";
+import { ProfileForm } from "../components/ProfileForm";
 import styled from "styled-components/macro";
 import useChildren from "../hooks/useChildren";
 import useHolidays from "../hooks/useHolidays";
@@ -9,7 +9,7 @@ export default function ProfilePage({ user }) {
   const { holidays } = useHolidays();
   return (
     <Wrapper>
-      {holidays && <ProfileBookingForm holidays={holidays} />}
+      {holidays && <ProfileForm holidays={holidays} />}
       <h3>Kinder</h3>
       {children && children.map((child) => <Child child={child} />)}
     </Wrapper>

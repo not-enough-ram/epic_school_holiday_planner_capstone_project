@@ -14,8 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class HolidaysService {
@@ -40,9 +41,7 @@ public class HolidaysService {
     }
 
     public List<Booking> getBookings(String login) {
-        Query query = new Query()
-                .addCriteria(Criteria.where("login").is(login));
-        return mongoTemplate.find(query, Booking.class);
+        return bookingRepository.findBylogin(login);
     }
 
     public Holidays getHolidaysByName(String name) {
@@ -59,11 +58,15 @@ public class HolidaysService {
     }
 
     public List<Booking> addBookedHolidays(BookingDto dto, String login) {
-        List<Booking> bookingList = new ArrayList<>();
-        for (String child : dto.getChildren()
-        ) {
-            bookingList.add(Booking.builder().login(login).holidayName(dto.getHolidaysName()).childName(child).startDate(dto.getStartDate()).endDate(dto.getEndDate()).id(child + dto.getHolidaysName()).build());
-        }
+        List<Booking> bookingList = Arrays.stream(dto.getChildren())
+                .map((child) -> (Booking.builder()
+                        .login(login)
+                        .holidayName(dto.getHolidaysName())
+                        .childName(child)
+                        .startDate(dto.getStartDate())
+                        .endDate(dto.getEndDate())
+                        .build()))
+                .collect(Collectors.toList());
         return bookingRepository.saveAll(bookingList);
     }
 }
