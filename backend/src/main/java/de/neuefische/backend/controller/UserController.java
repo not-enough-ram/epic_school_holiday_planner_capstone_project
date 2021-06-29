@@ -23,13 +23,13 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("new/appuser")
+    @PostMapping("appuser")
     public String addNewAppUser(@RequestBody AppUserDto newUser) {
         userService.addNewAppUser(newUser);
         return newUser.getUsername();
     }
 
-    @PostMapping("new/user")
+    @PostMapping()
     public User addNewAppUser(@RequestBody User newUser) {
         return userService.addNewUser(newUser);
     }
