@@ -1,8 +1,27 @@
 import { useState } from "react";
 import axios from "axios";
 import { TextField } from "@material-ui/core";
+import SendIcon from "@material-ui/icons/Send";
+import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles({
+  root: {
+    justifyContent: "space-between",
+    display: "flex",
+    flexFlow: "column",
+  },
+  textfield: {
+    width: "87vw",
+  },
+  button: {
+    alignSelf: "center",
+    width: "auto",
+  },
+});
 
 export default function ProfileForm(token, user) {
+  const classes = useStyles();
   const [value, setValue] = useState({
     firstName: user.firstName,
     lastName: user.lastName,
@@ -36,7 +55,7 @@ export default function ProfileForm(token, user) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className={classes.root} color={"primary"}>
       <label>
         <TextField
           variant={"filled"}
@@ -44,49 +63,59 @@ export default function ProfileForm(token, user) {
           onChange={handleChange}
           value={user.firstName}
           helperText={"Vorname"}
+          placeholder={user.firstName}
           required={true}
           type={"text"}
+          className={classes.textfield}
         />
-        {/*Vorname:*/}
-        {/*<input*/}
-        {/*  name={"firstName"}*/}
-        {/*  type={"text"}*/}
-        {/*  onChange={handleChange}*/}
-        {/*  value={user.firstName}*/}
-        {/*  placeholder={user.firstName}*/}
-        {/*/>*/}
       </label>
       <label>
-        Nachname:
-        <input
+        <TextField
+          variant={"filled"}
           name={"lastName"}
-          type={"text"}
           onChange={handleChange}
           value={user.lastName}
-          placeholder={user.lastName}
+          helperText={"Nachname"}
+          required={true}
+          type={"text"}
+          className={classes.textfield}
         />
       </label>
       <label>
-        Telefon:
-        <input
+        <TextField
+          variant={"filled"}
           name={"phone"}
-          type={"text"}
           onChange={handleChange}
           value={user.phone}
-          placeholder={user.phone}
+          helperText={"Telefonnummer"}
+          required={true}
+          type={"text"}
+          className={classes.textfield}
         />
       </label>
       <label>
-        Notizen
-        <input
+        <TextField
+          variant={"filled"}
           name={"notes"}
-          type={"text"}
           onChange={handleChange}
           value={user.notes}
-          placeholder={user.notes}
+          helperText={"Anmerkungen"}
+          required={true}
+          type={"text"}
+          className={classes.textfield}
         />
       </label>
-      <input type={"submit"} value={"Submit"} onSubmit={handleSubmit} />
+      <Button
+        variant="contained"
+        color="primary"
+        type={"submit"}
+        value={"Submit"}
+        onSubmit={handleSubmit}
+        startIcon={<SendIcon />}
+        className={classes.button}
+      >
+        Absenden
+      </Button>
     </form>
   );
 }

@@ -36,6 +36,7 @@ export default function BottomNavi() {
       onChange={handleChange}
       showLabels
       className={classes.root}
+      color={"primary"}
     >
       {jwtDecoded && (
         <BottomNavigationAction

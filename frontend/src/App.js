@@ -26,6 +26,7 @@ function App() {
         light: "#adbac7",
       },
     },
+    spacing: 2,
     typography: { useNextVariants: true },
   });
 
