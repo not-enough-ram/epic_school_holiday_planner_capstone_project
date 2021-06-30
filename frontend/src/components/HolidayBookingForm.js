@@ -1,15 +1,13 @@
 import React, { useState } from "react";
+import axios from "axios";
 
-export default function HolidayBookingForm({ holidays, children }) {
-  const [checkedState, setCheckedState] = useState(
-    new Array(children.length).fill(false)
-  );
+export default function HolidayBookingForm({ holidays, children, token }) {
   const [value, setValue] = useState({
     holidayName: "",
     startDate: "",
     endDate: "",
   });
-  const [child, setChild] = useState({
+  const [selectedChild, setSelectedChild] = useState({
     childArray: [],
   });
 
@@ -18,18 +16,37 @@ export default function HolidayBookingForm({ holidays, children }) {
   }
 
   function handleCheckBoxChange(event) {
-    let oldChildArray = child.childArray;
+    let selectedChildArray = selectedChild.childArray;
     if (event.target.checked) {
-      oldChildArray = [...oldChildArray, event.target.value];
+      selectedChildArray = [...selectedChildArray, event.target.value];
     } else {
-      oldChildArray.filter((child) => child.firstName !== event.target.value);
+      selectedChildArray = selectedChildArray.filter(
+        (child) => child !== event.target.value
+      );
     }
-    setChild({ childArray: oldChildArray });
+    setSelectedChild({ childArray: selectedChildArray });
   }
 
   function handleSubmit(event) {
-    console.log({ ...value, ...child });
+    console.log({ ...value, ...selectedChild });
     event.preventDefault();
+    const config = {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+    axios
+      .post(
+        `/api/holidays`,
+        {
+          holidayName: value.holidayName,
+          startDate: value.startDate,
+          endDate: value.endDate,
+          selectedChild: selectedChild,
+        },
+        config
+      )
+      .catch((error) => console.error(error.message));
   }
 
   return (
@@ -71,11 +88,9 @@ export default function HolidayBookingForm({ holidays, children }) {
       </label>
       <section className={"checkBoxes"}>
         <div id="checkbox-group">Kinder auswählen</div>
-        {children.map((child, index) => (
-          <label>
+        {children.map((child) => (
+          <label key={child.firstName}>
             <input
-              id={`custom-checkbox-${index}`}
-              key={child.firstName}
               type={"checkbox"}
               value={child.firstName}
               name={child.firstName}
