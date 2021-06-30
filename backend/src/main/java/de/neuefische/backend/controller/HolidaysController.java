@@ -1,5 +1,6 @@
 package de.neuefische.backend.controller;
 
+import de.neuefische.backend.dto.BookingByChild;
 import de.neuefische.backend.dto.BookingDto;
 import de.neuefische.backend.model.Booking;
 import de.neuefische.backend.model.Holidays;
@@ -39,6 +40,11 @@ public class HolidaysController {
     @GetMapping("booked")
     public List<Booking> getBookedholidays(Principal principal) {
         return holidaysService.getBookings(principal.getName());
+    }
+
+    @GetMapping("bookingbychild")
+    public List<BookingByChild> getBookingByChild(Principal user) {
+        return holidaysService.getBookingByChild(user.getName());
     }
 
     @PostMapping("booked")

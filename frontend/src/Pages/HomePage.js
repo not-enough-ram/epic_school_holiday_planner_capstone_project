@@ -7,6 +7,9 @@ import Holidays from "../components/Holidays";
 export default function HolidaysPage() {
   const { upcomingHolidays } = useUpcomingHolidays();
   const { myBookings } = useMyBookings();
+
+  const sortHolidaysByChild = () =>
+    myBookings.map((booking) => booking.childName);
   return (
     <Wrapper>
       <h1>Die nächsten Ferien</h1>

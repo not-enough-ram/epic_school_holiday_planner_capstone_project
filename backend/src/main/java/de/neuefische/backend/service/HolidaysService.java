@@ -1,9 +1,12 @@
 package de.neuefische.backend.service;
 
+import de.neuefische.backend.dto.BookingByChild;
 import de.neuefische.backend.dto.BookingDto;
 import de.neuefische.backend.model.Booking;
+import de.neuefische.backend.model.Child;
 import de.neuefische.backend.model.Holidays;
 import de.neuefische.backend.repository.BookingRepository;
+import de.neuefische.backend.repository.ChildRepository;
 import de.neuefische.backend.repository.HolidaysRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -21,12 +24,14 @@ import java.util.stream.Collectors;
 public class HolidaysService {
     private final HolidaysRepository holidaysRepository;
     private final BookingRepository bookingRepository;
+    private final ChildRepository childRepository;
     private final MongoTemplate mongoTemplate;
 
     @Autowired
-    public HolidaysService(HolidaysRepository holidaysRepository, BookingRepository bookingRepository1, MongoTemplate mongoTemplate) {
+    public HolidaysService(HolidaysRepository holidaysRepository, BookingRepository bookingRepository1, ChildRepository childRepository, MongoTemplate mongoTemplate) {
         this.holidaysRepository = holidaysRepository;
         this.bookingRepository = bookingRepository1;
+        this.childRepository = childRepository;
         this.mongoTemplate = mongoTemplate;
     }
 
@@ -67,5 +72,13 @@ public class HolidaysService {
                         .build()))
                 .collect(Collectors.toList());
         return bookingRepository.saveAll(bookingList);
+    }
+
+    public List<BookingByChild> getBookingByChild(String user) {
+        List<Child> allUserChildren = childRepository.findAllByLogin(user);
+        List<BookingByChild> bookingsByChild = allUserChildren.stream().map((child) -> BookingByChild.builder()
+                .childName(child.getFirstName())
+                .booking(bookingRepository.findAllByChildName(child.getFirstName()).stream().toList()))
+        bookingRepository.findAllByChildName
     }
 }

@@ -5,6 +5,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import MainMenu from "./MainMenu";
+import useUser from "../hooks/useUser";
 
 const useStyles = makeStyles({
   root: {
@@ -12,44 +13,39 @@ const useStyles = makeStyles({
     top: 0,
     left: 0,
     width: "100%",
-    alignContent: "space-between",
+    color: "primary",
   },
-  user: {
-    position: "sticky",
-    right: 10,
-    top: 10,
+  toolbar: {
+    display: "flex",
+    flexFlow: "column",
+    justifyContent: "space-around",
+    alignItems: "baseline",
   },
+  user: {},
   title: {
-    position: "relative",
+    paddingLeft: "8",
+    paddingRight: "8",
   },
 });
 
 export default function NavHeader() {
   const classes = useStyles();
   const { jwtDecoded } = useContext(AuthContext);
+  const { user } = useUser();
 
   return (
-    <div className={classes.root}>
-      <AppBar position="sticky" color={"primary"}>
-        <Toolbar>
-          {jwtDecoded && <MainMenu />}
-          <Typography variant="body1" className={classes.title}>
-            Epic Holiday Planner
+    <AppBar className={classes.root}>
+      <Toolbar>
+        {jwtDecoded && <MainMenu />}
+        <Typography variant="body1" className={classes.title}>
+          Epic Holiday Planner
+        </Typography>
+        {jwtDecoded && (
+          <Typography variant="body2" className={classes.user}>
+            Willkommen {user?.firstName}
           </Typography>
-          {jwtDecoded && (
-            <Typography variant="body2" className={classes.user}>
-              Willkommen {jwtDecoded?.sub}
-            </Typography>
-          )}
-        </Toolbar>
-      </AppBar>
-    </div>
-    // <Header className={classes.root}>
-    //   <Header.Item>{jwtDecoded && <MainMenu />}</Header.Item>
-    //   <Header.Item full>Epic Holiday Planner</Header.Item>
-    //   {jwtDecoded && (
-    //     <Header.Item mr={0}>Willkommen {jwtDecoded.sub}</Header.Item>
-    //   )}
-    // </Header>
+        )}
+      </Toolbar>
+    </AppBar>
   );
 }
