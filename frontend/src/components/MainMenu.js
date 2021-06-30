@@ -20,14 +20,21 @@ export default function MainMenu() {
   };
 
   return (
-    <div>
-      <Button
-        aria-controls="fade-menu"
-        aria-haspopup="true"
-        onClick={handleClick}
-      >
-        <StyledOcticon icon={ListUnorderedIcon} size={32} mr={2} /> Menu
-      </Button>
+    <section>
+      <div>
+        <Button
+          aria-controls="fade-menu"
+          aria-haspopup="true"
+          onClick={handleClick}
+        >
+          <StyledOcticon
+            color={"white"}
+            icon={ListUnorderedIcon}
+            size={32}
+            mr={2}
+          />
+        </Button>
+      </div>
       <Menu
         id="fade-menu"
         anchorEl={anchorEl}
@@ -49,6 +56,6 @@ export default function MainMenu() {
           Logout
         </MenuItem>
       </Menu>
-    </div>
+    </section>
   );
 }

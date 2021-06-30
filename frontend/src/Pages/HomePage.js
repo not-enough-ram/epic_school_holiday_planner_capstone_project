@@ -9,13 +9,9 @@ export default function HolidaysPage() {
   const { myBookings } = useMyBookings();
   return (
     <Wrapper>
-      <HolidaysPageHeader>
-        <h1>Die nächsten Ferien</h1>
-      </HolidaysPageHeader>
+      <h1>Die nächsten Ferien</h1>
       {upcomingHolidays && <Holidays holidays={upcomingHolidays[0]} />}
-      <HolidaysPageHeader>
-        <h1>Meine Buchungen</h1>
-      </HolidaysPageHeader>
+      <h1>Meine Buchungen</h1>
       {myBookings && <MyBookingList myBookings={myBookings} />}
     </Wrapper>
   );
@@ -28,5 +24,3 @@ const Wrapper = styled.div`
   grid-gap: 24px;
   justify-content: center;
 `;
-
-const HolidaysPageHeader = styled.div``;

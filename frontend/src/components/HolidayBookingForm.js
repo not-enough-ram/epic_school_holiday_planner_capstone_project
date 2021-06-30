@@ -28,7 +28,6 @@ export default function HolidayBookingForm({ holidays, children, token }) {
   }
 
   function handleSubmit(event) {
-    console.log({ ...value, ...selectedChild });
     event.preventDefault();
     const config = {
       headers: {

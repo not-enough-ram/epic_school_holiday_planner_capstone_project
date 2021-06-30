@@ -1,17 +1,32 @@
 import ProfileForm from "../components/ProfileForm";
 import styled from "styled-components/macro";
 import useChildren from "../hooks/useChildren";
-import useHolidays from "../hooks/useHolidays";
 import Child from "../components/Child";
+import { useContext } from "react";
+import AuthContext from "../context/AuthContext";
+import useUser from "../hooks/useUser";
+import Button from "@material-ui/core/Button";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import { useHistory } from "react-router-dom";
 
-export default function ProfilePage({ user }) {
+export default function ProfilePage() {
   const { children } = useChildren();
-  const { holidays } = useHolidays();
+  const { token } = useContext(AuthContext);
+  const { user } = useUser();
+  const { history } = useHistory();
   return (
     <Wrapper>
-      {holidays && <ProfileForm holidays={holidays} />}
-      <h3>Kinder</h3>
+      {user && <ProfileForm token={token} user={user} />}
+      {children && <h3>Kinder</h3>}
       {children && children.map((child) => <Child child={child} />)}
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => history.push("/child")}
+        endIcon={<AddCircleOutlineIcon />}
+      >
+        Kind hinzufügen
+      </Button>
     </Wrapper>
   );
 }

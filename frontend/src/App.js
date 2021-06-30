@@ -10,7 +10,6 @@ import HomePage from "./Pages/HomePage";
 import DetailsPage from "./Pages/DetailsPage";
 import BottomNav from "./components/BottomNav";
 import { createMuiTheme } from "@material-ui/core/styles";
-import { blueGrey, cyan } from "@material-ui/core/colors";
 import BookingPage from "./Pages/BookingPage";
 import HolidaysPage from "./Pages/HolidaysPage";
 import MyBookingList from "./components/MyBookingList";
@@ -22,12 +21,9 @@ function App() {
   const theme = createMuiTheme({
     palette: {
       primary: {
-        main: blueGrey[500],
-      },
-      secondary: {
-        light: cyan[200],
-        main: cyan[500],
-        contrastText: "#ffcc00",
+        dark: "#22272e",
+        main: "#2d333b",
+        light: "#adbac7",
       },
     },
     typography: { useNextVariants: true },
