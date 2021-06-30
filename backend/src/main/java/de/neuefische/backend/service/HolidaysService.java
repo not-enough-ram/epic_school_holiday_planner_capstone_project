@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,10 +57,10 @@ public class HolidaysService {
     }
 
     public List<Booking> addBookedHolidays(BookingDto dto, String login) {
-        List<Booking> bookingList = Arrays.stream(dto.getChildren())
+        List<Booking> bookingList = dto.getSelectedChild().stream()
                 .map((child) -> (Booking.builder()
                         .login(login)
-                        .holidayName(dto.getHolidaysName())
+                        .holidayName(dto.getHolidayName())
                         .childName(child)
                         .startDate(dto.getStartDate())
                         .endDate(dto.getEndDate())

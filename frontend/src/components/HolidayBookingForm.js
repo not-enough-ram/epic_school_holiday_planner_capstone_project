@@ -37,12 +37,12 @@ export default function HolidayBookingForm({ holidays, children, token }) {
     };
     axios
       .post(
-        `/api/holidays`,
+        `/api/holidays/booked`,
         {
           holidayName: value.holidayName,
           startDate: value.startDate,
           endDate: value.endDate,
-          selectedChild: selectedChild,
+          selectedChild: selectedChild.childArray,
         },
         config
       )
