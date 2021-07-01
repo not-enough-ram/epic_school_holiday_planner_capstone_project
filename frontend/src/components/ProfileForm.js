@@ -20,7 +20,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function ProfileForm(token, user) {
+export default function ProfileForm({ token, user }) {
   const classes = useStyles();
   const [value, setValue] = useState({
     firstName: user.firstName,
