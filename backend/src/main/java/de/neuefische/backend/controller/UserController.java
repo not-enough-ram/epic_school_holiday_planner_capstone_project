@@ -34,7 +34,7 @@ public class UserController {
         return userService.addNewUser(newUser);
     }
 
-    @PutMapping("update")
+    @PostMapping("update")
     public User updateUser(@RequestBody UserDto user, Principal principal) {
         return userService.updateUser(user, principal.getName());
     }

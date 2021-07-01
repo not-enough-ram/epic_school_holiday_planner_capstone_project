@@ -23,15 +23,16 @@ const useStyles = makeStyles({
 export default function ProfileForm({ token, user }) {
   const classes = useStyles();
   const [value, setValue] = useState({
-    firstName: user.firstName,
-    lastName: user.lastName,
-    phone: user.phone,
-    notes: user.notes,
+    firstName: user?.firstName,
+    lastName: user?.lastName,
+    phone: user?.phone,
+    notes: user?.notes,
   });
+    console.log(value);
 
-  function handleChange(event) {
-    setValue({ ...value, [event.target.name]: event.target.value });
-  }
+    function handleChange(event) {
+      setValue({ ...value, [event.target.name]: event.target.value });
+    }
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -40,18 +41,18 @@ export default function ProfileForm({ token, user }) {
         Authorization: "Bearer " + token,
       },
     };
-    axios
-      .put(
-        `/api/user/update`,
-        {
-          firstName: value.firstName,
-          lastName: value.lastName,
-          notes: value.notes,
-          phone: value.phone,
-        },
-        config
-      )
-      .catch((error) => console.error(error.message));
+      axios
+        .post(
+          `/api/user/update`,
+          {
+            firstName: value.firstName,
+            lastName: value.lastName,
+            notes: value.notes,
+            phone: value.phone,
+          },
+          config
+        )
+        .catch((error) => console.error(error.message));
   }
 
   return (
@@ -61,7 +62,7 @@ export default function ProfileForm({ token, user }) {
           variant={"filled"}
           name={"firstName"}
           onChange={handleChange}
-          value={user.firstName}
+          value={value.firstName}
           helperText={"Vorname"}
           placeholder={user.firstName}
           required={true}
@@ -74,7 +75,8 @@ export default function ProfileForm({ token, user }) {
           variant={"filled"}
           name={"lastName"}
           onChange={handleChange}
-          value={user.lastName}
+          value={value.lastName}
+          placeholder={user.lastName}
           helperText={"Nachname"}
           required={true}
           type={"text"}
@@ -86,7 +88,8 @@ export default function ProfileForm({ token, user }) {
           variant={"filled"}
           name={"phone"}
           onChange={handleChange}
-          value={user.phone}
+          value={value.phone}
+          placeholder={user.phone}
           helperText={"Telefonnummer"}
           required={true}
           type={"text"}
@@ -98,7 +101,8 @@ export default function ProfileForm({ token, user }) {
           variant={"filled"}
           name={"notes"}
           onChange={handleChange}
-          value={user.notes}
+          value={value.notes}
+          placeholder={user.notes}
           helperText={"Anmerkungen"}
           required={true}
           type={"text"}
