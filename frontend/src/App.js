@@ -50,13 +50,13 @@ function App() {
               <PrivateRoute path={"/details/:name"} exact>
                 <DetailsPage />
               </PrivateRoute>
-              <PrivateRoute path={"/booking"} exact>
+              <PrivateRoute path={"/holidaybooking"} exact>
                 <BookingPage />
               </PrivateRoute>
               <PrivateRoute path={"/holidays"} exact>
                 <HolidaysPage />
               </PrivateRoute>
-              <PrivateRoute path={"/booked"} exact>
+              <PrivateRoute path={"/mybookings"} exact>
                 <MyBookingList />
               </PrivateRoute>
               <PrivateRoute path={"/profile"} exact>

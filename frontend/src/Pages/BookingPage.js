@@ -26,7 +26,8 @@ const Wrapper = styled.section`
   padding: 10px;
   text-align: left;
   display: flex;
+  align-items: flex-start;
   flex-flow: column nowrap;
-  justify-content: space-evenly;
   margin: 10px;
+  height: inherit;
 `;

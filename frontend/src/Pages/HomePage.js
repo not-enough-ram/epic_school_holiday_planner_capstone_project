@@ -1,21 +1,21 @@
 import styled from "styled-components/macro";
 import useUpcomingHolidays from "../hooks/useUpcomingHolidays";
-import useMyBookings from "../hooks/useMyBookings";
 import MyBookingList from "../components/MyBookingList";
 import Holidays from "../components/Holidays";
 
 export default function HolidaysPage() {
   const { upcomingHolidays } = useUpcomingHolidays();
-  const { myBookings } = useMyBookings();
 
-  const sortHolidaysByChild = () =>
-    myBookings.map((booking) => booking.childName);
   return (
     <Wrapper>
-      <h1>Die nächsten Ferien</h1>
-      {upcomingHolidays && <Holidays holidays={upcomingHolidays[0]} />}
-      <h1>Meine Buchungen</h1>
-      {myBookings && <MyBookingList myBookings={myBookings} />}
+      <StyledUpcomingHolidays>
+        <h1>Die nächsten Ferien</h1>
+        {upcomingHolidays && <Holidays holidays={upcomingHolidays[0]} />}
+      </StyledUpcomingHolidays>
+      <StyledMyBookings>
+        <h1>Meine Buchungen</h1>
+        <MyBookingList />
+      </StyledMyBookings>
     </Wrapper>
   );
 }
@@ -23,7 +23,18 @@ export default function HolidaysPage() {
 const Wrapper = styled.div`
   padding: 10px;
   text-align: center;
-  display: grid;
-  grid-gap: 24px;
+  display: flex;
+  flex-flow: column nowrap;
   justify-content: center;
+  height: inherit;
+`;
+
+const StyledUpcomingHolidays = styled.section`
+  margin-bottom: 20px;
+`;
+
+const StyledMyBookings = styled.section`
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-evenly;
 `;

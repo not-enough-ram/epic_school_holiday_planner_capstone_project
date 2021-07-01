@@ -47,14 +47,14 @@ export default function BottomNavi() {
       )}
       {jwtDecoded && (
         <BottomNavigationAction
-          value={"/booking"}
+          value={"/holidaybooking"}
           label="Ferien buchen"
           icon={<AddCircle />}
         />
       )}
       {jwtDecoded && (
         <BottomNavigationAction
-          value={"/booked"}
+          value={"/mybookings"}
           label="Gebuchte Ferien"
           icon={<Bookmarks />}
         />

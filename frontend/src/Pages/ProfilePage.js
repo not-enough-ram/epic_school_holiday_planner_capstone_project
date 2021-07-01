@@ -45,4 +45,5 @@ const Wrapper = styled.section`
   flex-flow: column nowrap;
   justify-content: space-evenly;
   margin: 10px;
+  height: inherit;
 `;

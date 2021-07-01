@@ -1,11 +1,12 @@
 import useBookingByChild from "../hooks/useBookingByChild";
+import styled from "styled-components/macro";
 
 export default function MyBookingList() {
   const { data: bookingsByChild, error, isLoading } = useBookingByChild();
 
   if (isLoading) return "loading ...";
   return (
-    <section>
+    <Wrapper>
       {!isLoading &&
         !error &&
         bookingsByChild.map((child) => (
@@ -16,6 +17,15 @@ export default function MyBookingList() {
             ))}
           </div>
         ))}
-    </section>
+    </Wrapper>
   );
 }
+const Wrapper = styled.section`
+  padding: 10px;
+  text-align: left;
+  display: flex;
+  align-items: flex-start;
+  flex-flow: column nowrap;
+  margin: 10px;
+  height: inherit;
+`;

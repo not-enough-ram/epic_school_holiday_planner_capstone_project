@@ -8,17 +8,22 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
   root: {
-    justifyContent: "space-between",
     display: "flex",
     flexFlow: "column",
     margin: "10px 20px 10px 20px",
+    height: "inherit",
+    width: "inherit",
   },
   textfield: {
-    width: "max-content",
+    width: "inherit",
   },
   button: {
     alignSelf: "center",
     width: "auto",
+    marginTop: "20px",
+  },
+  label: {
+    width: "inherit",
   },
 });
 
@@ -59,7 +64,7 @@ export default function AddChildrenPage() {
 
   return (
     <form onSubmit={handleSubmit} className={classes.root} color={"primary"}>
-      <label>
+      <label className={classes.label}>
         <TextField
           variant={"filled"}
           name={"firstName"}
@@ -71,7 +76,7 @@ export default function AddChildrenPage() {
           className={classes.textfield}
         />
       </label>
-      <label>
+      <label className={classes.label}>
         <TextField
           variant={"filled"}
           name={"lastName"}
@@ -83,7 +88,7 @@ export default function AddChildrenPage() {
           className={classes.textfield}
         />
       </label>
-      <label>
+      <label className={classes.label}>
         <TextField
           variant={"filled"}
           name={"schoolClass"}
@@ -95,7 +100,7 @@ export default function AddChildrenPage() {
           className={classes.textfield}
         />
       </label>
-      <label>
+      <label className={classes.label}>
         <TextField
           variant={"filled"}
           name={"notes"}

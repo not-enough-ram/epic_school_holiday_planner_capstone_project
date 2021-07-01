@@ -18,4 +18,5 @@ const Wrapper = styled.div`
   display: grid;
   grid-gap: 24px;
   justify-content: center;
+  height: inherit;
 `;

@@ -19,4 +19,8 @@ export default function Holidays({ holidays }) {
 const Holiday = styled.section`
   display: flex;
   flex-direction: column;
+  border: darkgrey 1px solid;
+  border-radius: 5px;
+  padding: 5px;
+  margin-top: 10px;
 `;
