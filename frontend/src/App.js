@@ -15,6 +15,10 @@ import HolidaysPage from "./Pages/HolidaysPage";
 import MyBookingList from "./components/MyBookingList";
 import ProfilePage from "./Pages/ProfilePage";
 import useUser from "./hooks/useUser";
+import UserChildrenPage from "./Pages/UserChildrenPage";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 function App() {
   const { user } = useUser();
@@ -34,31 +38,36 @@ function App() {
     <PrimerThemeProvider>
       <MaterialThemeProvider theme={theme}>
         <AuthProvider>
-          <NavHeader />
-          <Switch>
-            <Route path={"/"} exact>
-              <LoginPage />
-            </Route>
-            <PrivateRoute path={"/home"} exact>
-              <HomePage />
-            </PrivateRoute>
-            <PrivateRoute path={"/details/:name"} exact>
-              <DetailsPage />
-            </PrivateRoute>
-            <PrivateRoute path={"/booking"} exact>
-              <BookingPage />
-            </PrivateRoute>
-            <PrivateRoute path={"/holidays"} exact>
-              <HolidaysPage />
-            </PrivateRoute>
-            <PrivateRoute path={"/booked"} exact>
-              <MyBookingList />
-            </PrivateRoute>
-            <PrivateRoute path={"/profile"} exact>
-              <ProfilePage user={user} />
-            </PrivateRoute>
-          </Switch>
-          {<BottomNav />}
+          <QueryClientProvider client={queryClient}>
+            <NavHeader />
+            <Switch>
+              <Route path={"/"} exact>
+                <LoginPage />
+              </Route>
+              <PrivateRoute path={"/home"} exact>
+                <HomePage />
+              </PrivateRoute>
+              <PrivateRoute path={"/details/:name"} exact>
+                <DetailsPage />
+              </PrivateRoute>
+              <PrivateRoute path={"/booking"} exact>
+                <BookingPage />
+              </PrivateRoute>
+              <PrivateRoute path={"/holidays"} exact>
+                <HolidaysPage />
+              </PrivateRoute>
+              <PrivateRoute path={"/booked"} exact>
+                <MyBookingList />
+              </PrivateRoute>
+              <PrivateRoute path={"/profile"} exact>
+                <ProfilePage user={user} />
+              </PrivateRoute>
+              <PrivateRoute path={"/children"} exact>
+                <UserChildrenPage user={user} />
+              </PrivateRoute>
+            </Switch>
+            {<BottomNav />}
+          </QueryClientProvider>
         </AuthProvider>
       </MaterialThemeProvider>
     </PrimerThemeProvider>

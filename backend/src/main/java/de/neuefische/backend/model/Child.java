@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
@@ -17,4 +18,6 @@ public class Child {
     private String lastName;
     private String schoolClass;
     private String notes;
+    @Id
+    private String id;
 }

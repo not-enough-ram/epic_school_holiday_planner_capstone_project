@@ -2,6 +2,7 @@ package de.neuefische.backend.controller;
 
 
 import de.neuefische.backend.dto.AppUserDto;
+import de.neuefische.backend.dto.ChildDto;
 import de.neuefische.backend.dto.UserDto;
 import de.neuefische.backend.model.Child;
 import de.neuefische.backend.model.User;
@@ -45,8 +46,8 @@ public class UserController {
     }
 
     @PostMapping("children")
-    public List<Child> addChildren(@RequestBody List<Child> children, Principal user) {
-        return userService.addChildren(children, user.getName());
+    public Child addChildren(@RequestBody ChildDto children, Principal user) {
+        return userService.addChild(children, user.getName());
     }
 
     @GetMapping

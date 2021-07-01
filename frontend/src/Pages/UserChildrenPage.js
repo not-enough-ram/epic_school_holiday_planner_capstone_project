@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
+import AuthContext from "../context/AuthContext";
 import { TextField } from "@material-ui/core";
-import SendIcon from "@material-ui/icons/Send";
 import Button from "@material-ui/core/Button";
+import SendIcon from "@material-ui/icons/Send";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
@@ -20,13 +21,14 @@ const useStyles = makeStyles({
   },
 });
 
-export default function ProfileForm({ token, user }) {
+export default function UserChildrenPage() {
   const classes = useStyles();
+  const { token } = useContext(AuthContext);
   const [value, setValue] = useState({
-    firstName: user?.firstName,
-    lastName: user?.lastName,
-    phone: user?.phone,
-    notes: user?.notes,
+    firstName: "",
+    lastName: "",
+    schoolClass: "",
+    notes: "",
   });
 
   function handleChange(event) {
@@ -42,12 +44,12 @@ export default function ProfileForm({ token, user }) {
     };
     axios
       .post(
-        `/api/user/update`,
+        `/api/user/children`,
         {
           firstName: value.firstName,
           lastName: value.lastName,
           notes: value.notes,
-          phone: value.phone,
+          schoolClass: value.schoolClass,
         },
         config
       )
@@ -63,7 +65,6 @@ export default function ProfileForm({ token, user }) {
           onChange={handleChange}
           value={value.firstName}
           helperText={"Vorname"}
-          placeholder={user.firstName}
           required={true}
           type={"text"}
           className={classes.textfield}
@@ -75,7 +76,6 @@ export default function ProfileForm({ token, user }) {
           name={"lastName"}
           onChange={handleChange}
           value={value.lastName}
-          placeholder={user.lastName}
           helperText={"Nachname"}
           required={true}
           type={"text"}
@@ -85,11 +85,10 @@ export default function ProfileForm({ token, user }) {
       <label>
         <TextField
           variant={"filled"}
-          name={"phone"}
+          name={"schoolClass"}
           onChange={handleChange}
-          value={value.phone}
-          placeholder={user.phone}
-          helperText={"Telefonnummer"}
+          value={value.schoolClass}
+          helperText={"Klasse"}
           required={true}
           type={"text"}
           className={classes.textfield}
@@ -101,7 +100,6 @@ export default function ProfileForm({ token, user }) {
           name={"notes"}
           onChange={handleChange}
           value={value.notes}
-          placeholder={user.notes}
           helperText={"Anmerkungen"}
           required={true}
           type={"text"}
