@@ -11,9 +11,10 @@ const useStyles = makeStyles({
     justifyContent: "space-between",
     display: "flex",
     flexFlow: "column",
+    margin: "10px 20px 10px 20px",
   },
   textfield: {
-    width: "87vw",
+    width: "max-content",
   },
   button: {
     alignSelf: "center",
@@ -21,7 +22,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function UserChildrenPage() {
+export default function AddChildrenPage() {
   const classes = useStyles();
   const { token } = useContext(AuthContext);
   const [value, setValue] = useState({

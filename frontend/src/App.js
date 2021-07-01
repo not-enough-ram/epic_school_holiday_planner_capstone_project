@@ -15,7 +15,7 @@ import HolidaysPage from "./Pages/HolidaysPage";
 import MyBookingList from "./components/MyBookingList";
 import ProfilePage from "./Pages/ProfilePage";
 import useUser from "./hooks/useUser";
-import UserChildrenPage from "./Pages/UserChildrenPage";
+import AddChildrenPage from "./Pages/AddChildrenPage";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 const queryClient = new QueryClient();
@@ -63,7 +63,7 @@ function App() {
                 <ProfilePage user={user} />
               </PrivateRoute>
               <PrivateRoute path={"/children"} exact>
-                <UserChildrenPage user={user} />
+                <AddChildrenPage user={user} />
               </PrivateRoute>
             </Switch>
             {<BottomNav />}

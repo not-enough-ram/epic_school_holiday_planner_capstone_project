@@ -1,1 +1,8 @@
+body {
+    box-sizing: content-box;
+    height: 100%;
+}
 
+html {
+    height: 100%;
+}
