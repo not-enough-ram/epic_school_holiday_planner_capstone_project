@@ -9,9 +9,10 @@ const useStyles = makeStyles({
     flexFlow: "column nowrap",
     alignItems: "flex-start",
     width: "94%",
+    height: "100vh",
   },
   childname: {
-    fontSize: "1.3em",
+    fontWeight: "bold",
   },
   child: {
     border: "1px solid darkgrey",

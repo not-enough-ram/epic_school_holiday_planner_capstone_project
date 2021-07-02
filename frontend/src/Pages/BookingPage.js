@@ -4,13 +4,27 @@ import styled from "styled-components/macro";
 import useChildren from "../hooks/useChildren";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles({
+  root: {
+    paddingTop: "15px",
+    display: "flex",
+    flexFlow: "column nowrap",
+    alignItems: "flex-start",
+    width: "100%",
+    margin: "10px",
+    height: "100vh",
+  },
+});
 
 export default function BookingPage() {
+  const classes = useStyles();
   const { holidays } = useHolidays();
   const { children } = useChildren();
   const { token } = useContext(AuthContext);
   return (
-    <Wrapper>
+    <section className={classes.root}>
       {holidays && (
         <HolidayBookingForm
           holidays={holidays}
@@ -18,7 +32,7 @@ export default function BookingPage() {
           token={token}
         />
       )}
-    </Wrapper>
+    </section>
   );
 }
 
