@@ -1,6 +1,5 @@
 import HolidayBookingForm from "../components/HolidayBookingForm";
 import useHolidays from "../hooks/useHolidays";
-import styled from "styled-components/macro";
 import useChildren from "../hooks/useChildren";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
@@ -13,7 +12,6 @@ const useStyles = makeStyles({
     flexFlow: "column nowrap",
     alignItems: "flex-start",
     width: "100%",
-    margin: "10px",
     height: "100vh",
   },
 });
@@ -35,13 +33,3 @@ export default function BookingPage() {
     </section>
   );
 }
-
-const Wrapper = styled.section`
-  padding: 10px;
-  text-align: left;
-  display: flex;
-  align-items: flex-start;
-  flex-flow: column nowrap;
-  margin: 10px;
-  height: inherit;
-`;
