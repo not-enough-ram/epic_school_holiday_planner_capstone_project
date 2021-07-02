@@ -1,40 +1,49 @@
-import styled from "styled-components/macro";
 import useUpcomingHolidays from "../hooks/useUpcomingHolidays";
 import MyBookingList from "../components/MyBookingList";
 import Holidays from "../components/Holidays";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import { Divider } from "@material-ui/core";
+
+const useStyles = makeStyles({
+  root: {
+    textAlign: "center",
+    display: "flex",
+    flexFlow: "column nowrap",
+    justifyContent: "flex-start",
+    height: "100vh",
+  },
+  upcoming: {
+    margin: "15px",
+  },
+  mybooking: {
+    display: "flex",
+    flexFlow: "column",
+    justifyContent: "space-around",
+  },
+  bookings: {
+    marginTop: "10px",
+  },
+  divider: {},
+});
 
 export default function HolidaysPage() {
   const { upcomingHolidays } = useUpcomingHolidays();
+  const classes = useStyles();
 
   return (
-    <Wrapper>
-      <StyledUpcomingHolidays>
-        <h1>Die nächsten Ferien</h1>
+    <section className={classes.root}>
+      <section className={classes.upcoming}>
+        <Typography variant={"h5"}>Die nächsten Ferien</Typography>
         {upcomingHolidays && <Holidays holidays={upcomingHolidays[0]} />}
-      </StyledUpcomingHolidays>
-      <StyledMyBookings>
-        <h1>Meine Buchungen</h1>
+      </section>
+      <Divider variant={"middle"} className={classes.divider} />
+      <section className={classes.mybooking}>
+        <Typography variant={"h5"} className={classes.bookings}>
+          Buchungen
+        </Typography>
         <MyBookingList />
-      </StyledMyBookings>
-    </Wrapper>
+      </section>
+    </section>
   );
 }
-
-const Wrapper = styled.div`
-  padding: 10px;
-  text-align: center;
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: center;
-  height: inherit;
-`;
-
-const StyledUpcomingHolidays = styled.section`
-  margin-bottom: 20px;
-`;
-
-const StyledMyBookings = styled.section`
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: space-evenly;
-`;

@@ -11,7 +11,7 @@ export default function Holidays({ holidays }) {
       <p>{holidays?.name}</p>
       <p>Beginnen: {holidays?.startDate}</p>
       <p>Enden: {holidays?.endDate}</p>
-      <button onClick={handleClick}>Details</button>
+      {/*<button onClick={handleClick}>Details</button>*/}
     </Holiday>
   );
 }

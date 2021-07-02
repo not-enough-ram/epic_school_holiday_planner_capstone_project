@@ -1,8 +1,8 @@
 body {
     box-sizing: content-box;
-    height: 100%;
+    height: 100vh;
 }
 
 html {
-    height: 100%;
+    height: 100vh;
 }
