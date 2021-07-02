@@ -8,20 +8,21 @@ const useStyles = makeStyles({
     display: "flex",
     flexFlow: "column nowrap",
     alignItems: "flex-start",
-    width: "94%",
+    width: "100%",
     height: "100vh",
   },
   childname: {
     fontWeight: "bold",
   },
   child: {
+    boxSizing: "border-box",
     border: "1px solid darkgrey",
     borderRadius: "5px",
     marginBottom: "10px",
     padding: "5px",
-    marginRight: "15px",
-    marginLeft: "15px",
-    width: "inherit",
+    marginRight: "10px",
+    marginLeft: "10px",
+    width: "-moz-available",
   },
   holidayName: {
     fontWeight: "bold",
@@ -29,6 +30,10 @@ const useStyles = makeStyles({
   dates: {
     display: "flex",
     flexFlow: "column",
+  },
+  mybookings: {
+    marginBottom: 10,
+    alignSelf: "center",
   },
 });
 
@@ -39,6 +44,9 @@ export default function MyBookingList() {
   if (isLoading) return "loading ...";
   return (
     <section className={classes.root}>
+      <Typography variant={"h5"} className={classes.mybookings}>
+        Gebuchte Ferien
+      </Typography>
       {!isLoading &&
         !error &&
         bookingsByChild.map((child) => (

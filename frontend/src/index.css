@@ -6,6 +6,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100vh;
+  box-sizing: content-box;
 }
 
 code {
@@ -14,5 +15,6 @@ code {
 }
 
 html {
+  box-sizing: content-box;
   height: 100vh;
 }

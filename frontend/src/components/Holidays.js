@@ -5,12 +5,12 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles({
   root: {
     border: "1px darkgrey solid",
-    borderRadius: "5px",
+    borderRadius: 5,
     textAlign: "center",
     display: "flex",
     flexFlow: "column",
-    padding: "5px",
-    marginTop: "10px",
+    padding: 5,
+    marginBottom: 10,
   },
   holidayName: {
     fontWeight: "bold",

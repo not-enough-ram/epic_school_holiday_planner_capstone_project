@@ -1,22 +1,37 @@
-import styled from "styled-components/macro";
-import useUpcomingHolidays from "../hooks/useUpcomingHolidays";
-import HolidayList from "../components/HolidayList";
+import { Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import Holidays from "../components/Holidays";
+import useHolidays from "../hooks/useHolidays";
+
+const useStyles = makeStyles({
+  root: {
+    padding: "10px",
+    textAlign: "center",
+    display: "flex",
+    flexFlow: "column nowrap",
+    justifyContent: "flex-start",
+    height: "100vh",
+  },
+  allholidays: {
+    marginBottom: 10,
+  },
+});
 
 export default function HolidaysPage() {
-  const holidays = useUpcomingHolidays();
+  const { holidays } = useHolidays();
+  const classes = useStyles();
   return (
-    <Wrapper>
-      <h1>Alle Ferien im Überblick</h1>
-      {holidays && <HolidayList />}
-    </Wrapper>
+    <section className={classes.root}>
+      <Typography variant={"h5"} className={classes.allholidays}>
+        Alle Ferien im Überblick
+      </Typography>
+      {holidays && (
+        <section>
+          {holidays.map((holidays) => (
+            <Holidays key={holidays.name} holidays={holidays} />
+          ))}
+        </section>
+      )}
+    </section>
   );
 }
-
-const Wrapper = styled.div`
-  padding: 10px;
-  text-align: center;
-  display: grid;
-  grid-gap: 24px;
-  justify-content: center;
-  height: inherit;
-`;

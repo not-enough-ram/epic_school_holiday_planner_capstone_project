@@ -4,6 +4,7 @@ import useChildren from "../hooks/useChildren";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import { makeStyles } from "@material-ui/core/styles";
+import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles({
   root: {
@@ -14,6 +15,10 @@ const useStyles = makeStyles({
     width: "100%",
     height: "100vh",
   },
+  mybookings: {
+    marginBottom: 10,
+    alignSelf: "center",
+  },
 });
 
 export default function BookingPage() {
@@ -23,6 +28,9 @@ export default function BookingPage() {
   const { token } = useContext(AuthContext);
   return (
     <section className={classes.root}>
+      <Typography className={classes.mybookings} variant={"h5"}>
+        Ferien buchen
+      </Typography>
       {holidays && (
         <HolidayBookingForm
           holidays={holidays}
