@@ -1,6 +1,7 @@
 package de.neuefische.backend.service;
 
 import de.neuefische.backend.dto.AppUserDto;
+import de.neuefische.backend.dto.ChildDto;
 import de.neuefische.backend.dto.UserDto;
 import de.neuefische.backend.model.Child;
 import de.neuefische.backend.model.User;
@@ -102,8 +103,16 @@ public class UserService {
                 .build());
     }
 
-    public List<Child> addChildren(List<Child> children, String login) {
-        return childRepository.saveAll(children);
+    public Child addChild(ChildDto child, String login) {
+        Child buildChildFromDto = Child.builder()
+                .login(login)
+                .firstName(child.getFirstName())
+                .lastName(child.getLastName())
+                .schoolClass(child.getSchoolClass())
+                .notes(child.getNotes())
+                .id(login + child.getFirstName())
+                .build();
+        return childRepository.save(buildChildFromDto);
     }
 
     public List<Child> getChildByUser(String login) {

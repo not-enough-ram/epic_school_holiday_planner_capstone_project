@@ -1,13 +1,21 @@
-import MyBooking from "./MyBooking";
-import useMyBookings from "../hooks/useMyBookings";
+import useBookingByChild from "../hooks/useBookingByChild";
 
 export default function MyBookingList() {
-  const { myBookings } = useMyBookings();
+  const { data: bookingsByChild, error, isLoading } = useBookingByChild();
+
+  if (isLoading) return "loading ...";
   return (
     <section>
-      {myBookings.map((myBooking) => (
-        <MyBooking key={myBooking.id} booking={myBooking} />
-      ))}
+      {!isLoading &&
+        !error &&
+        bookingsByChild.map((child) => (
+          <div key={child.id}>
+            Childname: {child.childName}
+            {child.booking.map((booking) => (
+              <div key={booking.id}>{booking.holidayName}</div>
+            ))}
+          </div>
+        ))}
     </section>
   );
 }
