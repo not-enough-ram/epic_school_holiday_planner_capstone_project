@@ -26,7 +26,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function HolidaysPage() {
+export default function HomePage() {
   const { upcomingHolidays } = useUpcomingHolidays();
   const classes = useStyles();
 

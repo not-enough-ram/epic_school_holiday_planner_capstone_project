@@ -1,27 +1,26 @@
-import { Route, Switch } from "react-router-dom";
 import "./App.css";
 import NavHeader from "./components/NavHeader";
-import LoginPage from "./Pages/LoginPage";
 import { ThemeProvider as MaterialThemeProvider } from "@material-ui/styles";
 import { ThemeProvider as PrimerThemeProvider } from "@primer/components";
 import AuthProvider from "./context/AuthProvider";
+import BottomNav from "./components/BottomNav";
+import { createMuiTheme } from "@material-ui/core/styles";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { Route } from "react-router-dom";
+import LoginPage from "./Pages/LoginPage";
 import PrivateRoute from "./routing/PrivateRoute";
 import HomePage from "./Pages/HomePage";
 import DetailsPage from "./Pages/DetailsPage";
-import BottomNav from "./components/BottomNav";
-import { createMuiTheme } from "@material-ui/core/styles";
 import BookingPage from "./Pages/BookingPage";
 import HolidaysPage from "./Pages/HolidaysPage";
 import MyBookingList from "./components/MyBookingList";
 import ProfilePage from "./Pages/ProfilePage";
-import useUser from "./hooks/useUser";
 import AddChildrenPage from "./Pages/AddChildrenPage";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { Switch } from "@material-ui/core";
 
 const queryClient = new QueryClient();
 
 function App() {
-  const { user } = useUser();
   const theme = createMuiTheme({
     palette: {
       primary: {
@@ -41,9 +40,6 @@ function App() {
           <QueryClientProvider client={queryClient}>
             <NavHeader />
             <Switch>
-              <Route path={"/"} exact>
-                <LoginPage />
-              </Route>
               <PrivateRoute path={"/home"} exact>
                 <HomePage />
               </PrivateRoute>
@@ -60,13 +56,16 @@ function App() {
                 <MyBookingList />
               </PrivateRoute>
               <PrivateRoute path={"/profile"} exact>
-                <ProfilePage user={user} />
+                <ProfilePage />
               </PrivateRoute>
               <PrivateRoute path={"/children"} exact>
-                <AddChildrenPage user={user} />
+                <AddChildrenPage />
               </PrivateRoute>
+              <Route path={"/"}>
+                <LoginPage />
+              </Route>
             </Switch>
-            {<BottomNav />}
+            <BottomNav />
           </QueryClientProvider>
         </AuthProvider>
       </MaterialThemeProvider>

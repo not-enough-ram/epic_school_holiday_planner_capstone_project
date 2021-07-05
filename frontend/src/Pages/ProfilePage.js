@@ -1,5 +1,4 @@
 import ProfileForm from "../components/ProfileForm";
-import styled from "styled-components/macro";
 import useChildren from "../hooks/useChildren";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
@@ -23,6 +22,9 @@ const useStyles = makeStyles({
   myprofile: {
     marginBottom: 10,
   },
+  button: {
+    width: "auto",
+  },
 });
 
 export default function ProfilePage() {
@@ -40,14 +42,14 @@ export default function ProfilePage() {
       {children && <h3>Kinder</h3>}
       {children &&
         children.map((child) => (
-          <section>
+          <section className={classes.children}>
             <p>
-              {child?.firstName}
-              {child?.schoolClass}
+              {child?.firstName} {child?.schoolClass}
             </p>
           </section>
         ))}
       <Button
+        className={classes.button}
         variant="contained"
         color="primary"
         component={Link}
@@ -59,12 +61,3 @@ export default function ProfilePage() {
     </section>
   );
 }
-const Wrapper = styled.section`
-  padding: 10px;
-  text-align: left;
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: space-evenly;
-  margin: 10px;
-  height: inherit;
-`;

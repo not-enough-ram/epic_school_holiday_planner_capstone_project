@@ -26,6 +26,8 @@ const useStyles = makeStyles({
   title: {
     paddingLeft: "8",
     paddingRight: "8",
+    marginLeft: "auto",
+    marginRight: "auto",
   },
 });
 
