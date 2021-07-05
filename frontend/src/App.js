@@ -1,8 +1,6 @@
 import "./App.css";
-import NavHeader from "./components/NavHeader";
 import { ThemeProvider as MaterialThemeProvider } from "@material-ui/styles";
 import AuthProvider from "./context/AuthProvider";
-import BottomNav from "./components/BottomNav";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Navigation from "./routing/Navigation";
@@ -26,9 +24,7 @@ function App() {
     <MaterialThemeProvider theme={theme}>
       <AuthProvider>
         <QueryClientProvider client={queryClient}>
-          <NavHeader />
           <Navigation />
-          <BottomNav />
         </QueryClientProvider>
       </AuthProvider>
     </MaterialThemeProvider>

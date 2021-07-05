@@ -45,17 +45,31 @@ export default function BottomNavi() {
           icon={<HomeIcon />}
         />
       )}
-      {jwtDecoded && (
+      {jwtDecoded && jwtDecoded.role === "USER" && (
         <BottomNavigationAction
           value={"/holidaybooking"}
           label="Ferien buchen"
           icon={<AddCircle />}
         />
       )}
-      {jwtDecoded && (
+      {jwtDecoded && jwtDecoded.role === "ADMIN" && (
+        <BottomNavigationAction
+          value={"/addnewholidays"}
+          label="Ferien anlegen"
+          icon={<AddCircle />}
+        />
+      )}
+      {jwtDecoded && jwtDecoded.role === "USER" && (
         <BottomNavigationAction
           value={"/mybookings"}
           label="Gebuchte Ferien"
+          icon={<Bookmarks />}
+        />
+      )}
+      {jwtDecoded && jwtDecoded.role === "ADMIN" && (
+        <BottomNavigationAction
+          value={"/holidays"}
+          label="Alle Ferien"
           icon={<Bookmarks />}
         />
       )}
