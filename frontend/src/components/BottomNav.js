@@ -55,7 +55,7 @@ export default function BottomNavi() {
       {jwtDecoded && jwtDecoded.role === "ADMIN" && (
         <BottomNavigationAction
           value={"/addnewholidays"}
-          label="Ferien anlegen"
+          label="Neue Ferien"
           icon={<AddCircle />}
         />
       )}
@@ -73,10 +73,17 @@ export default function BottomNavi() {
           icon={<Bookmarks />}
         />
       )}
-      {jwtDecoded && (
+      {jwtDecoded && jwtDecoded.role === "USER" && (
         <BottomNavigationAction
           value={"/profile"}
           label="Profil"
+          icon={<AccountCircle />}
+        />
+      )}
+      {jwtDecoded && jwtDecoded.role === "ADMIN" && (
+        <BottomNavigationAction
+          value={"/showusers"}
+          label="Alle Nutzer"
           icon={<AccountCircle />}
         />
       )}

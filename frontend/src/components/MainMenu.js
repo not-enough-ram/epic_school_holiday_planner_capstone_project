@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -6,10 +6,12 @@ import Fade from "@material-ui/core/Fade";
 import { StyledOcticon } from "@primer/components";
 import { Link } from "react-router-dom";
 import MenuIcon from "@material-ui/icons/Menu";
+import AuthContext from "../context/AuthContext";
 
 export default function MainMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const { jwtDecoded } = useContext(AuthContext);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -41,9 +43,26 @@ export default function MainMenu() {
         <MenuItem onClick={handleClose} component={Link} to={"/holidays"}>
           Alle Ferien
         </MenuItem>
-        <MenuItem onClick={handleClose} component={Link} to="/mybookings">
-          Meine Buchungen
-        </MenuItem>
+        {jwtDecoded.role === "USER" && (
+          <MenuItem onClick={handleClose} component={Link} to="/mybookings">
+            Meine Buchungen
+          </MenuItem>
+        )}
+        {jwtDecoded.role === "ADMIN" && (
+          <MenuItem onClick={handleClose} component={Link} to="/addnewholidays">
+            Ferien anlegen
+          </MenuItem>
+        )}
+        {jwtDecoded.role === "ADMIN" && (
+          <MenuItem onClick={handleClose} component={Link} to="/showusers">
+            Alle Nutzer anzeigen
+          </MenuItem>
+        )}
+        {jwtDecoded.role === "ADMIN" && (
+          <MenuItem onClick={handleClose} component={Link} to="/addnewuser">
+            Nutzer anlegen
+          </MenuItem>
+        )}
         <MenuItem onClick={handleClose} component={Link} to={"/profile"}>
           Profil
         </MenuItem>

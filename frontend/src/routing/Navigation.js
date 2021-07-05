@@ -14,6 +14,8 @@ import ManagerHomePage from "../Pages/ManagerHomePage";
 import BottomNav from "../components/BottomNav";
 import NavHeader from "../components/NavHeader";
 import AddHolidaysPage from "../Pages/AddHolidaysPage";
+import AddNewUserPage from "../Pages/AddNewUserPage";
+import AllUsersPage from "../Pages/AllUsersPage";
 
 export default function Navigation() {
   const { jwtDecoded } = useContext(AuthContext);
@@ -40,6 +42,12 @@ export default function Navigation() {
         </PrivateRoute>
         <PrivateRoute path={"/addnewholidays"} exact>
           {jwtDecoded && jwtDecoded.role === "ADMIN" && <AddHolidaysPage />}
+        </PrivateRoute>
+        <PrivateRoute path={"/addnewuser"} exact>
+          {jwtDecoded && jwtDecoded.role === "ADMIN" && <AddNewUserPage />}
+        </PrivateRoute>
+        <PrivateRoute path={"/showusers"} exact>
+          {jwtDecoded && jwtDecoded.role === "ADMIN" && <AllUsersPage />}
         </PrivateRoute>
         <PrivateRoute path={"/holidays"} exact>
           <HolidaysPage />
