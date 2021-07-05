@@ -45,6 +45,11 @@ public class UserController {
         return userService.getChildByUser(user.getName());
     }
 
+    @GetMapping("children/{holiday}")
+    public List<Child> getChildrenByHolidays(@PathVariable String holiday, Principal user) {
+        return userService.getChildrenByHolidays(holiday, user.getName());
+    }
+
     @PostMapping("children")
     public Child addChildren(@RequestBody ChildDto children, Principal user) {
         return userService.addChild(children, user.getName());
