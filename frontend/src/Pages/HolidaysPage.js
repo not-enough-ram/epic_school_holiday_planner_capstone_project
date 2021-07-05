@@ -6,7 +6,7 @@ import useHolidays from "../hooks/useHolidays";
 const useStyles = makeStyles({
   root: {
     padding: "10px",
-    textAlign: "center",
+    textAlign: "left",
     display: "flex",
     flexFlow: "column nowrap",
     justifyContent: "flex-start",

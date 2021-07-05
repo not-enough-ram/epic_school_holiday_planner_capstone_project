@@ -6,7 +6,7 @@ const useStyles = makeStyles({
   root: {
     border: "1px darkgrey solid",
     borderRadius: 5,
-    textAlign: "center",
+    textAlign: "left",
     display: "flex",
     flexFlow: "column",
     padding: 5,

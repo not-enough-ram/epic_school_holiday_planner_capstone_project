@@ -1,9 +1,29 @@
 import styled from "styled-components/macro";
-import { Button, Text, TextInput } from "@primer/components";
+import { Button } from "@primer/components";
 import { useContext, useState } from "react";
 import AuthContext from "../context/AuthContext";
+import { FormControl, TextField } from "@material-ui/core";
+import SendIcon from "@material-ui/icons/Send";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles({
+  root: {
+    justifyContent: "space-between",
+    display: "flex",
+    flexFlow: "column",
+  },
+  textfield: {
+    width: "87vw",
+  },
+  button: {
+    alignSelf: "center",
+    width: "auto",
+  },
+});
 
 export default function LogInPage() {
+  const classes = useStyles();
+
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
@@ -24,28 +44,36 @@ export default function LogInPage() {
     <Wrapper>
       <form onSubmit={handleSubmit}>
         <Wrapper>
-          <Text fontFamily={"Arial"}>
-            Username
-            <TextInput
+          <FormControl>
+            <TextField
+              variant={"filled"}
               type="text"
               name="username"
               value={credentials.username}
               onChange={handleChange}
-              placeholder="Username"
+              helperText="Username"
+              required={true}
             />
-          </Text>
-
-          <Text fontFamily={"Arial"}>
-            Password
-            <TextInput
-              type="password"
-              name="password"
-              value={credentials.password}
-              onChange={handleChange}
-              placeholder={"password"}
-            />
-          </Text>
-          <Button>Login</Button>
+          </FormControl>
+          <TextField
+            type="password"
+            name="password"
+            value={credentials.password}
+            onChange={handleChange}
+            helperText={"password"}
+            variant={"filled"}
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            type={"submit"}
+            value={"Submit"}
+            onSubmit={handleSubmit}
+            startIcon={<SendIcon />}
+            className={classes.button}
+          >
+            Absenden
+          </Button>
         </Wrapper>
       </form>
     </Wrapper>

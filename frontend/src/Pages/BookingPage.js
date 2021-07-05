@@ -8,16 +8,20 @@ import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles({
   root: {
-    paddingTop: "15px",
+    paddingTop: 10,
     display: "flex",
     flexFlow: "column nowrap",
     alignItems: "flex-start",
+    justifyContent: "flex-start",
     width: "100%",
     height: "100vh",
+    textAlign: "left",
   },
   mybookings: {
+    textAlign: "left",
     marginBottom: 10,
-    alignSelf: "center",
+    justifySelf: "flex-start",
+    marginLeft: 10,
   },
 });
 

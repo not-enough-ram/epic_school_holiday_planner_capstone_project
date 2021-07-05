@@ -7,14 +7,14 @@ import { Divider } from "@material-ui/core";
 
 const useStyles = makeStyles({
   root: {
-    textAlign: "center",
+    textAlign: "left",
     display: "flex",
     flexFlow: "column nowrap",
     justifyContent: "flex-start",
     height: "100vh",
   },
   upcoming: {
-    margin: "15px",
+    margin: "10px",
   },
   mybooking: {
     display: "flex",
@@ -24,7 +24,6 @@ const useStyles = makeStyles({
   bookings: {
     marginTop: "10px",
   },
-  divider: {},
 });
 
 export default function HolidaysPage() {
@@ -39,9 +38,6 @@ export default function HolidaysPage() {
       </section>
       <Divider variant={"middle"} className={classes.divider} />
       <section className={classes.mybooking}>
-        <Typography variant={"h5"} className={classes.bookings}>
-          Buchungen
-        </Typography>
         <MyBookingList />
       </section>
     </section>

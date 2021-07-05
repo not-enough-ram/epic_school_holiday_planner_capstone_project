@@ -32,8 +32,9 @@ const useStyles = makeStyles({
     flexFlow: "column",
   },
   mybookings: {
+    marginLeft: 10,
     marginBottom: 10,
-    alignSelf: "center",
+    marginTop: 10,
   },
 });
 

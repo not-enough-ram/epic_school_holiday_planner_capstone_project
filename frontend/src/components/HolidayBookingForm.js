@@ -103,7 +103,6 @@ export default function HolidayBookingForm({ holidays, children, token }) {
           name="startDate"
           label="Start"
           type="date"
-          defaultValue="2017-05-24"
           value={value.startDate}
           onChange={handleChange}
           InputLabelProps={{
@@ -116,7 +115,6 @@ export default function HolidayBookingForm({ holidays, children, token }) {
           name="endDate"
           label="Ende"
           type="date"
-          defaultValue="2017-05-24"
           value={value.endDate}
           onChange={handleChange}
           InputLabelProps={{
