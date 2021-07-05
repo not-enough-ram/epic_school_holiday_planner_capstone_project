@@ -27,8 +27,11 @@ const useStyles = makeStyles({
 });
 
 export default function HomePage() {
-  const { upcomingHolidays } = useUpcomingHolidays();
+  const { data: upcomingHolidays, isLoading, error } = useUpcomingHolidays();
   const classes = useStyles();
+
+  if (isLoading) return "is loading ...";
+  if (error) return "Error";
 
   return (
     <section className={classes.root}>

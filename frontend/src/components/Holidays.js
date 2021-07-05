@@ -18,7 +18,6 @@ const useStyles = makeStyles({
 });
 export default function Holidays({ holidays }) {
   let history = useHistory();
-  console.log(holidays);
   const classes = useStyles();
 
   // function handleClick() {

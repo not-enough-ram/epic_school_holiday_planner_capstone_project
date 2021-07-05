@@ -11,27 +11,32 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
   root: {
-    paddingTop: "15px",
+    paddingTop: 10,
     display: "flex",
     flexFlow: "column nowrap",
     width: "100%",
     height: "100vh",
-    padding: 10,
-    margin: 10,
   },
   myprofile: {
     marginBottom: 10,
+    marginLeft: 10,
   },
-  button: {
+  addbutton: {
     width: "auto",
+  },
+  children: {
+    marginLeft: 10,
+  },
+  mychildren: {
+    marginLeft: 10,
   },
 });
 
 export default function ProfilePage() {
   const classes = useStyles();
-  const { children } = useChildren();
+  const { data: children, isLoading, error } = useChildren();
   const { token } = useContext(AuthContext);
-  const { user } = useUser();
+  const { data: user } = useUser();
 
   return (
     <section className={classes.root}>
@@ -39,7 +44,11 @@ export default function ProfilePage() {
         Mein Profil
       </Typography>
       {user && <ProfileForm token={token} user={user} />}
-      {children && <h3>Kinder</h3>}
+      {children && (
+        <Typography className={classes.mychildren} variant={"h6"}>
+          Kinder
+        </Typography>
+      )}
       {children &&
         children.map((child) => (
           <section className={classes.children}>
@@ -49,7 +58,7 @@ export default function ProfilePage() {
           </section>
         ))}
       <Button
-        className={classes.button}
+        className={classes.addbutton}
         variant="contained"
         color="primary"
         component={Link}

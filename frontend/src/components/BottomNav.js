@@ -10,7 +10,7 @@ import AuthContext from "../context/AuthContext";
 
 const useStyles = makeStyles({
   root: {
-    position: "sticky",
+    position: "fixed",
     bottom: 0,
     left: 0,
     width: "100%",
