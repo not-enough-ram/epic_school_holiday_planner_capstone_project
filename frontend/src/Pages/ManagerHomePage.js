@@ -11,9 +11,7 @@ const useStyles = makeStyles({
     flexFlow: "column nowrap",
     justifyContent: "flex-start",
     height: "100vh",
-  },
-  upcoming: {
-    margin: "10px",
+    padding: 10,
   },
   mybooking: {
     display: "flex",
@@ -22,6 +20,10 @@ const useStyles = makeStyles({
   },
   bookings: {
     marginTop: "10px",
+  },
+  attendingchildren: {
+    display: "flex",
+    flexFlow: "row wrap",
   },
 });
 
@@ -37,9 +39,12 @@ export default function ManagerHomePage() {
         <Typography variant={"h5"}>Die nächsten Ferien</Typography>
         {upcomingHolidays && <Holidays holidays={upcomingHolidays[0]} />}
       </section>
-      {upcomingHolidays && (
-        <ChildrenByHolidayList upcomingHolidays={upcomingHolidays[0].name} />
-      )}
+      <Typography variant={"h6"}>Teilnehmende Kinder</Typography>
+      <section className={classes.attendingchildren}>
+        {upcomingHolidays && (
+          <ChildrenByHolidayList upcomingHolidays={upcomingHolidays[0].name} />
+        )}
+      </section>
     </section>
   );
 }

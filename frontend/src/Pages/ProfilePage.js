@@ -3,11 +3,11 @@ import useChildren from "../hooks/useChildren";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import useUser from "../hooks/useUser";
-import Button from "@material-ui/core/Button";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import { Link } from "react-router-dom";
-import { Typography } from "@material-ui/core";
+import { IconButton, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
 
 const useStyles = makeStyles({
   root: {
@@ -30,6 +30,10 @@ const useStyles = makeStyles({
   mychildren: {
     marginLeft: 10,
   },
+  form: {
+    marginLeft: 10,
+    width: "100%",
+  },
 });
 
 export default function ProfilePage() {
@@ -43,7 +47,9 @@ export default function ProfilePage() {
       <Typography className={classes.myprofile} variant={"h5"}>
         Mein Profil
       </Typography>
-      {user && <ProfileForm token={token} user={user} />}
+      {user && (
+        <ProfileForm token={token} user={user} className={classes.form} />
+      )}
       {children && (
         <Typography className={classes.mychildren} variant={"h6"}>
           Kinder
@@ -57,7 +63,7 @@ export default function ProfilePage() {
             </p>
           </section>
         ))}
-      <Button
+      <IconButton
         className={classes.addbutton}
         variant="contained"
         color="primary"
@@ -65,8 +71,8 @@ export default function ProfilePage() {
         to={"/children"}
         endIcon={<AddCircleOutlineIcon />}
       >
-        Kind hinzufügen
-      </Button>
+        <AddCircleIcon fontSize={"large"} />
+      </IconButton>
     </section>
   );
 }

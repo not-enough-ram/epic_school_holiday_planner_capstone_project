@@ -1,20 +1,25 @@
-import styled from "styled-components/macro";
+import { makeStyles } from "@material-ui/core/styles";
+import { Typography } from "@material-ui/core";
 
+const useStyles = makeStyles({
+  root: {
+    display: "flex",
+    flexFlow: "column",
+    border: "1px darkgrey solid",
+    borderRadius: 5,
+    width: "max-content",
+    padding: 10,
+  },
+});
 export default function Child({ child }) {
+  const classes = useStyles();
   return (
-    <Wrapper>
-      <p>Vorname: {child?.firstName}</p>
-      <p>Nachname: {child?.lastName}</p>
-      <p>Klasse: {child?.schoolClass}</p>
-      <p>Anmerkungen: {child?.notes}</p>
-    </Wrapper>
+    <section className={classes.root}>
+      <Typography variant={"body1"}>
+        {child?.firstName} {child?.lastName}
+      </Typography>
+      <Typography variant={"body2"}>{child?.schoolClass}</Typography>
+      <Typography variant={"body2"}>{child?.notes}</Typography>
+    </section>
   );
 }
-const Wrapper = styled.section`
-  padding: 10px;
-  text-align: left;
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: space-evenly;
-  margin: 10px;
-`;

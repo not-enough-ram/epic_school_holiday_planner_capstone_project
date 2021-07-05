@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import axios from "axios";
 import AuthContext from "../context/AuthContext";
-import { TextField } from "@material-ui/core";
+import { TextField, Typography } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import SendIcon from "@material-ui/icons/Send";
 import { makeStyles } from "@material-ui/core/styles";
@@ -15,7 +15,7 @@ const useStyles = makeStyles({
     width: "inherit",
   },
   textfield: {
-    width: "inherit",
+    width: "100%",
   },
   button: {
     alignSelf: "center",
@@ -24,6 +24,9 @@ const useStyles = makeStyles({
   },
   label: {
     width: "inherit",
+  },
+  addchild: {
+    marginBottom: 15,
   },
 });
 
@@ -64,6 +67,9 @@ export default function AddChildrenPage() {
 
   return (
     <form onSubmit={handleSubmit} className={classes.root} color={"primary"}>
+      <Typography variant={"h5"} className={classes.addchild}>
+        Kind hinzufügen
+      </Typography>
       <label className={classes.label}>
         <TextField
           variant={"filled"}
