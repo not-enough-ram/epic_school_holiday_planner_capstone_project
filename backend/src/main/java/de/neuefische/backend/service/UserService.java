@@ -120,10 +120,4 @@ public class UserService {
                 .addCriteria(Criteria.where("login").is(login));
         return mongoTemplate.find(query, Child.class);
     }
-
-    public List<Child> getChildrenByHolidays(String holiday, String login) {
-        Query query = new Query()
-                .addCriteria(Criteria.where("login").is(login)).addCriteria(Criteria.where("holidayname").is(holiday));
-        return mongoTemplate.find(query, Child.class);
-    }
 }

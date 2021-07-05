@@ -4,7 +4,7 @@ import AuthContext from "../context/AuthContext";
 import { useQuery } from "react-query";
 
 export default function useMyBookings() {
-  const {token} = useContext(AuthContext);
+  const { token } = useContext(AuthContext);
   const config = {
     headers: {
       Authorization: "Bearer " + token,
@@ -12,9 +12,9 @@ export default function useMyBookings() {
   };
   const getMyBookings = () => {
     return axios
-        .get(`/api/holidays/booked`, config)
-        .then((response) => response.data)
-        .catch((error) => console.error(error.message));
+      .get(`/api/holidays/booked`, config)
+      .then((response) => response.data)
+      .catch((error) => console.error(error.message));
   };
 
   return useQuery("getMyBookings", () => getMyBookings());

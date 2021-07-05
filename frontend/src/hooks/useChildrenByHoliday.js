@@ -9,10 +9,13 @@ export default function useChildrenByHoliday(holiday) {
     headers: {
       Authorization: "Bearer " + token,
     },
+    params: {
+      name: holiday,
+    },
   };
   const getChildrenByHoliday = () => {
     return axios
-      .get(`/api/user/children/${holiday}`, config)
+      .get(`/api/holidays/children`, config)
       .then((response) => response.data)
       .catch((error) => console.error(error.message));
   };
