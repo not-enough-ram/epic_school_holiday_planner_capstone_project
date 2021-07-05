@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 import axios from "axios";
 import AuthContext from "../context/AuthContext";
 
-export default function useChildrenByHoliday() {
+export default function useChildrenByHoliday(holiday) {
   const { token } = useContext(AuthContext);
   const config = {
     headers: {
@@ -12,7 +12,7 @@ export default function useChildrenByHoliday() {
   };
   const getChildrenByHoliday = () => {
     return axios
-      .get(`/api/user/childrenbyholiday`, config)
+      .get(`/api/user/children/${holiday}`, config)
       .then((response) => response.data)
       .catch((error) => console.error(error.message));
   };
