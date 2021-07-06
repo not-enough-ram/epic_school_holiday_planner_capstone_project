@@ -19,21 +19,3 @@ export default function useUser() {
 
   return useQuery("getUser", () => getUser());
 }
-//   const [user, setUser] = useState([]);
-//   const { token } = useContext(AuthContext);
-//
-//   useEffect(() => {
-//     const config = {
-//       headers: {
-//         Authorization: "Bearer " + token,
-//       },
-//     };
-//     axios
-//       .get(`/api/user`, config)
-//       .then((response) => response.data)
-//       .then(setUser)
-//       .catch((error) => console.error(error.message));
-//   }, [token]);
-//
-//   return { user };
-// }
