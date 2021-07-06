@@ -69,7 +69,13 @@ public class UserService {
 
     public User updateUser(UserDto user, String login) {
         if (userRepository.findById(login).isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!!!!!!!");
+            return userRepository.save(User.builder()
+                    .login(login)
+                    .firstName(user.getFirstName())
+                    .lastName(user.getLastName())
+                    .phone(user.getPhone())
+                    .notes(user.getNotes())
+                    .build());
         }
         User userToUpdate = userRepository.findById(login).get();
         if (!user.getFirstName().isBlank()) {

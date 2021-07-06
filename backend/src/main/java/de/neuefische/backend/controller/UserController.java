@@ -31,7 +31,7 @@ public class UserController {
     }
 
     @PostMapping()
-    public User addNewAppUser(@RequestBody User newUser) {
+    public User updateUser(@RequestBody User newUser) {
         return userService.addNewUser(newUser);
     }
 

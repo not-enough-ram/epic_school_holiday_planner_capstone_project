@@ -12,7 +12,7 @@ export default function useAllAppUsers() {
   };
   const getAllAppUsers = () => {
     return axios
-      .get(`/api/allappusers`, config)
+      .get(`/api/user/allappusers`, config)
       .then((response) => response.data)
       .catch((error) => console.error(error.message));
   };
