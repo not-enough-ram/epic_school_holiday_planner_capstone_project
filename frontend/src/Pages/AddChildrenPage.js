@@ -115,10 +115,10 @@ export default function AddChildrenPage() {
     if (handleValidation()) {
       mutation.mutate(value);
       if (mutation.isSuccess) {
-        history.push("/profile");
+        history.push("./profile");
       }
     } else {
-      alert("Das Formular beinhaltet Fehler" + errors);
+      alert("Das Formular beinhaltet Fehler");
     }
   }
 

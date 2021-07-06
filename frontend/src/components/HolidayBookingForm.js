@@ -36,16 +36,19 @@ const useStyles = makeStyles({
 
 export default function HolidayBookingForm({ holidays, children, token }) {
   let history = useHistory();
+  const [errors, setErrors] = useState({});
   const classes = useStyles();
   const config = {
     headers: {
       Authorization: "Bearer " + token,
     },
   };
+  const [date, setDate] = useState({
+    startDate: new Date(),
+    endDate: new Date(),
+  });
   const [value, setValue] = useState({
     holidayName: "",
-    startDate: "",
-    endDate: "",
   });
   const [selectedChild, setSelectedChild] = useState({
     childArray: [],
@@ -57,8 +60,8 @@ export default function HolidayBookingForm({ holidays, children, token }) {
         `/api/holidays/booked`,
         {
           holidayName: value.holidayName,
-          startDate: value.startDate,
-          endDate: value.endDate,
+          startDate: date.startDate,
+          endDate: date.endDate,
           selectedChild: selectedChild.childArray,
         },
         config
@@ -68,6 +71,11 @@ export default function HolidayBookingForm({ holidays, children, token }) {
 
   function handleChange(event) {
     setValue({ ...value, [event.target.name]: event.target.value });
+  }
+
+  function handleDateChange(event) {
+    let addDate = new Date(event.target.value);
+    setDate({ ...date, [event.target.name]: addDate });
   }
 
   function handleCheckBoxChange(event) {
@@ -82,11 +90,37 @@ export default function HolidayBookingForm({ holidays, children, token }) {
     setSelectedChild({ childArray: selectedChildArray });
   }
 
+  function handleValidation() {
+    let formIsValid = true;
+    let errors = {};
+    if (!date.startDate) {
+      formIsValid = false;
+      errors["startDate"] = "Startdatum darf nicht leer sein";
+    }
+    if (date.startDate.getTime() > date.endDate.getTime()) {
+      formIsValid = false;
+      errors["startDate"] = "Startdatum darf nicht nach dem Enddatum sein";
+    }
+    if (!date.endDate) {
+      formIsValid = false;
+      errors["endDate"] = "Startdatum darf nicht leer sein";
+    }
+    if (date.endDate.getTime() < date.startDate.getTime()) {
+      formIsValid = false;
+      errors["endDate"] = "Enddatum darf nicht vor dem Startdatum sein";
+    }
+
+    setErrors(errors);
+    return formIsValid;
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
-    mutation.mutate(value);
-    if (mutation.isSuccess) {
-      history.push("../mybookings");
+    if (handleValidation()) {
+      mutation.mutate(value);
+      if (mutation.isSuccess) {
+        history.push("../mybookings");
+      }
     }
   }
 
@@ -95,6 +129,7 @@ export default function HolidayBookingForm({ holidays, children, token }) {
       <FormControl className={classes.formControl}>
         <InputLabel id={"selectHolidays"}>Ferien</InputLabel>
         <Select
+          required={true}
           labelId={"selectHolidays"}
           value={value.holidayName}
           name={"holidayName"}
@@ -106,31 +141,36 @@ export default function HolidayBookingForm({ holidays, children, token }) {
             </MenuItem>
           ))}
         </Select>
+        <span style={{ color: "red" }}>{errors["holidayName"]}</span>
       </FormControl>
 
       <FormControl className={classes.formControl}>
         <TextField
+          required={true}
           name="startDate"
           label="Start"
           type="date"
           value={value.startDate}
-          onChange={handleChange}
+          onChange={handleDateChange}
           InputLabelProps={{
             shrink: true,
           }}
         />
+        <span style={{ color: "red" }}>{errors["startDate"]}</span>
       </FormControl>
       <FormControl className={classes.formControl}>
         <TextField
+          required={true}
           name="endDate"
           label="Ende"
           type="date"
           value={value.endDate}
-          onChange={handleChange}
+          onChange={handleDateChange}
           InputLabelProps={{
             shrink: true,
           }}
         />
+        <span style={{ color: "red" }}>{errors["endDate"]}</span>
       </FormControl>
       <FormControl className={classes.formControl}>
         <FormLabel component="legend">Kinder auswählen</FormLabel>
@@ -143,10 +183,11 @@ export default function HolidayBookingForm({ holidays, children, token }) {
                   onChange={handleCheckBoxChange}
                   name={child.firstName}
                   value={child.firstName}
+                  required={true}
                 />
               }
               label={child.firstName}
-              labelPlacement={"right"}
+              labelPlacement={"end"}
             />
           ))}
         </FormGroup>

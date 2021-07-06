@@ -44,6 +44,8 @@ export default function ProfilePage() {
 
   if (isLoading) return "is loading ...";
 
+  if (error) return "something went wrong";
+
   return (
     <section className={classes.root}>
       <Typography className={classes.myprofile} variant={"h5"}>

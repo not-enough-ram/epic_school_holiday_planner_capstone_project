@@ -1,5 +1,6 @@
 package de.neuefische.backend.controller;
 
+import de.neuefische.backend.dto.BookingByChild;
 import de.neuefische.backend.dto.BookingDto;
 import de.neuefische.backend.model.Booking;
 import de.neuefische.backend.model.Holidays;
@@ -189,5 +190,24 @@ class HolidaysControllerTest {
                 .startDate(LocalDate.of(2020, 1, 1))
                 .endDate(LocalDate.of(2021, 1, 1))
                 .build());
+    }
+
+    @Test
+    void getBookingByChild() {
+        when(holidaysService.getBookingByChild("foobar")).thenReturn(List.of(
+                BookingByChild.builder()
+                        .childName("Foo")
+                        .booking(List.of(
+                                Booking.builder()
+                                        .childName("Foo")
+                                        .holidayName("Sommerferien")
+                                        .startDate(LocalDate.of(2021, 1, 1))
+                                        .endDate(LocalDate.of(2022, 1, 1))
+                                        .build()
+                        )).build()));
+    }
+
+    @Test
+    void getChildrenByHolidays() {
     }
 }

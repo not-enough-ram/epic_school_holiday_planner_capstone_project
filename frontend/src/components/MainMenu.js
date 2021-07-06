@@ -29,7 +29,7 @@ export default function MainMenu() {
           aria-haspopup="true"
           onClick={handleClick}
         >
-          <StyledOcticon color={"white"} icon={MenuIcon} size={32} mr={2} />
+          <StyledOcticon color={"primary"} icon={MenuIcon} size={32} mr={2} />
         </Button>
       </div>
       <Menu

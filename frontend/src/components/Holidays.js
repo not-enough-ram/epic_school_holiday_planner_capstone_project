@@ -1,4 +1,3 @@
-import { useHistory } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -17,12 +16,8 @@ const useStyles = makeStyles({
   },
 });
 export default function Holidays({ holidays }) {
-  let history = useHistory();
   const classes = useStyles();
 
-  // function handleClick() {
-  //   history.push("/details/" + holidays.name);
-  // }
   return (
     <section className={classes.root}>
       <Typography variant={"subtitle1"} className={classes.holidayName}>
@@ -30,7 +25,6 @@ export default function Holidays({ holidays }) {
       </Typography>
       <Typography variant={"body1"}>Beginnen: {holidays?.startDate}</Typography>
       <Typography variant={"body1"}>Enden: {holidays?.endDate}</Typography>
-      {/*<button onClick={handleClick}>Details</button>*/}
     </section>
   );
 }
