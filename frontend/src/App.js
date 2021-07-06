@@ -15,6 +15,11 @@ function App() {
         main: "#2d333b",
         light: "#adbac7",
       },
+      secondary: {
+        dark: "#4F1271",
+        main: "#783F8E",
+        light: "#C8C6D7",
+      },
     },
     spacing: 2,
     typography: { useNextVariants: true },

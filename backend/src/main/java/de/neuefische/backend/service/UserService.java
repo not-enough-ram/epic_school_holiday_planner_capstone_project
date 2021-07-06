@@ -39,29 +39,23 @@ public class UserService {
         this.mongoTemplate = mongoTemplate;
     }
 
-    public String addNewAppUser(AppUserDto newUser) {
+    public AppUser addNewAppUser(AppUserDto newUser) {
         AppUser newAppUser = AppUser.builder()
-                .username(newUser.getUsername())
+                .username(newUser.getLogin())
                 .password(encoder.encode(newUser.getPassword()))
                 .role(castDtoToModel(newUser.getRole()))
                 .build();
-        appUserRepository.save(newAppUser);
-        return newAppUser.getUsername();
+        return appUserRepository.save(newAppUser);
     }
 
-    public Role castDtoToModel(String role){
-        switch (role){
-            case "user":
-                return Role.USER;
-            case "employee":
-                return Role.EMPLOYEE;
-            case "manager":
-                return Role.MANAGER;
-            case "admin":
-                return Role.ADMIN;
-            default:
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "no such user role");
-        }
+    public Role castDtoToModel(String role) {
+        return switch (role) {
+            case "user" -> Role.USER;
+            case "employee" -> Role.EMPLOYEE;
+            case "manager" -> Role.MANAGER;
+            case "admin" -> Role.ADMIN;
+            default -> throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "no such user role");
+        };
     }
 
     public User getUser(String user) {
@@ -72,7 +66,6 @@ public class UserService {
     }
 
     public User updateUser(UserDto user, String login) {
-        System.out.println(user);
         if (userRepository.findById(login).isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!!!!!!!");
         }

@@ -10,7 +10,7 @@ export default function useChildrenByHoliday(holiday) {
       Authorization: "Bearer " + token,
     },
     params: {
-      name: holiday,
+      holiday: holiday,
     },
   };
   const getChildrenByHoliday = () => {

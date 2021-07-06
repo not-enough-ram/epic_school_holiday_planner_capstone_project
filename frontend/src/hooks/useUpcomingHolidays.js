@@ -19,22 +19,3 @@ export default function useUpcomingHolidays() {
 
   return useQuery("getUpcomingHolidays", () => getUpcomingHolidays());
 }
-
-//   const [upcomingHolidays, setUpcomingHolidays] = useState([]);
-//   const { token } = useContext(AuthContext);
-//
-//   useEffect(() => {
-//     const config = {
-//       headers: {
-//         Authorization: "Bearer " + token,
-//       },
-//     };
-//     axios
-//       .get(`/api/holidays/upcoming`, config)
-//       .then((response) => response.data)
-//       .then(setUpcomingHolidays)
-//       .catch((error) => console.error(error.message));
-//   }, [token]);
-//
-//   return { upcomingHolidays };
-// }
