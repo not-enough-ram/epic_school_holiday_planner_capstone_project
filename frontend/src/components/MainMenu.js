@@ -46,7 +46,7 @@ export default function MainMenu() {
         <MenuItem onClick={handleClose} component={Link} to={"/holidays"}>
           Alle Ferien
         </MenuItem>
-        <MenuItem onClick={handleClose} component={Link} to="/booked">
+        <MenuItem onClick={handleClose} component={Link} to="/mybookings">
           Meine Buchungen
         </MenuItem>
         <MenuItem onClick={handleClose} component={Link} to={"/profile"}>

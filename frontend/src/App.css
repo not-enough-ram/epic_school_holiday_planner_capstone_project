@@ -1,1 +1,9 @@
+body {
+    box-sizing: content-box;
+    height: 100vh;
+}
 
+html {
+    height: 100vh;
+    box-sizing: content-box;
+}

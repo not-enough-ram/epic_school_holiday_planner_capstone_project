@@ -8,20 +8,26 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
   root: {
-    justifyContent: "space-between",
     display: "flex",
     flexFlow: "column",
+    margin: "10px 20px",
+    height: "inherit",
+    width: "inherit",
   },
   textfield: {
-    width: "87vw",
+    width: "inherit",
   },
   button: {
     alignSelf: "center",
     width: "auto",
+    marginTop: "20px",
+  },
+  label: {
+    width: "inherit",
   },
 });
 
-export default function UserChildrenPage() {
+export default function AddChildrenPage() {
   const classes = useStyles();
   const { token } = useContext(AuthContext);
   const [value, setValue] = useState({
@@ -58,7 +64,7 @@ export default function UserChildrenPage() {
 
   return (
     <form onSubmit={handleSubmit} className={classes.root} color={"primary"}>
-      <label>
+      <label className={classes.label}>
         <TextField
           variant={"filled"}
           name={"firstName"}
@@ -70,7 +76,7 @@ export default function UserChildrenPage() {
           className={classes.textfield}
         />
       </label>
-      <label>
+      <label className={classes.label}>
         <TextField
           variant={"filled"}
           name={"lastName"}
@@ -82,7 +88,7 @@ export default function UserChildrenPage() {
           className={classes.textfield}
         />
       </label>
-      <label>
+      <label className={classes.label}>
         <TextField
           variant={"filled"}
           name={"schoolClass"}
@@ -94,7 +100,7 @@ export default function UserChildrenPage() {
           className={classes.textfield}
         />
       </label>
-      <label>
+      <label className={classes.label}>
         <TextField
           variant={"filled"}
           name={"notes"}

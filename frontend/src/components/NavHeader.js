@@ -14,6 +14,7 @@ const useStyles = makeStyles({
     left: 0,
     width: "100%",
     color: "primary",
+    marginBottom: "10px",
   },
   toolbar: {
     display: "flex",

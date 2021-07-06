@@ -1,29 +1,45 @@
-import styled from "styled-components/macro";
 import useUpcomingHolidays from "../hooks/useUpcomingHolidays";
-import useMyBookings from "../hooks/useMyBookings";
 import MyBookingList from "../components/MyBookingList";
 import Holidays from "../components/Holidays";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import { Divider } from "@material-ui/core";
+
+const useStyles = makeStyles({
+  root: {
+    textAlign: "left",
+    display: "flex",
+    flexFlow: "column nowrap",
+    justifyContent: "flex-start",
+    height: "100vh",
+  },
+  upcoming: {
+    margin: "10px",
+  },
+  mybooking: {
+    display: "flex",
+    flexFlow: "column",
+    justifyContent: "space-around",
+  },
+  bookings: {
+    marginTop: "10px",
+  },
+});
 
 export default function HolidaysPage() {
   const { upcomingHolidays } = useUpcomingHolidays();
-  const { myBookings } = useMyBookings();
+  const classes = useStyles();
 
-  const sortHolidaysByChild = () =>
-    myBookings.map((booking) => booking.childName);
   return (
-    <Wrapper>
-      <h1>Die nächsten Ferien</h1>
-      {upcomingHolidays && <Holidays holidays={upcomingHolidays[0]} />}
-      <h1>Meine Buchungen</h1>
-      {myBookings && <MyBookingList myBookings={myBookings} />}
-    </Wrapper>
+    <section className={classes.root}>
+      <section className={classes.upcoming}>
+        <Typography variant={"h5"}>Die nächsten Ferien</Typography>
+        {upcomingHolidays && <Holidays holidays={upcomingHolidays[0]} />}
+      </section>
+      <Divider variant={"middle"} className={classes.divider} />
+      <section className={classes.mybooking}>
+        <MyBookingList />
+      </section>
+    </section>
   );
 }
-
-const Wrapper = styled.div`
-  padding: 10px;
-  text-align: center;
-  display: grid;
-  grid-gap: 24px;
-  justify-content: center;
-`;

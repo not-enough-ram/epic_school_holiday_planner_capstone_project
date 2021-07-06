@@ -1,7 +1,39 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { makeStyles } from "@material-ui/core/styles";
+import {
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  FormLabel,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@material-ui/core";
+import SendIcon from "@material-ui/icons/Send";
+import Button from "@material-ui/core/Button";
+
+const useStyles = makeStyles({
+  root: {
+    display: "flex",
+    flexFlow: "column nowrap",
+    width: "100vw",
+    height: "100vh",
+  },
+  formControl: {
+    margin: 20,
+    minWidth: 120,
+  },
+  button: {
+    alignSelf: "center",
+    width: "auto",
+  },
+});
 
 export default function HolidayBookingForm({ holidays, children, token }) {
+  const classes = useStyles();
   const [value, setValue] = useState({
     holidayName: "",
     startDate: "",
@@ -49,57 +81,77 @@ export default function HolidayBookingForm({ holidays, children, token }) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Bitte wähle die gewünschten Ferien
-        <select
-          name={"holidayName"}
+    <form onSubmit={handleSubmit} className={classes.root}>
+      <FormControl className={classes.formControl}>
+        <InputLabel id={"selectHolidays"}>Ferien</InputLabel>
+        <Select
+          labelId={"selectHolidays"}
           value={value.holidayName}
+          name={"holidayName"}
           onChange={handleChange}
         >
-          <option value={""} label={"Bitte wähle die gewünschten Ferien..."} />
           {holidays.map((holiday) => (
-            <option
-              key={holiday.name}
-              value={holiday.name}
-              label={holiday.name}
-            />
+            <MenuItem key={holiday.name} value={holiday.name}>
+              {holiday.name}
+            </MenuItem>
           ))}
-        </select>
-      </label>
-      <label>
-        Startdatum
-        <input
-          type="date"
+        </Select>
+      </FormControl>
+
+      <FormControl className={classes.formControl}>
+        <TextField
           name="startDate"
+          label="Start"
+          type="date"
           value={value.startDate}
           onChange={handleChange}
+          InputLabelProps={{
+            shrink: true,
+          }}
         />
-      </label>
-      <label>
-        Enddatum
-        <input
-          type="date"
+      </FormControl>
+      <FormControl className={classes.formControl}>
+        <TextField
           name="endDate"
+          label="Ende"
+          type="date"
           value={value.endDate}
           onChange={handleChange}
+          InputLabelProps={{
+            shrink: true,
+          }}
         />
-      </label>
-      <section className={"checkBoxes"}>
-        <div id="checkbox-group">Kinder auswählen</div>
-        {children.map((child) => (
-          <label key={child.firstName}>
-            <input
-              type={"checkbox"}
-              value={child.firstName}
-              name={child.firstName}
-              onChange={handleCheckBoxChange}
+      </FormControl>
+      <FormControl className={classes.formControl}>
+        <FormLabel component="legend">Kinder auswählen</FormLabel>
+        <FormGroup>
+          {children.map((child) => (
+            <FormControlLabel
+              key={child.firstName}
+              control={
+                <Checkbox
+                  onChange={handleCheckBoxChange}
+                  name={child.firstName}
+                  value={child.firstName}
+                />
+              }
+              label={child.firstName}
+              labelPlacement={"right"}
             />
-            {child.firstName}
-          </label>
-        ))}
-      </section>
-      <input type={"submit"} value={"Abschicken"} />
+          ))}
+        </FormGroup>
+      </FormControl>
+      <Button
+        variant="contained"
+        color="primary"
+        type={"submit"}
+        value={"Submit"}
+        onSubmit={handleSubmit}
+        startIcon={<SendIcon />}
+        className={classes.button}
+      >
+        Absenden
+      </Button>
     </form>
   );
 }

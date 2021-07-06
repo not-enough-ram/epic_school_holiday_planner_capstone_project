@@ -1,16 +1,40 @@
 import HolidayBookingForm from "../components/HolidayBookingForm";
 import useHolidays from "../hooks/useHolidays";
-import styled from "styled-components/macro";
 import useChildren from "../hooks/useChildren";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
+import { makeStyles } from "@material-ui/core/styles";
+import { Typography } from "@material-ui/core";
+
+const useStyles = makeStyles({
+  root: {
+    paddingTop: 10,
+    display: "flex",
+    flexFlow: "column nowrap",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    width: "100%",
+    height: "100vh",
+    textAlign: "left",
+  },
+  mybookings: {
+    textAlign: "left",
+    marginBottom: 10,
+    justifySelf: "flex-start",
+    marginLeft: 10,
+  },
+});
 
 export default function BookingPage() {
+  const classes = useStyles();
   const { holidays } = useHolidays();
   const { children } = useChildren();
   const { token } = useContext(AuthContext);
   return (
-    <Wrapper>
+    <section className={classes.root}>
+      <Typography className={classes.mybookings} variant={"h5"}>
+        Ferien buchen
+      </Typography>
       {holidays && (
         <HolidayBookingForm
           holidays={holidays}
@@ -18,15 +42,6 @@ export default function BookingPage() {
           token={token}
         />
       )}
-    </Wrapper>
+    </section>
   );
 }
-
-const Wrapper = styled.section`
-  padding: 10px;
-  text-align: left;
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: space-evenly;
-  margin: 10px;
-`;
