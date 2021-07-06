@@ -47,6 +47,9 @@ export default function AddChildrenPage() {
     schoolClass: "",
     notes: "",
   });
+
+  const [errors, setErrors] = useState({});
+
   const mutation = useMutation(() =>
     axios
       .post(
@@ -66,11 +69,56 @@ export default function AddChildrenPage() {
     setValue({ ...value, [event.target.name]: event.target.value });
   }
 
+  function handleValidation() {
+    let formIsValid = true;
+    let errors = {};
+    if (!value.firstName) {
+      formIsValid = false;
+      errors["firstName"] = "Vorname darf nicht leer sein";
+    }
+    if (value.firstName !== "undefined") {
+      if (!value.firstName.match(/^[a-zA-Z]+$/)) {
+        formIsValid = false;
+        errors["firstName"] = "Nur Buchstaben";
+      }
+    }
+    if (!value.lastName) {
+      formIsValid = false;
+      errors["lastName"] = "Vorname darf nicht leer sein";
+    }
+    if (value.lastName !== "undefined") {
+      if (!value.lastName.match(/^[a-zA-Z]+$/)) {
+        formIsValid = false;
+        errors["lastName"] = "Nur Buchstaben";
+      }
+    }
+    if (!value.schoolClass) {
+      formIsValid = false;
+      errors["schoolClass"] = "Vorname darf nicht leer sein";
+    }
+    if (value.schoolClass.length !== 2) {
+      formIsValid = false;
+      errors["schoolClass"] = "Falsche Klasse angegeben";
+    }
+    if (value.schoolClass !== "undefined") {
+      if (!value.schoolClass.match(/^[1-4a-d]+$/)) {
+        formIsValid = false;
+        errors["schoolClass"] = "Falsche Klasse angegeben";
+      }
+    }
+    setErrors(errors);
+    return formIsValid;
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
-    mutation.mutate(value);
-    if (mutation.isSuccess) {
-      history.push("/profile");
+    if (handleValidation()) {
+      mutation.mutate(value);
+      if (mutation.isSuccess) {
+        history.push("/profile");
+      }
+    } else {
+      alert("Das Formular beinhaltet Fehler" + errors);
     }
   }
 
@@ -90,6 +138,7 @@ export default function AddChildrenPage() {
           type={"text"}
           className={classes.textfield}
         />
+        <span style={{ color: "red" }}>{errors["firstName"]}</span>
       </label>
       <label className={classes.label}>
         <TextField
@@ -102,6 +151,7 @@ export default function AddChildrenPage() {
           type={"text"}
           className={classes.textfield}
         />
+        <span style={{ color: "red" }}>{errors["lastName"]}</span>
       </label>
       <label className={classes.label}>
         <TextField
@@ -114,6 +164,7 @@ export default function AddChildrenPage() {
           type={"text"}
           className={classes.textfield}
         />
+        <span style={{ color: "red" }}>{errors["schoolClass"]}</span>
       </label>
       <label className={classes.label}>
         <TextField
