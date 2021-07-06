@@ -55,4 +55,9 @@ public class UserController {
     public User getUser(Principal user) {
         return userService.getUser(user.getName());
     }
+
+    @GetMapping("allappusers")
+    public List<AppUser> getAllAppUsers(Principal user) {
+        return userService.getAllAppUsers(user.getName());
+    }
 }

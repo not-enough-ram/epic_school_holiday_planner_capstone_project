@@ -20,6 +20,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class UserService {
@@ -112,5 +114,16 @@ public class UserService {
         Query query = new Query()
                 .addCriteria(Criteria.where("login").is(login));
         return mongoTemplate.find(query, Child.class);
+    }
+
+    public List<AppUser> getAllAppUsers(String login) {
+        if (appUserRepository.findById(login).isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "You do not exist");
+        }
+        if (appUserRepository.findById(login).get().getRole().equals(Role.ADMIN)) {
+            return StreamSupport.stream(appUserRepository.findAll().spliterator(), false).collect(Collectors.toList());
+        } else {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied");
+        }
     }
 }
