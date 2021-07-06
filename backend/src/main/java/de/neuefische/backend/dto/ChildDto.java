@@ -6,12 +6,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class HolidaysDto {
-
-    private String name;
-    private String startDate;
-    private String endDate;
+public class ChildDto {
+    private String firstName;
+    private String lastName;
+    private String schoolClass;
+    private String notes;
 }

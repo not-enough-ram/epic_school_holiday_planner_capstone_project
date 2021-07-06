@@ -1,9 +1,12 @@
 package de.neuefische.backend.service;
 
+import de.neuefische.backend.dto.BookingByChild;
 import de.neuefische.backend.dto.BookingDto;
 import de.neuefische.backend.model.Booking;
+import de.neuefische.backend.model.Child;
 import de.neuefische.backend.model.Holidays;
 import de.neuefische.backend.repository.BookingRepository;
+import de.neuefische.backend.repository.ChildRepository;
 import de.neuefische.backend.repository.HolidaysRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -14,19 +17,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class HolidaysService {
     private final HolidaysRepository holidaysRepository;
     private final BookingRepository bookingRepository;
+    private final ChildRepository childRepository;
     private final MongoTemplate mongoTemplate;
 
     @Autowired
-    public HolidaysService(HolidaysRepository holidaysRepository, BookingRepository bookingRepository1, MongoTemplate mongoTemplate) {
+    public HolidaysService(HolidaysRepository holidaysRepository, BookingRepository bookingRepository1, ChildRepository childRepository, MongoTemplate mongoTemplate) {
         this.holidaysRepository = holidaysRepository;
         this.bookingRepository = bookingRepository1;
+        this.childRepository = childRepository;
         this.mongoTemplate = mongoTemplate;
     }
 
@@ -40,9 +45,7 @@ public class HolidaysService {
     }
 
     public List<Booking> getBookings(String login) {
-        Query query = new Query()
-                .addCriteria(Criteria.where("login").is(login));
-        return mongoTemplate.find(query, Booking.class);
+        return bookingRepository.findBylogin(login);
     }
 
     public Holidays getHolidaysByName(String name) {
@@ -59,11 +62,23 @@ public class HolidaysService {
     }
 
     public List<Booking> addBookedHolidays(BookingDto dto, String login) {
-        List<Booking> bookingList = new ArrayList<>();
-        for (String child : dto.getChildren()
-        ) {
-            bookingList.add(Booking.builder().login(login).holidayName(dto.getHolidaysName()).childName(child).startDate(dto.getStartDate()).endDate(dto.getEndDate()).id(child + dto.getHolidaysName()).build());
-        }
+        List<Booking> bookingList = dto.getSelectedChild().stream()
+                .map((child) -> (Booking.builder()
+                        .login(login)
+                        .holidayName(dto.getHolidayName())
+                        .childName(child)
+                        .startDate(dto.getStartDate())
+                        .endDate(dto.getEndDate())
+                        .build()))
+                .collect(Collectors.toList());
         return bookingRepository.saveAll(bookingList);
+    }
+
+    public List<BookingByChild> getBookingByChild(String user) {
+        List<Child> allUserChildren = childRepository.findAllByLogin(user);
+        return allUserChildren.stream().map((child) -> BookingByChild.builder()
+                .childName(child.getFirstName())
+                .booking(bookingRepository.findAllByChildName(child.getFirstName()))
+                .build()).collect(Collectors.toList());
     }
 }

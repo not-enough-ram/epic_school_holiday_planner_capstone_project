@@ -1,18 +1,32 @@
-import BookingForm from "../components/BookingForm";
+import HolidayBookingForm from "../components/HolidayBookingForm";
 import useHolidays from "../hooks/useHolidays";
+import styled from "styled-components/macro";
+import useChildren from "../hooks/useChildren";
+import { useContext } from "react";
+import AuthContext from "../context/AuthContext";
 
 export default function BookingPage() {
   const { holidays } = useHolidays();
-  console.log(holidays);
+  const { children } = useChildren();
+  const { token } = useContext(AuthContext);
   return (
-    <section>
+    <Wrapper>
       {holidays && (
-        <BookingForm
+        <HolidayBookingForm
           holidays={holidays}
-          startDate={holidays.startDate}
-          endDate={holidays.endDate}
+          children={children}
+          token={token}
         />
       )}
-    </section>
+    </Wrapper>
   );
 }
+
+const Wrapper = styled.section`
+  padding: 10px;
+  text-align: left;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-evenly;
+  margin: 10px;
+`;

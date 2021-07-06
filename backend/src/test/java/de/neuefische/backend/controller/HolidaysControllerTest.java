@@ -123,8 +123,8 @@ class HolidaysControllerTest {
     @Test
     void addBookedHolidaysStoresBookingInDbAndReturnsSavedBooking() {
         when(holidaysService.addBookedHolidays(BookingDto.builder()
-                .holidaysName("Sommerferien 2020")
-                .children(new String[]{"baz"})
+                .holidayName("Sommerferien 2020")
+                .selectedChild(List.of("baz"))
                 .startDate(LocalDate.of(2020, 1, 1))
                 .endDate(LocalDate.of(2021, 1, 1))
                 .build(), "foobar"))
@@ -137,8 +137,8 @@ class HolidaysControllerTest {
                         .build()));
         //WHEN
         List<Booking> bookingList = holidaysService.addBookedHolidays(BookingDto.builder()
-                .holidaysName("Sommerferien 2020")
-                .children(new String[]{"baz"})
+                .holidayName("Sommerferien 2020")
+                .selectedChild(List.of("baz"))
                 .startDate(LocalDate.of(2020, 1, 1))
                 .endDate(LocalDate.of(2021, 1, 1))
                 .build(), "foobar");
@@ -152,8 +152,8 @@ class HolidaysControllerTest {
                 .endDate(LocalDate.of(2021, 1, 1))
                 .build())));
         verify(holidaysService, times(1)).addBookedHolidays(BookingDto.builder()
-                .holidaysName("Sommerferien 2020")
-                .children(new String[]{"baz"})
+                .holidayName("Sommerferien 2020")
+                .selectedChild(List.of("baz"))
                 .startDate(LocalDate.of(2020, 1, 1))
                 .endDate(LocalDate.of(2021, 1, 1))
                 .build(), "foobar");

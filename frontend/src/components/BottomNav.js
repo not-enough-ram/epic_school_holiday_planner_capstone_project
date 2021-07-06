@@ -10,7 +10,7 @@ import AuthContext from "../context/AuthContext";
 
 const useStyles = makeStyles({
   root: {
-    position: "fixed",
+    position: "sticky",
     bottom: 0,
     left: 0,
     width: "100%",
@@ -24,6 +24,7 @@ export default function BottomNavi() {
   const classes = useStyles();
   const [page, setPage] = useState("");
   const history = useHistory();
+
   const handleChange = (event, newPage) => {
     history.push(newPage);
     setPage(newPage);
@@ -35,6 +36,7 @@ export default function BottomNavi() {
       onChange={handleChange}
       showLabels
       className={classes.root}
+      color={"primary"}
     >
       {jwtDecoded && (
         <BottomNavigationAction

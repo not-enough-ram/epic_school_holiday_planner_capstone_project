@@ -1,12 +1,12 @@
 package de.neuefische.backend.dto;
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.Instant;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -14,16 +14,12 @@ import java.time.LocalDate;
 @Builder
 public class BookingDto {
 
-    @JsonProperty("checked")
-    private String[] children;
+    private List<String> selectedChild;
 
-    @JsonProperty("holidaysselectmenu")
-    private String holidaysName;
+    private String holidayName;
 
-    @JsonProperty("startDate")
     private LocalDate startDate;
 
-    @JsonProperty("endDate")
     private LocalDate endDate;
 
 }

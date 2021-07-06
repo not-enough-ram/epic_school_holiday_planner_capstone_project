@@ -2,12 +2,10 @@ package de.neuefische.backend.security.filter;
 
 import de.neuefische.backend.security.service.JwtUtilsService;
 import io.jsonwebtoken.Claims;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -34,7 +32,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 Claims claims = this.jwtUtilsService.parseClaim(token);
                 setSecurityContext(claims.getSubject());
             } catch (Exception e) {
-                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "invalid token");
+                //throw new ResponseStatusException(HttpStatus.FORBIDDEN, "invalid token");
             }
         }
         filterChain.doFilter(request, response);

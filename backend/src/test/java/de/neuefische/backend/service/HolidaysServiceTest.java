@@ -3,6 +3,7 @@ package de.neuefische.backend.service;
 import de.neuefische.backend.model.Booking;
 import de.neuefische.backend.model.Holidays;
 import de.neuefische.backend.repository.BookingRepository;
+import de.neuefische.backend.repository.ChildRepository;
 import de.neuefische.backend.repository.HolidaysRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Sort;
@@ -21,8 +22,9 @@ import static org.mockito.Mockito.*;
 class HolidaysServiceTest {
     HolidaysRepository holidaysRepository = mock(HolidaysRepository.class);
     BookingRepository bookingRepository = mock(BookingRepository.class);
+    ChildRepository childRepository = mock(ChildRepository.class);
     MongoTemplate mongoTemplate = mock(MongoTemplate.class);
-    HolidaysService holidaysService = new HolidaysService(holidaysRepository, bookingRepository, mongoTemplate);
+    HolidaysService holidaysService = new HolidaysService(holidaysRepository, bookingRepository, childRepository, mongoTemplate);
 
     @Test
     void getListOfHolidaysReturnsAListOfAllHolidays() {
