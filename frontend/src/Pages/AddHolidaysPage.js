@@ -35,7 +35,7 @@ const useStyles = makeStyles({
 
 export default function AddHolidaysPage() {
   const { token } = useContext(AuthContext);
-  const [selectedDate, handleDateChange] = useState(new Date(2000));
+  const [selectedDate, handleDateChange] = useState(new Date());
   const classes = useStyles();
   const [value, setValue] = useState({
     holidayName: "",
@@ -58,7 +58,7 @@ export default function AddHolidaysPage() {
       .post(
         `/api/holidays`,
         {
-          name: value.name,
+          name: value.name + " " + selectedDate.getFullYear(),
           startDate: value.startDate,
           endDate: value.endDate,
         },
