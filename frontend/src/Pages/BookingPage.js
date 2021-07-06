@@ -27,8 +27,8 @@ const useStyles = makeStyles({
 
 export default function BookingPage() {
   const classes = useStyles();
-  const { holidays } = useHolidays();
-  const { children } = useChildren();
+  const { data: holidays, isLoading, error } = useHolidays();
+  const { data: children } = useChildren();
   const { token } = useContext(AuthContext);
   return (
     <section className={classes.root}>

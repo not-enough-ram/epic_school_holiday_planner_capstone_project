@@ -81,4 +81,15 @@ public class HolidaysService {
                 .booking(bookingRepository.findAllByChildName(child.getFirstName()))
                 .build()).collect(Collectors.toList());
     }
+
+    public List<Child> getChildrenByHolidays(String holiday) {
+        List<Booking> bookingList = bookingRepository.findAllByholidayName(holiday);
+        return getChildInfosFromRepository(bookingList);
+    }
+
+    private List<Child> getChildInfosFromRepository(List<Booking> bookings) {
+        return bookings.stream().map((booking) -> (
+                childRepository.findByLoginAndFirstName(booking.getLogin(), booking.getChildName())
+        )).collect(Collectors.toList());
+    }
 }

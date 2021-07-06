@@ -13,4 +13,6 @@ public interface BookingRepository extends MongoRepository<Booking, String> {
     List<Booking> findBylogin(String login);
 
     List<Booking> findAllByChildName(String childName);
+
+    List<Booking> findAllByholidayName(String holidayName);
 }

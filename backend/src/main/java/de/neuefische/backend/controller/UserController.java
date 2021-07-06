@@ -45,6 +45,7 @@ public class UserController {
         return userService.getChildByUser(user.getName());
     }
 
+
     @PostMapping("children")
     public Child addChildren(@RequestBody ChildDto children, Principal user) {
         return userService.addChild(children, user.getName());

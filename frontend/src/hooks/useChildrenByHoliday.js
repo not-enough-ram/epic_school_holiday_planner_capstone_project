@@ -1,21 +1,24 @@
 import { useContext } from "react";
+import { useQuery } from "react-query";
 import axios from "axios";
 import AuthContext from "../context/AuthContext";
-import { useQuery } from "react-query";
 
-export default function useUser() {
+export default function useChildrenByHoliday(holiday) {
   const { token } = useContext(AuthContext);
   const config = {
     headers: {
       Authorization: "Bearer " + token,
     },
+    params: {
+      name: holiday,
+    },
   };
-  const getUser = () => {
+  const getChildrenByHoliday = () => {
     return axios
-      .get(`/api/user`, config)
+      .get(`/api/holidays/children`, config)
       .then((response) => response.data)
       .catch((error) => console.error(error.message));
   };
 
-  return useQuery("getUser", () => getUser());
+  return useQuery("childrenByHoliday", () => getChildrenByHoliday());
 }

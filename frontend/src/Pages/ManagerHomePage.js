@@ -1,9 +1,8 @@
 import useUpcomingHolidays from "../hooks/useUpcomingHolidays";
-import MyBookingList from "../components/MyBookingList";
 import Holidays from "../components/Holidays";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import { Divider } from "@material-ui/core";
+import ChildrenByHolidayList from "../components/ChildrenByHolidayList";
 
 const useStyles = makeStyles({
   root: {
@@ -12,9 +11,7 @@ const useStyles = makeStyles({
     flexFlow: "column nowrap",
     justifyContent: "flex-start",
     height: "100vh",
-  },
-  upcoming: {
-    margin: "10px",
+    padding: 10,
   },
   mybooking: {
     display: "flex",
@@ -24,24 +21,29 @@ const useStyles = makeStyles({
   bookings: {
     marginTop: "10px",
   },
+  attendingchildren: {
+    display: "flex",
+    flexFlow: "row wrap",
+  },
 });
 
-export default function HomePage() {
+export default function ManagerHomePage() {
   const { data: upcomingHolidays, isLoading, error } = useUpcomingHolidays();
   const classes = useStyles();
 
   if (isLoading) return "is loading ...";
-  if (error) return "Error";
-
+  if (error) return "something went wrong";
   return (
     <section className={classes.root}>
       <section className={classes.upcoming}>
         <Typography variant={"h5"}>Die nächsten Ferien</Typography>
         {upcomingHolidays && <Holidays holidays={upcomingHolidays[0]} />}
       </section>
-      <Divider variant={"middle"} className={classes.divider} />
-      <section className={classes.mybooking}>
-        <MyBookingList />
+      <Typography variant={"h6"}>Teilnehmende Kinder</Typography>
+      <section className={classes.attendingchildren}>
+        {upcomingHolidays && (
+          <ChildrenByHolidayList upcomingHolidays={upcomingHolidays[0].name} />
+        )}
       </section>
     </section>
   );

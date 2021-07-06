@@ -3,9 +3,9 @@ import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Fade from "@material-ui/core/Fade";
-import { ListUnorderedIcon } from "@primer/octicons-react";
 import { StyledOcticon } from "@primer/components";
 import { Link } from "react-router-dom";
+import MenuIcon from "@material-ui/icons/Menu";
 
 export default function MainMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -27,12 +27,7 @@ export default function MainMenu() {
           aria-haspopup="true"
           onClick={handleClick}
         >
-          <StyledOcticon
-            color={"white"}
-            icon={ListUnorderedIcon}
-            size={32}
-            mr={2}
-          />
+          <StyledOcticon color={"white"} icon={MenuIcon} size={32} mr={2} />
         </Button>
       </div>
       <Menu

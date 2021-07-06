@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface ChildRepository extends MongoRepository<Child, String> {
     List<Child> findAllByLogin(String login);
+
+    Child findByLoginAndFirstName(String login, String firstName);
 }

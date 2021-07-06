@@ -22,17 +22,21 @@ const useStyles = makeStyles({
     justifyContent: "space-around",
     alignItems: "baseline",
   },
-  user: {},
   title: {
     paddingLeft: "8",
     paddingRight: "8",
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
+  user: {
+    marginRight: 10,
   },
 });
 
 export default function NavHeader() {
   const classes = useStyles();
   const { jwtDecoded } = useContext(AuthContext);
-  const { user } = useUser();
+  const { data: user, isLoading, error } = useUser();
 
   return (
     <AppBar className={classes.root}>
@@ -41,9 +45,9 @@ export default function NavHeader() {
         <Typography variant="body1" className={classes.title}>
           Epic Holiday Planner
         </Typography>
-        {jwtDecoded && (
-          <Typography variant="body2" className={classes.user}>
-            Willkommen {user?.firstName}
+        {user && (
+          <Typography variant="body1" className={classes.user}>
+            {user.firstName}
           </Typography>
         )}
       </Toolbar>

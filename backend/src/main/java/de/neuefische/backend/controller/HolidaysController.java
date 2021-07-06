@@ -3,6 +3,7 @@ package de.neuefische.backend.controller;
 import de.neuefische.backend.dto.BookingByChild;
 import de.neuefische.backend.dto.BookingDto;
 import de.neuefische.backend.model.Booking;
+import de.neuefische.backend.model.Child;
 import de.neuefische.backend.model.Holidays;
 import de.neuefische.backend.service.HolidaysService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,11 @@ public class HolidaysController {
     @PostMapping("booked")
     public List<Booking> addBookedHolidays(@RequestBody BookingDto bookingDto, Principal principal) {
         return holidaysService.addBookedHolidays(bookingDto, principal.getName());
+    }
+
+    @GetMapping("children")
+    public List<Child> getChildrenByHolidays(@RequestParam String holiday) {
+        return holidaysService.getChildrenByHolidays(holiday);
     }
 
     @PostMapping

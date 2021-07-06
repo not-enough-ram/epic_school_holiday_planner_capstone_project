@@ -18,8 +18,12 @@ const useStyles = makeStyles({
 });
 
 export default function HolidaysPage() {
-  const { holidays } = useHolidays();
+  const { data: holidays, isLoading, error } = useHolidays();
   const classes = useStyles();
+
+  if (isLoading) return "is loading ...";
+  if (error) return "Error";
+
   return (
     <section className={classes.root}>
       <Typography variant={"h5"} className={classes.allholidays}>
