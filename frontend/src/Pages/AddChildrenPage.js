@@ -33,111 +33,111 @@ const useStyles = makeStyles({
 });
 
 export default function AddChildrenPage() {
-    let history = useHistory();
-    const classes = useStyles();
-    const { token } = useContext(AuthContext);
-    const config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
-    const [value, setValue] = useState({
-      firstName: "",
-      lastName: "",
-      schoolClass: "",
-      notes: "",
-    });
-    const mutation = useMutation(() =>
-      axios
-        .post(
-          `/api/user/children`,
-          {
-            firstName: value.firstName,
-            lastName: value.lastName,
-            notes: value.notes,
-            schoolClass: value.schoolClass,
-          },
-          config
-        )
-        .catch((error) => console.error(error.message))
-    );
+  let history = useHistory();
+  const classes = useStyles();
+  const { token } = useContext(AuthContext);
+  const config = {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  };
+  const [value, setValue] = useState({
+    firstName: "",
+    lastName: "",
+    schoolClass: "",
+    notes: "",
+  });
+  const mutation = useMutation(() =>
+    axios
+      .post(
+        `/api/user/children`,
+        {
+          firstName: value.firstName,
+          lastName: value.lastName,
+          notes: value.notes,
+          schoolClass: value.schoolClass,
+        },
+        config
+      )
+      .catch((error) => console.error(error.message))
+  );
 
-    function handleChange(event) {
-      setValue({ ...value, [event.target.name]: event.target.value });
+  function handleChange(event) {
+    setValue({ ...value, [event.target.name]: event.target.value });
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    mutation.mutate(value);
+    if (mutation.isSuccess) {
+      history.push("/profile");
     }
+  }
 
-    function handleSubmit(event) {
-      event.preventDefault();
-      mutation.mutate(value);
-      if (mutation.isSuccess) {
-        history.push("/profile");
-      }
-    }
-
-    return (
-      <form onSubmit={handleSubmit} className={classes.root} color={"primary"}>
-        <Typography variant={"h5"} className={classes.addchild}>
-          Kind hinzufügen
-        </Typography>
-        <label className={classes.label}>
-          <TextField
-            variant={"filled"}
-            name={"firstName"}
-            onChange={handleChange}
-            value={value.firstName}
-            helperText={"Vorname"}
-            required={true}
-            type={"text"}
-            className={classes.textfield}
-          />
-        </label>
-        <label className={classes.label}>
-          <TextField
-            variant={"filled"}
-            name={"lastName"}
-            onChange={handleChange}
-            value={value.lastName}
-            helperText={"Nachname"}
-            required={true}
-            type={"text"}
-            className={classes.textfield}
-          />
-        </label>
-        <label className={classes.label}>
-          <TextField
-            variant={"filled"}
-            name={"schoolClass"}
-            onChange={handleChange}
-            value={value.schoolClass}
-            helperText={"Klasse"}
-            required={true}
-            type={"text"}
-            className={classes.textfield}
-          />
-        </label>
-        <label className={classes.label}>
-          <TextField
-            variant={"filled"}
-            name={"notes"}
-            onChange={handleChange}
-            value={value.notes}
-            helperText={"Anmerkungen"}
-            required={true}
-            type={"text"}
-            className={classes.textfield}
-          />
-        </label>
-        <Button
-          variant="contained"
-          color="primary"
-          type={"submit"}
-          value={"Submit"}
-          onSubmit={handleSubmit}
-          startIcon={<SendIcon />}
-          className={classes.button}
-        >
-          Absenden
-        </Button>
-      </form>
-    );
+  return (
+    <form onSubmit={handleSubmit} className={classes.root} color={"primary"}>
+      <Typography variant={"h5"} className={classes.addchild}>
+        Kind hinzufügen
+      </Typography>
+      <label className={classes.label}>
+        <TextField
+          variant={"filled"}
+          name={"firstName"}
+          onChange={handleChange}
+          value={value.firstName}
+          helperText={"Vorname"}
+          required={true}
+          type={"text"}
+          className={classes.textfield}
+        />
+      </label>
+      <label className={classes.label}>
+        <TextField
+          variant={"filled"}
+          name={"lastName"}
+          onChange={handleChange}
+          value={value.lastName}
+          helperText={"Nachname"}
+          required={true}
+          type={"text"}
+          className={classes.textfield}
+        />
+      </label>
+      <label className={classes.label}>
+        <TextField
+          variant={"filled"}
+          name={"schoolClass"}
+          onChange={handleChange}
+          value={value.schoolClass}
+          helperText={"Klasse"}
+          required={true}
+          type={"text"}
+          className={classes.textfield}
+        />
+      </label>
+      <label className={classes.label}>
+        <TextField
+          variant={"filled"}
+          name={"notes"}
+          onChange={handleChange}
+          value={value.notes}
+          helperText={"Anmerkungen"}
+          required={true}
+          type={"text"}
+          className={classes.textfield}
+        />
+      </label>
+      <Button
+        variant="contained"
+        color="primary"
+        type={"submit"}
+        value={"Submit"}
+        onSubmit={handleSubmit}
+        startIcon={<SendIcon />}
+        className={classes.button}
+      >
+        Absenden
+      </Button>
+    </form>
+  );
 }
