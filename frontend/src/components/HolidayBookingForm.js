@@ -14,6 +14,8 @@ import {
 } from "@material-ui/core";
 import SendIcon from "@material-ui/icons/Send";
 import Button from "@material-ui/core/Button";
+import { useMutation } from "react-query";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
@@ -33,7 +35,13 @@ const useStyles = makeStyles({
 });
 
 export default function HolidayBookingForm({ holidays, children, token }) {
+  let history = useHistory();
   const classes = useStyles();
+  const config = {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  };
   const [value, setValue] = useState({
     holidayName: "",
     startDate: "",
@@ -42,6 +50,21 @@ export default function HolidayBookingForm({ holidays, children, token }) {
   const [selectedChild, setSelectedChild] = useState({
     childArray: [],
   });
+
+  const mutation = useMutation(() =>
+    axios
+      .post(
+        `/api/holidays/booked`,
+        {
+          holidayName: value.holidayName,
+          startDate: value.startDate,
+          endDate: value.endDate,
+          selectedChild: selectedChild.childArray,
+        },
+        config
+      )
+      .catch((error) => console.error(error.message))
+  );
 
   function handleChange(event) {
     setValue({ ...value, [event.target.name]: event.target.value });
@@ -61,23 +84,10 @@ export default function HolidayBookingForm({ holidays, children, token }) {
 
   function handleSubmit(event) {
     event.preventDefault();
-    const config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
-    axios
-      .post(
-        `/api/holidays/booked`,
-        {
-          holidayName: value.holidayName,
-          startDate: value.startDate,
-          endDate: value.endDate,
-          selectedChild: selectedChild.childArray,
-        },
-        config
-      )
-      .catch((error) => console.error(error.message));
+    mutation.mutate(value);
+    if (mutation.isSuccess) {
+      history.push("../mybookings");
+    }
   }
 
   return (
