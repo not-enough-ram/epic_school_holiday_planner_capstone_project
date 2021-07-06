@@ -14,9 +14,6 @@ import ManagerHomePage from "../Pages/ManagerHomePage";
 
 export default function Navigation() {
   const { jwtDecoded } = useContext(AuthContext);
-  if (jwtDecoded) {
-    console.log(jwtDecoded);
-  }
 
   return (
     <Switch>
