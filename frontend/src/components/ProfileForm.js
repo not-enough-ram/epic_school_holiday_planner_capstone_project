@@ -4,6 +4,7 @@ import { TextField } from "@material-ui/core";
 import SendIcon from "@material-ui/icons/Send";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
+import { useMutation } from "react-query";
 
 const useStyles = makeStyles({
   root: {
@@ -27,18 +28,12 @@ export default function ProfileForm({ token, user }) {
     phone: user?.phone,
     notes: user?.notes,
   });
-
-  function handleChange(event) {
-    setValue({ ...value, [event.target.name]: event.target.value });
-  }
-
-  function handleSubmit(event) {
-    event.preventDefault();
-    const config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
+  const config = {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  };
+  const mutation = useMutation(() =>
     axios
       .post(
         `/api/user/`,
@@ -50,7 +45,16 @@ export default function ProfileForm({ token, user }) {
         },
         config
       )
-      .catch((error) => console.error(error.message));
+      .catch((error) => console.error(error.message))
+  );
+
+  function handleChange(event) {
+    setValue({ ...value, [event.target.name]: event.target.value });
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    mutation.mutate(value);
   }
 
   return (
@@ -64,7 +68,6 @@ export default function ProfileForm({ token, user }) {
         placeholder={user?.firstName}
         required={true}
         type={"text"}
-        className={classes.textfield}
       />
       <TextField
         variant={"filled"}
@@ -75,7 +78,6 @@ export default function ProfileForm({ token, user }) {
         helperText={"Nachname"}
         required={true}
         type={"text"}
-        className={classes.textfield}
       />
       <TextField
         variant={"filled"}
@@ -86,7 +88,6 @@ export default function ProfileForm({ token, user }) {
         helperText={"Telefonnummer"}
         required={true}
         type={"text"}
-        className={classes.textfield}
       />
       <TextField
         variant={"filled"}
@@ -97,7 +98,6 @@ export default function ProfileForm({ token, user }) {
         helperText={"Anmerkungen"}
         required={true}
         type={"text"}
-        className={classes.textfield}
       />
       <Button
         variant="contained"
@@ -110,6 +110,7 @@ export default function ProfileForm({ token, user }) {
       >
         Absenden
       </Button>
+      {mutation.isSuccess && <span>Profil aktualisiert</span>}
     </form>
   );
 }

@@ -7,6 +7,8 @@ import SendIcon from "@material-ui/icons/Send";
 import Button from "@material-ui/core/Button";
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
+import { useHistory } from "react-router-dom";
+import { useMutation } from "react-query";
 
 const useStyles = makeStyles({
   root: {
@@ -35,6 +37,27 @@ const useStyles = makeStyles({
 
 export default function AddHolidaysPage() {
   const { token } = useContext(AuthContext);
+  const config = {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  };
+
+  const mutation = useMutation(() =>
+    axios
+      .post(
+        `/api/holidays`,
+        {
+          name: value.name + " " + selectedDate.getFullYear(),
+          startDate: value.startDate,
+          endDate: value.endDate,
+        },
+        config
+      )
+      .catch((error) => console.error(error.message))
+  );
+
+  let history = useHistory();
   const [selectedDate, handleDateChange] = useState(new Date());
   const classes = useStyles();
   const [value, setValue] = useState({
@@ -49,22 +72,10 @@ export default function AddHolidaysPage() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    const config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
-    axios
-      .post(
-        `/api/holidays`,
-        {
-          name: value.name + " " + selectedDate.getFullYear(),
-          startDate: value.startDate,
-          endDate: value.endDate,
-        },
-        config
-      )
-      .catch((error) => console.error(error.message));
+    mutation.mutate(value);
+    if (mutation.isSuccess) {
+      history.push("../holidays");
+    }
   }
 
   return (
@@ -91,7 +102,7 @@ export default function AddHolidaysPage() {
             animateYearScrolling
           />
         </MuiPickersUtilsProvider>
-        <FormControl className={classes.formControl}>
+        <FormControl>
           <TextField
             className={classes.datefield}
             name="startDate"
@@ -104,7 +115,7 @@ export default function AddHolidaysPage() {
             }}
           />
         </FormControl>
-        <FormControl className={classes.formControl}>
+        <FormControl>
           <TextField
             className={classes.datefield}
             name="endDate"
