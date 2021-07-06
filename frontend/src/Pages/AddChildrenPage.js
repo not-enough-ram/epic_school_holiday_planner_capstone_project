@@ -10,7 +10,7 @@ const useStyles = makeStyles({
   root: {
     display: "flex",
     flexFlow: "column",
-    margin: "10px 20px 10px 20px",
+    margin: "10px 20px",
     height: "inherit",
     width: "inherit",
   },
