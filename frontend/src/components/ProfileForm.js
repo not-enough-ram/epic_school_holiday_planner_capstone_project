@@ -41,7 +41,7 @@ export default function ProfileForm({ token, user }) {
     };
     axios
       .post(
-        `/api/user/update`,
+        `/api/user/`,
         {
           firstName: value.firstName,
           lastName: value.lastName,
@@ -61,7 +61,7 @@ export default function ProfileForm({ token, user }) {
         onChange={handleChange}
         value={value.firstName}
         helperText={"Vorname"}
-        placeholder={user.firstName}
+        placeholder={user?.firstName}
         required={true}
         type={"text"}
         className={classes.textfield}
@@ -71,7 +71,7 @@ export default function ProfileForm({ token, user }) {
         name={"lastName"}
         onChange={handleChange}
         value={value.lastName}
-        placeholder={user.lastName}
+        placeholder={user?.lastName}
         helperText={"Nachname"}
         required={true}
         type={"text"}
@@ -82,7 +82,7 @@ export default function ProfileForm({ token, user }) {
         name={"phone"}
         onChange={handleChange}
         value={value.phone}
-        placeholder={user.phone}
+        placeholder={user?.phone}
         helperText={"Telefonnummer"}
         required={true}
         type={"text"}
@@ -93,7 +93,7 @@ export default function ProfileForm({ token, user }) {
         name={"notes"}
         onChange={handleChange}
         value={value.notes}
-        placeholder={user.notes}
+        placeholder={user?.notes}
         helperText={"Anmerkungen"}
         required={true}
         type={"text"}

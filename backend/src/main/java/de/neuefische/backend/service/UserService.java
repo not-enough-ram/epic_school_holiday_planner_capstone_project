@@ -20,6 +20,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class UserService {
@@ -39,29 +41,23 @@ public class UserService {
         this.mongoTemplate = mongoTemplate;
     }
 
-    public String addNewAppUser(AppUserDto newUser) {
+    public AppUser addNewAppUser(AppUserDto newUser) {
         AppUser newAppUser = AppUser.builder()
-                .username(newUser.getUsername())
+                .username(newUser.getLogin())
                 .password(encoder.encode(newUser.getPassword()))
                 .role(castDtoToModel(newUser.getRole()))
                 .build();
-        appUserRepository.save(newAppUser);
-        return newAppUser.getUsername();
+        return appUserRepository.save(newAppUser);
     }
 
-    public Role castDtoToModel(String role){
-        switch (role){
-            case "user":
-                return Role.USER;
-            case "employee":
-                return Role.EMPLOYEE;
-            case "manager":
-                return Role.MANAGER;
-            case "admin":
-                return Role.ADMIN;
-            default:
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "no such user role");
-        }
+    public Role castDtoToModel(String role) {
+        return switch (role) {
+            case "user" -> Role.USER;
+            case "employee" -> Role.EMPLOYEE;
+            case "manager" -> Role.MANAGER;
+            case "admin" -> Role.ADMIN;
+            default -> throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "no such user role");
+        };
     }
 
     public User getUser(String user) {
@@ -72,9 +68,14 @@ public class UserService {
     }
 
     public User updateUser(UserDto user, String login) {
-        System.out.println(user);
         if (userRepository.findById(login).isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!!!!!!!");
+            return userRepository.save(User.builder()
+                    .login(login)
+                    .firstName(user.getFirstName())
+                    .lastName(user.getLastName())
+                    .phone(user.getPhone())
+                    .notes(user.getNotes())
+                    .build());
         }
         User userToUpdate = userRepository.findById(login).get();
         if (!user.getFirstName().isBlank()) {
@@ -119,5 +120,16 @@ public class UserService {
         Query query = new Query()
                 .addCriteria(Criteria.where("login").is(login));
         return mongoTemplate.find(query, Child.class);
+    }
+
+    public List<AppUser> getAllAppUsers(String login) {
+        if (appUserRepository.findById(login).isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "You do not exist");
+        }
+        if (appUserRepository.findById(login).get().getRole().equals(Role.ADMIN)) {
+            return StreamSupport.stream(appUserRepository.findAll().spliterator(), false).collect(Collectors.toList());
+        } else {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied");
+        }
     }
 }

@@ -6,6 +6,7 @@ import de.neuefische.backend.dto.ChildDto;
 import de.neuefische.backend.dto.UserDto;
 import de.neuefische.backend.model.Child;
 import de.neuefische.backend.model.User;
+import de.neuefische.backend.security.model.AppUser;
 import de.neuefische.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,13 +26,12 @@ public class UserController {
     }
 
     @PostMapping("appuser")
-    public String addNewAppUser(@RequestBody AppUserDto newUser) {
-        userService.addNewAppUser(newUser);
-        return newUser.getUsername();
+    public AppUser addNewAppUser(@RequestBody AppUserDto newUser) {
+        return userService.addNewAppUser(newUser);
     }
 
     @PostMapping()
-    public User addNewAppUser(@RequestBody User newUser) {
+    public User updateUser(@RequestBody User newUser) {
         return userService.addNewUser(newUser);
     }
 
@@ -54,5 +54,10 @@ public class UserController {
     @GetMapping
     public User getUser(Principal user) {
         return userService.getUser(user.getName());
+    }
+
+    @GetMapping("allappusers")
+    public List<AppUser> getAllAppUsers(Principal user) {
+        return userService.getAllAppUsers(user.getName());
     }
 }

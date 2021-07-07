@@ -38,18 +38,18 @@ const useStyles = makeStyles({
 
 export default function ProfilePage() {
   const classes = useStyles();
-  const { data: children, isLoading, error } = useChildren();
+  const { data: children } = useChildren();
   const { token } = useContext(AuthContext);
-  const { data: user } = useUser();
+  const { data: user, isLoading, error } = useUser();
+
+  if (isLoading) return "is loading ...";
 
   return (
     <section className={classes.root}>
       <Typography className={classes.myprofile} variant={"h5"}>
         Mein Profil
       </Typography>
-      {user && (
-        <ProfileForm token={token} user={user} className={classes.form} />
-      )}
+      <ProfileForm token={token} user={user} className={classes.form} />
       {children && (
         <Typography className={classes.mychildren} variant={"h6"}>
           Kinder
