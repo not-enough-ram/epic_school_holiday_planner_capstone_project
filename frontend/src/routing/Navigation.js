@@ -19,9 +19,6 @@ import AllUsersPage from "../Pages/AllUsersPage";
 
 export default function Navigation() {
   const { jwtDecoded } = useContext(AuthContext);
-  if (jwtDecoded) {
-    console.log(jwtDecoded);
-  }
 
   return (
     <div>
