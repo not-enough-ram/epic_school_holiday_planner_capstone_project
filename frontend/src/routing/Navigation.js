@@ -8,13 +8,13 @@ import DetailsPage from "../Pages/DetailsPage";
 import BookingPage from "../Pages/BookingPage";
 import HolidaysPage from "../Pages/HolidaysPage";
 import MyBookingList from "../components/MyBookingList";
-import ProfilePage from "../Pages/ProfilePage";
-import AddChildrenPage from "../Pages/AddChildrenPage";
+import ProfileForm from "../Pages/ProfilePage";
+import AddChildrenForm from "../forms/AddChildrenForm";
 import ManagerHomePage from "../Pages/ManagerHomePage";
 import BottomNav from "../components/BottomNav";
 import NavHeader from "../components/NavHeader";
-import AddHolidaysPage from "../Pages/AddHolidaysPage";
-import AddNewUserPage from "../Pages/AddNewUserPage";
+import AddHolidaysForm from "../forms/AddHolidaysForm";
+import NewAppUserForm from "../forms/NewAppUserForm";
 import AllUsersPage from "../Pages/AllUsersPage";
 
 export default function Navigation() {
@@ -41,10 +41,10 @@ export default function Navigation() {
           {jwtDecoded && jwtDecoded.role === "USER" && <BookingPage />}
         </PrivateRoute>
         <PrivateRoute path={"/addnewholidays"} exact>
-          {jwtDecoded && jwtDecoded.role === "ADMIN" && <AddHolidaysPage />}
+          {jwtDecoded && jwtDecoded.role === "ADMIN" && <AddHolidaysForm />}
         </PrivateRoute>
         <PrivateRoute path={"/addnewuser"} exact>
-          {jwtDecoded && jwtDecoded.role === "ADMIN" && <AddNewUserPage />}
+          {jwtDecoded && jwtDecoded.role === "ADMIN" && <NewAppUserForm />}
         </PrivateRoute>
         <PrivateRoute path={"/showusers"} exact>
           {jwtDecoded && jwtDecoded.role === "ADMIN" && <AllUsersPage />}
@@ -56,10 +56,10 @@ export default function Navigation() {
           {jwtDecoded && jwtDecoded.role === "USER" && <MyBookingList />}
         </PrivateRoute>
         <PrivateRoute path={"/profile"} exact>
-          {jwtDecoded && jwtDecoded.role === "USER" && <ProfilePage />}
+          {jwtDecoded && jwtDecoded.role === "USER" && <ProfileForm />}
         </PrivateRoute>
         <PrivateRoute path={"/children"} exact>
-          <AddChildrenPage />
+          <AddChildrenForm />
         </PrivateRoute>
       </Switch>
       <BottomNav />

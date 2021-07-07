@@ -29,7 +29,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function AddNewUserPage() {
+export default function NewAppUserForm() {
   let history = useHistory();
   const classes = useStyles();
   const { token } = useContext(AuthContext);

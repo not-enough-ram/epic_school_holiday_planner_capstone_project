@@ -62,7 +62,7 @@ export default function BottomNavi() {
       {jwtDecoded && jwtDecoded.role === "USER" && (
         <BottomNavigationAction
           value={"/mybookings"}
-          label="Gebuchte Ferien"
+          label="Meine Buchungen"
           icon={<Bookmarks />}
         />
       )}

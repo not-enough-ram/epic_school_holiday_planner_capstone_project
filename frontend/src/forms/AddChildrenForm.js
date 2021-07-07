@@ -32,7 +32,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function AddChildrenPage() {
+export default function AddChildrenForm(child) {
   let history = useHistory();
   const classes = useStyles();
   const { token } = useContext(AuthContext);
@@ -42,10 +42,10 @@ export default function AddChildrenPage() {
     },
   };
   const [value, setValue] = useState({
-    firstName: "",
-    lastName: "",
-    schoolClass: "",
-    notes: "",
+    firstName: child?.firstName,
+    lastName: child?.lastName,
+    schoolClass: child?.schoolClass,
+    notes: child?.notes,
   });
 
   const [errors, setErrors] = useState({});
@@ -101,7 +101,7 @@ export default function AddChildrenPage() {
       errors["schoolClass"] = "Falsche Klasse angegeben";
     }
     if (value.schoolClass !== "undefined") {
-      if (!value.schoolClass.match(/^[1-4a-d]+$/)) {
+      if (!value.schoolClass.match(/^[1-4]{1}[a-d]{1}/)) {
         formIsValid = false;
         errors["schoolClass"] = "Falsche Klasse angegeben";
       }

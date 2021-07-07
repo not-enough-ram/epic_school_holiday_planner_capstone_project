@@ -35,7 +35,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function AddHolidaysPage() {
+export default function AddHolidaysForm() {
   const { token } = useContext(AuthContext);
   const config = {
     headers: {
@@ -74,7 +74,7 @@ export default function AddHolidaysPage() {
     event.preventDefault();
     mutation.mutate(value);
     if (mutation.isSuccess) {
-      history.push("../holidays");
+      history.push("/mybookings");
     }
   }
 

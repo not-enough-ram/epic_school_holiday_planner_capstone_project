@@ -1,4 +1,4 @@
-import HolidayBookingForm from "../components/HolidayBookingForm";
+import HolidayBookingForm from "../forms/HolidayBookingForm";
 import useHolidays from "../hooks/useHolidays";
 import useChildren from "../hooks/useChildren";
 import { useContext } from "react";

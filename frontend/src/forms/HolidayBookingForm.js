@@ -99,7 +99,7 @@ export default function HolidayBookingForm({ holidays, children, token }) {
     }
     if (date.startDate.getTime() > date.endDate.getTime()) {
       formIsValid = false;
-      errors["startDate"] = "Startdatum darf nicht nach dem Enddatum sein";
+      errors["startDate"] = "Keine Reisen in die Vergangenheit möglich.";
     }
     if (!date.endDate) {
       formIsValid = false;
@@ -107,7 +107,7 @@ export default function HolidayBookingForm({ holidays, children, token }) {
     }
     if (date.endDate.getTime() < date.startDate.getTime()) {
       formIsValid = false;
-      errors["endDate"] = "Enddatum darf nicht vor dem Startdatum sein";
+      errors["endDate"] = "Das Enddatum liegt vor dem Startdatum.";
     }
 
     setErrors(errors);
