@@ -45,24 +45,45 @@ export default function BottomNavi() {
           icon={<HomeIcon />}
         />
       )}
-      {jwtDecoded && (
+      {jwtDecoded && jwtDecoded.role === "USER" && (
         <BottomNavigationAction
           value={"/holidaybooking"}
           label="Ferien buchen"
           icon={<AddCircle />}
         />
       )}
-      {jwtDecoded && (
+      {jwtDecoded && jwtDecoded.role === "ADMIN" && (
+        <BottomNavigationAction
+          value={"/addnewholidays"}
+          label="Neue Ferien"
+          icon={<AddCircle />}
+        />
+      )}
+      {jwtDecoded && jwtDecoded.role === "USER" && (
         <BottomNavigationAction
           value={"/mybookings"}
           label="Gebuchte Ferien"
           icon={<Bookmarks />}
         />
       )}
-      {jwtDecoded && (
+      {jwtDecoded && jwtDecoded.role === "ADMIN" && (
+        <BottomNavigationAction
+          value={"/holidays"}
+          label="Alle Ferien"
+          icon={<Bookmarks />}
+        />
+      )}
+      {jwtDecoded && jwtDecoded.role === "USER" && (
         <BottomNavigationAction
           value={"/profile"}
           label="Profil"
+          icon={<AccountCircle />}
+        />
+      )}
+      {jwtDecoded && jwtDecoded.role === "ADMIN" && (
+        <BottomNavigationAction
+          value={"/showusers"}
+          label="Alle Nutzer"
           icon={<AccountCircle />}
         />
       )}
