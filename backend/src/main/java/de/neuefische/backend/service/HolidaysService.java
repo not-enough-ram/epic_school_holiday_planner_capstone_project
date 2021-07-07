@@ -44,7 +44,7 @@ public class HolidaysService {
         return holidaysRepository.save(holidays);
     }
 
-    public List<Booking> getBookings(String login) {
+    public List<Booking> getBookingsByUser(String login) {
         return bookingRepository.findBylogin(login);
     }
 
@@ -61,7 +61,7 @@ public class HolidaysService {
         return mongoTemplate.find(query, Holidays.class);
     }
 
-    public List<Booking> addBookedHolidays(BookingDto dto, String login) {
+    public List<Booking> addBooking(BookingDto dto, String login) {
         List<Booking> bookingList = dto.getSelectedChild().stream()
                 .map((child) -> (Booking.builder()
                         .login(login)

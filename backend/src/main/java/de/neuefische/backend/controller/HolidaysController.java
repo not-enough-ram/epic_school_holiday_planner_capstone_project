@@ -24,7 +24,7 @@ public class HolidaysController {
     }
 
     @GetMapping
-    public List<Holidays> holidayList() {
+    public List<Holidays> getListOfHolidays() {
         return holidaysService.getListOfHolidays();
     }
 
@@ -39,8 +39,8 @@ public class HolidaysController {
     }
 
     @GetMapping("booked")
-    public List<Booking> getBookedholidays(Principal principal) {
-        return holidaysService.getBookings(principal.getName());
+    public List<Booking> getBookingsByUser(Principal principal) {
+        return holidaysService.getBookingsByUser(principal.getName());
     }
 
     @GetMapping("bookingbychild")
@@ -50,7 +50,7 @@ public class HolidaysController {
 
     @PostMapping("booked")
     public List<Booking> addBookedHolidays(@RequestBody BookingDto bookingDto, Principal principal) {
-        return holidaysService.addBookedHolidays(bookingDto, principal.getName());
+        return holidaysService.addBooking(bookingDto, principal.getName());
     }
 
     @GetMapping("children")

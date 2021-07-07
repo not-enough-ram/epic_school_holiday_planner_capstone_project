@@ -101,7 +101,7 @@ export default function AddChildrenForm(child) {
       errors["schoolClass"] = "Falsche Klasse angegeben";
     }
     if (value.schoolClass !== "undefined") {
-      if (!value.schoolClass.match(/^[1-4]{1}[a-d]{1}/)) {
+      if (!value.schoolClass.match(/^[1-4a-d]+$/)) {
         formIsValid = false;
         errors["schoolClass"] = "Falsche Klasse angegeben";
       }
