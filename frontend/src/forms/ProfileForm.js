@@ -25,76 +25,76 @@ const useStyles = makeStyles({
 });
 
 export default function ProfileForm({ token, user }) {
-    const classes = useStyles();
-    const [value, setValue] = useState({
-      firstName: user?.firstName,
-      lastName: user?.lastName,
-      phone: user?.phone,
-      notes: user?.notes,
-    });
+  const classes = useStyles();
+  const [value, setValue] = useState({
+    firstName: user?.firstName,
+    lastName: user?.lastName,
+    phone: user?.phone,
+    notes: user?.notes,
+  });
 
-    const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({});
 
-    function handleValidation() {
-      let formIsValid = true;
-      let errors = {};
-      if (!value.firstName) {
-        formIsValid = false;
-        errors["firstName"] = "Vorname darf nicht leer sein";
-      }
-      if (value.firstName !== "undefined") {
-        if (!value.firstName.match(/^[a-zA-Z]+$/)) {
-          formIsValid = false;
-          errors["firstName"] = "Nur Buchstaben";
-        }
-      }
-      if (!value.lastName) {
-        formIsValid = false;
-        errors["lastName"] = "Vorname darf nicht leer sein";
-      }
-      if (value.lastName !== "undefined") {
-        if (!value.lastName.match(/^[a-zA-Z]+$/)) {
-          formIsValid = false;
-          errors["lastName"] = "Nur Buchstaben";
-        }
-      }
-      if (!value.phone) {
-        formIsValid = false;
-        errors["phone"] = "Telefonnummer darf nicht leer sein";
-      }
-      setErrors(errors);
-      return formIsValid;
+  function handleValidation() {
+    let formIsValid = true;
+    let errors = {};
+    if (!value.firstName) {
+      formIsValid = false;
+      errors["firstName"] = "Vorname darf nicht leer sein";
     }
+    if (value.firstName !== "undefined") {
+      if (!value.firstName.match(/^[a-zA-Z]+$/)) {
+        formIsValid = false;
+        errors["firstName"] = "Nur Buchstaben";
+      }
+    }
+    if (!value.lastName) {
+      formIsValid = false;
+      errors["lastName"] = "Vorname darf nicht leer sein";
+    }
+    if (value.lastName !== "undefined") {
+      if (!value.lastName.match(/^[a-zA-Z]+$/)) {
+        formIsValid = false;
+        errors["lastName"] = "Nur Buchstaben";
+      }
+    }
+    if (!value.phone) {
+      formIsValid = false;
+      errors["phone"] = "Telefonnummer darf nicht leer sein";
+    }
+    setErrors(errors);
+    return formIsValid;
+  }
 
-    const config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
-    const mutation = useMutation(() =>
-      axios
-        .post(
-          `/api/user/update`,
-          {
-            firstName: value.firstName,
-            lastName: value.lastName,
-            notes: value.notes,
-            phone: value.phone,
-          },
-          config
-        )
-        .catch((error) => console.error(error.message))
-    );
+  const config = {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  };
+  const mutation = useMutation(() =>
+    axios
+      .post(
+        `/api/user/update`,
+        {
+          firstName: value.firstName,
+          lastName: value.lastName,
+          notes: value.notes,
+          phone: value.phone,
+        },
+        config
+      )
+      .catch((error) => console.error(error.message))
+  );
 
   function handleChange(event) {
     setValue({ ...value, [event.target.name]: event.target.value });
   }
 
   function handleSubmit(event) {
-      event.preventDefault();
-      if (handleValidation()) {
-          mutation.mutate(value);
-      }
+    event.preventDefault();
+    if (handleValidation()) {
+      mutation.mutate(value);
+    }
   }
 
   return (

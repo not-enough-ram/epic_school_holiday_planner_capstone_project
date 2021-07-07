@@ -5,8 +5,6 @@ import { FormControl, TextField, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import SendIcon from "@material-ui/icons/Send";
 import Button from "@material-ui/core/Button";
-import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
-import DateFnsUtils from "@date-io/date-fns";
 import { useHistory } from "react-router-dom";
 import { useMutation } from "react-query";
 
@@ -48,9 +46,9 @@ export default function AddHolidaysForm() {
       .post(
         `/api/holidays`,
         {
-          name: value.name + " " + selectedDate.getFullYear(),
-          startDate: value.startDate,
-          endDate: value.endDate,
+          name: value.name + " " + selectedDate.startDate.getFullYear(),
+          startDate: selectedDate.startDate,
+          endDate: selectedDate.endDate,
         },
         config
       )
@@ -58,13 +56,50 @@ export default function AddHolidaysForm() {
   );
 
   let history = useHistory();
-  const [selectedDate, handleDateChange] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const classes = useStyles();
   const [value, setValue] = useState({
     holidayName: "",
-    startDate: "",
-    endDate: "",
   });
+  const [errors, setErrors] = useState({});
+
+  function handleValidation() {
+    let formIsValid = true;
+    let errors = {};
+    if (!value.name) {
+      formIsValid = false;
+      errors["name"] = "Name darf nicht leer sein";
+    }
+    if (value.name !== "undefined") {
+      if (!value.name.match(/^[a-zA-Z]+$/)) {
+        formIsValid = false;
+        errors["name"] = "Nur Buchstaben";
+      }
+    }
+    if (!selectedDate.startDate) {
+      formIsValid = false;
+      errors["startDate"] = "Startdatum darf nicht leer sein";
+    }
+    if (selectedDate.startDate.getTime() > selectedDate.endDate.getTime()) {
+      formIsValid = false;
+      errors["startDate"] = "Keine Reisen in die Vergangenheit möglich.";
+    }
+    if (!selectedDate.endDate) {
+      formIsValid = false;
+      errors["endDate"] = "Startdatum darf nicht leer sein";
+    }
+    if (selectedDate.endDate.getTime() < selectedDate.startDate.getTime()) {
+      formIsValid = false;
+      errors["endDate"] = "Das Enddatum liegt vor dem Startdatum.";
+    }
+    setErrors(errors);
+    return formIsValid;
+  }
+
+  function handleDateChange(event) {
+    let date = new Date(event.target.value);
+    setSelectedDate({ ...selectedDate, [event.target.name]: date });
+  }
 
   function handleChange(event) {
     setValue({ ...value, [event.target.name]: event.target.value });
@@ -72,9 +107,11 @@ export default function AddHolidaysForm() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    mutation.mutate(value);
-    if (mutation.isSuccess) {
-      history.push("/mybookings");
+    if (handleValidation()) {
+      mutation.mutate(value);
+      if (mutation.isSuccess) {
+        history.push("/mybookings");
+      }
     }
   }
 
@@ -94,14 +131,7 @@ export default function AddHolidaysForm() {
           type={"text"}
           className={classes.textfield}
         />
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <DatePicker
-            views={["year"]}
-            value={selectedDate}
-            onChange={handleDateChange}
-            animateYearScrolling
-          />
-        </MuiPickersUtilsProvider>
+        <span style={{ color: "red" }}>{errors["name"]}</span>
         <FormControl>
           <TextField
             className={classes.datefield}
@@ -109,11 +139,12 @@ export default function AddHolidaysForm() {
             label="Start"
             type="date"
             value={value.startDate}
-            onChange={handleChange}
+            onChange={handleDateChange}
             InputLabelProps={{
               shrink: true,
             }}
           />
+          <span style={{ color: "red" }}>{errors["startDate"]}</span>
         </FormControl>
         <FormControl>
           <TextField
@@ -122,11 +153,12 @@ export default function AddHolidaysForm() {
             label="Ende"
             type="date"
             value={value.endDate}
-            onChange={handleChange}
+            onChange={handleDateChange}
             InputLabelProps={{
               shrink: true,
             }}
           />
+          <span style={{ color: "red" }}>{errors["endDate"]}</span>
         </FormControl>
         <Button
           variant="contained"
