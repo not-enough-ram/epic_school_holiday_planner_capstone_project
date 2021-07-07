@@ -53,7 +53,7 @@ public class UserController {
 
     @GetMapping
     public User getUser(Principal user) {
-        return userService.getUser(user.getName());
+        return userService.getUserById(user.getName());
     }
 
     @GetMapping("allappusers")

@@ -199,7 +199,7 @@ class UserControllerTest {
     @Test
     void getUser() {
         //GIVEN
-        when(userService.getUser("foobar")).thenReturn(User.builder()
+        when(userService.getUserById("foobar")).thenReturn(User.builder()
                 .login("foobar")
                 .firstName("Jeffrey")
                 .lastName("Lebowski")
@@ -217,7 +217,7 @@ class UserControllerTest {
                 .phone("1234")
                 .notes("White Russian")
                 .build()));
-        verify(userService, times(1)).getUser("foobar");
+        verify(userService, times(1)).getUserById("foobar");
     }
 
     @Test
@@ -228,10 +228,10 @@ class UserControllerTest {
                         AppUser.builder()
                                 .username("foobar")
                                 .password("encrypted password")
-                                .role(Role.ADMIN)
+                                .role(Role.USER)
                                 .build(),
                         AppUser.builder()
-                                .username("foobar")
+                                .username("baz")
                                 .password("encrypted password")
                                 .role(Role.ADMIN)
                                 .build()));
@@ -243,10 +243,10 @@ class UserControllerTest {
                 AppUser.builder()
                         .username("foobar")
                         .password("encrypted password")
-                        .role(Role.ADMIN)
+                        .role(Role.USER)
                         .build(),
                 AppUser.builder()
-                        .username("foobar")
+                        .username("baz")
                         .password("encrypted password")
                         .role(Role.ADMIN)
                         .build())));
