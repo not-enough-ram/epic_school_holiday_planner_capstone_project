@@ -1,7 +1,0 @@
-FROM openjdk:16
-
-MAINTAINER Jonathan Heyer <jonathan.heyer@gmail.com>
-
-ADD backend/target/epic-holiday-planner.jar app.jar
-
-CMD [ "sh", "-c", "java -jar /app.jar" ]

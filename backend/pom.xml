@@ -14,7 +14,7 @@
     <name>backend</name>
     <description>epic holidays planner for schools</description>
     <properties>
-        <java.version>16</java.version>
+        <java.version>15</java.version>
     </properties>
     <dependencies>
         <dependency>
@@ -90,5 +90,6 @@
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>epic-holiday-planner</finalName>
     </build>
 </project>
