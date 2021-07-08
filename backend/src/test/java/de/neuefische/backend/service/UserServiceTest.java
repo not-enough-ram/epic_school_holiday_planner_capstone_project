@@ -1,6 +1,9 @@
 package de.neuefische.backend.service;
 
 import de.neuefische.backend.dto.AppUserDto;
+import de.neuefische.backend.dto.ChildDto;
+import de.neuefische.backend.dto.UserDto;
+import de.neuefische.backend.model.Child;
 import de.neuefische.backend.model.User;
 import de.neuefische.backend.repository.ChildRepository;
 import de.neuefische.backend.repository.UserRepository;
@@ -9,8 +12,11 @@ import de.neuefische.backend.security.model.Role;
 import de.neuefische.backend.security.repository.AppUserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -87,21 +93,215 @@ class UserServiceTest {
 
     @Test
     void updateUser() {
+        //GIVEN
+        when(userRepository.save(User.builder()
+                .login("foobar")
+                .firstName("Jim")
+                .lastName("Carrey")
+                .phone("123123")
+                .notes("Ace Ventura!")
+                .build()))
+                .thenReturn(User.builder()
+                        .login("foobar")
+                        .firstName("Jim")
+                        .lastName("Carrey")
+                        .phone("123123")
+                        .notes("Ace Ventura!")
+                        .build());
+        when(userRepository.findById("foobar")).thenReturn(Optional.of(User.builder()
+                .login("foobar")
+                .firstName("John")
+                .lastName("Carrey")
+                .phone("999999")
+                .notes("Ace Ventura!")
+                .build()));
+
+        //WHEN
+        User user = userService.updateUser(UserDto.builder()
+                .firstName("Jim")
+                .lastName("")
+                .phone("123123")
+                .notes("")
+                .build(), "foobar");
+
+        //THEN
+        assertThat(user, is(User.builder()
+                .login("foobar")
+                .firstName("Jim")
+                .lastName("Carrey")
+                .phone("123123")
+                .notes("Ace Ventura!")
+                .build()));
+        verify(userRepository, times(2)).findById("foobar");
+        verify(userRepository, times(1)).save(User.builder()
+                .login("foobar")
+                .firstName("Jim")
+                .lastName("Carrey")
+                .phone("123123")
+                .notes("Ace Ventura!")
+                .build());
+
     }
 
     @Test
     void addNewUser() {
+        //GIVEN
+        when(userRepository.save(User.builder()
+                .login("foobar")
+                .firstName("Jim")
+                .lastName("Carrey")
+                .phone("123123")
+                .notes("Ace Ventura!")
+                .build()))
+                .thenReturn(User.builder()
+                        .login("foobar")
+                        .firstName("Jim")
+                        .lastName("Carrey")
+                        .phone("123123")
+                        .notes("Ace Ventura!")
+                        .build());
+
+        //WHEN
+        User user = userService.addNewUser(User.builder()
+                .login("foobar")
+                .firstName("Jim")
+                .lastName("Carrey")
+                .phone("123123")
+                .notes("Ace Ventura!")
+                .build());
+
+        //THEN
+        assertThat(user, is(User.builder()
+                .login("foobar")
+                .firstName("Jim")
+                .lastName("Carrey")
+                .phone("123123")
+                .notes("Ace Ventura!")
+                .build()));
+        verify(userRepository, times(1)).save(User.builder()
+                .login("foobar")
+                .firstName("Jim")
+                .lastName("Carrey")
+                .phone("123123")
+                .notes("Ace Ventura!")
+                .build());
     }
 
     @Test
     void addChild() {
+        when(childRepository.save(Child.builder()
+                .login("foobar")
+                .firstName("Rick")
+                .lastName("Astley")
+                .schoolClass("1a")
+                .notes("Never gonna give you up")
+                .id("foobarRick")
+                .build()))
+                .thenReturn(Child.builder()
+                        .login("foobar")
+                        .firstName("Rick")
+                        .lastName("Astley")
+                        .schoolClass("1a")
+                        .notes("Never gonna give you up")
+                        .id("foobarRick")
+                        .build());
+
+        //WHEN
+        Child child = userService.addChild(ChildDto.builder()
+                .firstName("Rick")
+                .lastName("Astley")
+                .schoolClass("1a")
+                .notes("Never gonna give you up")
+                .build(), "foobar");
+
+        //THEN
+        assertThat(child, is(Child.builder()
+                .login("foobar")
+                .firstName("Rick")
+                .lastName("Astley")
+                .schoolClass("1a")
+                .notes("Never gonna give you up")
+                .id("foobarRick")
+                .build()));
+        verify(childRepository, times(1)).save(Child.builder()
+                .login("foobar")
+                .firstName("Rick")
+                .lastName("Astley")
+                .schoolClass("1a")
+                .notes("Never gonna give you up")
+                .id("foobarRick")
+                .build());
     }
 
     @Test
     void getChildByUser() {
+        //GIVEN
+        String login = "foobar";
+        Query query = new Query()
+                .addCriteria(Criteria.where("login").is(login));
+        when(mongoTemplate.find(query, Child.class)).thenReturn(List.of(
+                Child.builder()
+                        .login("foobar")
+                        .firstName("Rick")
+                        .lastName("Astley")
+                        .schoolClass("1a")
+                        .notes("Never gonna give you up")
+                        .id("foobarRick")
+                        .build()));
+        //WHEN
+        List<Child> childList = userService.getChildByUser("foobar");
+
+        //THEN
+        assertThat(childList, is(List.of(
+                Child.builder()
+                        .login("foobar")
+                        .firstName("Rick")
+                        .lastName("Astley")
+                        .schoolClass("1a")
+                        .notes("Never gonna give you up")
+                        .id("foobarRick")
+                        .build())));
+        verify(mongoTemplate, times(1)).find(query, Child.class);
     }
 
     @Test
     void getAllAppUsers() {
+        //GIVEN
+        when(appUserRepository.findById("foobar"))
+                .thenReturn(Optional.of(
+                        AppUser.builder()
+                                .username("foobar")
+                                .password("encrypted password")
+                                .role(Role.ADMIN)
+                                .build()));
+        when(appUserRepository.findAll()).thenReturn(List.of(
+                AppUser.builder()
+                        .username("foobar")
+                        .password("encrypted password")
+                        .role(Role.ADMIN)
+                        .build(),
+                AppUser.builder()
+                        .username("baz")
+                        .password("encrypted password")
+                        .role(Role.USER)
+                        .build()));
+        //WHEN
+        List<AppUser> appUserList = userService.getAllAppUsers("foobar");
+
+        //THEN
+        assertThat(appUserList, is(List.of(
+                AppUser.builder()
+                        .username("foobar")
+                        .password("encrypted password")
+                        .role(Role.ADMIN)
+                        .build(),
+                AppUser.builder()
+                        .username("baz")
+                        .password("encrypted password")
+                        .role(Role.USER)
+                        .build())));
+        verify(appUserRepository, times(2)).findById("foobar");
+        verify(appUserRepository, times(1)).findAll();
+
     }
 }
