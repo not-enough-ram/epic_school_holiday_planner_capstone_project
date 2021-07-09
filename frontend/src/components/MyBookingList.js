@@ -52,13 +52,18 @@ export default function MyBookingList() {
         !error &&
         bookingsByChild.map((child) => (
           <div key={child.id} className={classes.child}>
-            <Typography variant={"subtitle1"} className={classes.childname}>
+            <Typography
+              key={child.id}
+              variant={"subtitle1"}
+              className={classes.childname}
+            >
               {child.childName}
             </Typography>
             <div className={classes.booking}>
               {child.booking.map((booking) => (
                 <div key={booking.id}>
                   <Typography
+                    key={booking.id}
                     variant={"subtitle2"}
                     className={classes.holidayName}
                   >

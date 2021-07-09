@@ -64,7 +64,7 @@ export default function ProfilePage() {
       {children &&
         children.map((child) => (
           <section className={classes.children}>
-            <Child child={child} className={classes.child} />
+            <Child child={child} token={token} className={classes.child} />
           </section>
         ))}
       <IconButton
@@ -73,7 +73,7 @@ export default function ProfilePage() {
         color="primary"
         component={Link}
         to={"/children"}
-        endIcon={<AddCircleOutlineIcon />}
+        icon={<AddCircleOutlineIcon />}
       >
         <AddCircleIcon fontSize={"large"} />
       </IconButton>

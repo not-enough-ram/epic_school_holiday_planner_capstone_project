@@ -27,10 +27,10 @@ export default function AllUsersPage() {
     <section className={classes.root}>
       {appUsers &&
         appUsers.map((user) => (
-          <section className={classes.user}>
+          <section key={user?.username} className={classes.user}>
             <Typography>Login: {user?.username}</Typography>
             <Typography>Rolle: {user?.role}</Typography>
-            <p>- - - -</p>
+            <span>- - - -</span>
           </section>
         ))}
     </section>

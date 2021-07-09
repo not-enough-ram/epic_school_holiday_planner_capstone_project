@@ -99,7 +99,7 @@ export default function NewAppUserForm() {
     if (handleValidation()) {
       mutation.mutate(value);
       if (mutation.isSuccess) {
-        history.push("./showusers");
+        history.push("/showusers");
       }
     }
   }
