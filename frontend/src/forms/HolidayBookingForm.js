@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -10,8 +10,9 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  TextField,
 } from "@material-ui/core";
+import DateFnsUtils from "@date-io/date-fns";
+import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import SendIcon from "@material-ui/icons/Send";
 import Button from "@material-ui/core/Button";
 import { useMutation } from "react-query";
@@ -32,27 +33,39 @@ const useStyles = makeStyles({
     alignSelf: "center",
     width: "auto",
   },
+  datepicker: {
+    margin: 20,
+  },
 });
 
 export default function HolidayBookingForm({ holidays, children, token }) {
+  const [minDate, setMinDate] = useState("");
+  const [maxDate, setMaxDate] = useState("");
   let history = useHistory();
   const [errors, setErrors] = useState({});
   const classes = useStyles();
+
   const config = {
     headers: {
       Authorization: "Bearer " + token,
     },
   };
-  const [date, setDate] = useState({
-    startDate: new Date(),
-    endDate: new Date(),
-  });
+
+  const [selectedStartDate, handleStartDateChange] = useState(new Date());
+  const [selectedEndDate, handleEndDateChange] = useState(new Date());
   const [value, setValue] = useState({
     holidayName: "",
   });
   const [selectedChild, setSelectedChild] = useState({
     childArray: [],
   });
+  useEffect(() => {
+    const chosenHolidays = holidays.filter(
+      (holiday) => holiday?.name === value?.holidayName
+    );
+    setMinDate(chosenHolidays[0]?.startDate);
+    setMaxDate(chosenHolidays[0]?.endDate);
+  }, [value?.holidayName, maxDate, minDate, holidays]);
 
   const mutation = useMutation(() =>
     axios
@@ -60,8 +73,8 @@ export default function HolidayBookingForm({ holidays, children, token }) {
         `/api/holidays/booked`,
         {
           holidayName: value.holidayName,
-          startDate: date.startDate,
-          endDate: date.endDate,
+          startDate: selectedStartDate,
+          endDate: selectedEndDate,
           selectedChild: selectedChild.childArray,
         },
         config
@@ -71,11 +84,6 @@ export default function HolidayBookingForm({ holidays, children, token }) {
 
   function handleChange(event) {
     setValue({ ...value, [event.target.name]: event.target.value });
-  }
-
-  function handleDateChange(event) {
-    let addDate = new Date(event.target.value);
-    setDate({ ...date, [event.target.name]: addDate });
   }
 
   function handleCheckBoxChange(event) {
@@ -93,19 +101,19 @@ export default function HolidayBookingForm({ holidays, children, token }) {
   function handleValidation() {
     let formIsValid = true;
     let errors = {};
-    if (!date.startDate) {
+    if (!selectedStartDate) {
       formIsValid = false;
       errors["startDate"] = "Startdatum darf nicht leer sein";
     }
-    if (date.startDate.getTime() > date.endDate.getTime()) {
+    if (selectedStartDate.getTime() > selectedEndDate.getTime()) {
       formIsValid = false;
       errors["startDate"] = "Keine Reisen in die Vergangenheit möglich.";
     }
-    if (!date.endDate) {
+    if (!selectedEndDate) {
       formIsValid = false;
       errors["endDate"] = "Startdatum darf nicht leer sein";
     }
-    if (date.endDate.getTime() < date.startDate.getTime()) {
+    if (selectedEndDate.getTime() < selectedStartDate.getTime()) {
       formIsValid = false;
       errors["endDate"] = "Das Enddatum liegt vor dem Startdatum.";
     }
@@ -143,35 +151,37 @@ export default function HolidayBookingForm({ holidays, children, token }) {
         </Select>
         <span style={{ color: "red" }}>{errors["holidayName"]}</span>
       </FormControl>
-
-      <FormControl className={classes.formControl}>
-        <TextField
-          required={true}
-          name="startDate"
-          label="Start"
-          type="date"
-          value={value.startDate}
-          onChange={handleDateChange}
-          InputLabelProps={{
-            shrink: true,
-          }}
+      <MuiPickersUtilsProvider
+        utils={DateFnsUtils}
+        className={classes.formControl}
+      >
+        <DatePicker
+          className={"classes.datepicker"}
+          label={"Start"}
+          name={"startDate"}
+          onChange={handleStartDateChange}
+          value={selectedStartDate}
+          disablePast
+          animateYearScrolling
+          format={"dd/MM/yyyy"}
+          minDate={minDate}
+          maxDate={maxDate}
+          initialFocusedDate={minDate}
         />
-        <span style={{ color: "red" }}>{errors["startDate"]}</span>
-      </FormControl>
-      <FormControl className={classes.formControl}>
-        <TextField
-          required={true}
-          name="endDate"
-          label="Ende"
-          type="date"
-          value={value.endDate}
-          onChange={handleDateChange}
-          InputLabelProps={{
-            shrink: true,
-          }}
+        <DatePicker
+          label={"Ende"}
+          name={"endDate"}
+          onChange={handleEndDateChange}
+          value={selectedEndDate}
+          disablePast
+          animateYearScrolling
+          format={"dd/MM/yyyy"}
+          minDate={minDate}
+          maxDate={maxDate}
+          initialFocusedDate={minDate}
         />
         <span style={{ color: "red" }}>{errors["endDate"]}</span>
-      </FormControl>
+      </MuiPickersUtilsProvider>
       <FormControl className={classes.formControl}>
         <FormLabel component="legend">Kinder auswählen</FormLabel>
         <FormGroup>

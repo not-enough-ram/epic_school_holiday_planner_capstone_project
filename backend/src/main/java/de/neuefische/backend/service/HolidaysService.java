@@ -17,7 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -70,16 +69,10 @@ public class HolidaysService {
                         .childName(child)
                         .startDate(dto.getStartDate())
                         .endDate(dto.getEndDate())
+                        .id(dto.getHolidayName() + dto.getStartDate().getYear())
                         .build()))
                 .collect(Collectors.toList());
         return bookingRepository.saveAll(bookingList);
-    }
-
-    private boolean checkForDuplicateBookings(String childName, LocalDate startDate, LocalDate endDate) {
-        List<Booking> bookingsByChild = bookingRepository.findAllByChildName(childName);
-
-
-        return true;
     }
 
     public List<BookingByChild> getBookingByChild(String user) {

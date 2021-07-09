@@ -30,7 +30,7 @@ export default function AllUsersPage() {
           <section key={user?.username} className={classes.user}>
             <Typography>Login: {user?.username}</Typography>
             <Typography>Rolle: {user?.role}</Typography>
-            <p>- - - -</p>
+            <span>- - - -</span>
           </section>
         ))}
     </section>
