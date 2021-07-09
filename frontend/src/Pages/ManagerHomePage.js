@@ -35,14 +35,12 @@ export default function ManagerHomePage() {
   if (error) return "something went wrong";
   return (
     <section className={classes.root}>
-      <section className={classes.upcoming}>
-        <Typography variant={"h5"}>Die nächsten Ferien</Typography>
-        {upcomingHolidays && <Holidays holidays={upcomingHolidays[0]} />}
-      </section>
+      <Typography variant={"h5"}>Die nächsten Ferien</Typography>
+      {upcomingHolidays && <Holidays holidays={upcomingHolidays[0]} />}
       <Typography variant={"h6"}>Teilnehmende Kinder</Typography>
       <section className={classes.attendingchildren}>
         {upcomingHolidays && (
-          <ChildrenByHolidayList upcomingHolidays={upcomingHolidays[0].name} />
+          <ChildrenByHolidayList upcomingHolidays={upcomingHolidays[0]?.name} />
         )}
       </section>
     </section>

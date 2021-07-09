@@ -110,7 +110,7 @@ export default function AddHolidaysForm() {
     if (handleValidation()) {
       mutation.mutate(value);
       if (mutation.isSuccess) {
-        history.push("/mybookings");
+        history.push("/holidays");
       }
     }
   }

@@ -11,7 +11,7 @@ export default function ChildrenByHolidayList({ upcomingHolidays }) {
   if (error) return "error: " + error.message;
   return (
     <section>
-      {children.map((child) => (
+      {children?.map((child) => (
         <Child key={child.id} child={child} />
       ))}
     </section>

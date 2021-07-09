@@ -119,7 +119,7 @@ export default function HolidayBookingForm({ holidays, children, token }) {
     if (handleValidation()) {
       mutation.mutate(value);
       if (mutation.isSuccess) {
-        history.push("../mybookings");
+        history.push("/mybookings");
       }
     }
   }

@@ -76,10 +76,10 @@ export default function ProfileForm({ token, user }) {
       .post(
         `/api/user/update`,
         {
-          firstName: value.firstName,
-          lastName: value.lastName,
-          notes: value.notes,
-          phone: value.phone,
+          firstName: value?.firstName,
+          lastName: value?.lastName,
+          notes: value?.notes,
+          phone: value?.phone,
         },
         config
       )

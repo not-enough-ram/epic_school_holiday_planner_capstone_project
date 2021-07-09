@@ -73,7 +73,7 @@ export default function ProfilePage() {
         color="primary"
         component={Link}
         to={"/children"}
-        endIcon={<AddCircleOutlineIcon />}
+        icon={<AddCircleOutlineIcon />}
       >
         <AddCircleIcon fontSize={"large"} />
       </IconButton>
