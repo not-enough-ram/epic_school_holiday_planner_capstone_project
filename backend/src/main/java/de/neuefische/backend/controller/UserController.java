@@ -31,7 +31,7 @@ public class UserController {
     }
 
     @PostMapping()
-    public User updateUser(@RequestBody User newUser) {
+    public User addNewUser(@RequestBody User newUser) {
         return userService.addNewUser(newUser);
     }
 
@@ -53,7 +53,7 @@ public class UserController {
 
     @GetMapping
     public User getUser(Principal user) {
-        return userService.getUser(user.getName());
+        return userService.getUserById(user.getName());
     }
 
     @GetMapping("allappusers")

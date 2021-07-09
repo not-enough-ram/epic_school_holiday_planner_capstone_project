@@ -11,6 +11,8 @@ import {
 import AuthContext from "../context/AuthContext";
 import SendIcon from "@material-ui/icons/Send";
 import Button from "@material-ui/core/Button";
+import { useMutation } from "react-query";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
@@ -27,26 +29,25 @@ const useStyles = makeStyles({
   },
 });
 
-export default function AddNewUserPage() {
+export default function NewAppUserForm() {
+  let history = useHistory();
   const classes = useStyles();
+  const [errors, setErrors] = useState({});
   const { token } = useContext(AuthContext);
+
+  const config = {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  };
+
   const [value, setValue] = useState({
     login: "",
     password: "",
     role: "",
   });
 
-  function handleChange(event) {
-    setValue({ ...value, [event.target.name]: event.target.value });
-  }
-
-  function handleSubmit(event) {
-    event.preventDefault();
-    const config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
+  const mutation = useMutation(() =>
     axios
       .post(
         `/api/user/appuser`,
@@ -57,7 +58,50 @@ export default function AddNewUserPage() {
         },
         config
       )
-      .catch((error) => console.error(error.message));
+      .catch((error) => console.error(error.message))
+  );
+
+  function handleChange(event) {
+    setValue({ ...value, [event.target.name]: event.target.value });
+  }
+
+  function handleValidation() {
+    let formIsValid = true;
+    let errors = {};
+    if (!value.login) {
+      formIsValid = false;
+      errors["login"] = "Login darf nicht leer sein";
+    }
+    if (value.login !== "undefined") {
+      if (!value.login.match(/^[a-zA-Z]+$/)) {
+        formIsValid = false;
+        errors["login"] = "Nur Buchstaben";
+      }
+    }
+    if (!value.password) {
+      formIsValid = false;
+      errors["password"] = "Passwort darf nicht leer sein";
+    }
+    if (value.password.length < 8) {
+      formIsValid = false;
+      errors["password"] = "Mindestens 8 Zeichen";
+    }
+    if (!value.role) {
+      formIsValid = false;
+      errors["role"] = "Rolle darf nicht leer sein";
+    }
+    setErrors(errors);
+    return formIsValid;
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    if (handleValidation()) {
+      mutation.mutate(value);
+      if (mutation.isSuccess) {
+        history.push("./showusers");
+      }
+    }
   }
 
   return (
@@ -71,8 +115,8 @@ export default function AddNewUserPage() {
         placeholder={"Login"}
         required={true}
         type={"text"}
-        className={classes.textfield}
       />
+      <span style={{ color: "red" }}>{errors["login"]}</span>
       <TextField
         variant={"filled"}
         name={"password"}
@@ -82,9 +126,9 @@ export default function AddNewUserPage() {
         helperText={"Passwort"}
         required={true}
         type={"text"}
-        className={classes.textfield}
       />
-      <FormControl className={classes.formControl}>
+      <span style={{ color: "red" }}>{errors["password"]}</span>
+      <FormControl>
         <InputLabel id={"selectRole"}>Rolle</InputLabel>
         <Select
           labelId={"selectRole"}
@@ -95,6 +139,7 @@ export default function AddNewUserPage() {
           <MenuItem value={"user"}>Elternteil</MenuItem>
           <MenuItem value={"admin"}>Ferienkoordinator</MenuItem>
         </Select>
+        <span style={{ color: "red" }}>{errors["role"]}</span>
       </FormControl>
       <Button
         variant="contained"

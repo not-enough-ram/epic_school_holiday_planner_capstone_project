@@ -60,7 +60,7 @@ public class UserService {
         };
     }
 
-    public User getUser(String user) {
+    public User getUserById(String user) {
         if (userRepository.findById(user).isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         }

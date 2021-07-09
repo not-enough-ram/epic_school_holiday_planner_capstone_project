@@ -1,4 +1,4 @@
-import HolidayBookingForm from "../components/HolidayBookingForm";
+import HolidayBookingForm from "../forms/HolidayBookingForm";
 import useHolidays from "../hooks/useHolidays";
 import useChildren from "../hooks/useChildren";
 import { useContext } from "react";
@@ -27,9 +27,12 @@ const useStyles = makeStyles({
 
 export default function BookingPage() {
   const classes = useStyles();
-  const { data: holidays, isLoading, error } = useHolidays();
-  const { data: children } = useChildren();
+  const { data: holidays } = useHolidays();
+  const { data: children, isLoading, error } = useChildren();
   const { token } = useContext(AuthContext);
+
+  if (isLoading) return "is loading ...";
+  if (error) return "Something went wrong";
   return (
     <section className={classes.root}>
       <Typography className={classes.mybookings} variant={"h5"}>

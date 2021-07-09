@@ -4,6 +4,7 @@ import { TextField } from "@material-ui/core";
 import SendIcon from "@material-ui/icons/Send";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
+import { useMutation } from "react-query";
 
 const useStyles = makeStyles({
   root: {
@@ -17,6 +18,10 @@ const useStyles = makeStyles({
     alignSelf: "center",
     width: "auto",
   },
+  success: {
+    alignSelf: "center",
+    color: "green",
+  },
 });
 
 export default function ProfileForm({ token, user }) {
@@ -28,20 +33,48 @@ export default function ProfileForm({ token, user }) {
     notes: user?.notes,
   });
 
-  function handleChange(event) {
-    setValue({ ...value, [event.target.name]: event.target.value });
+  const [errors, setErrors] = useState({});
+
+  function handleValidation() {
+    let formIsValid = true;
+    let errors = {};
+    if (!value.firstName) {
+      formIsValid = false;
+      errors["firstName"] = "Vorname darf nicht leer sein";
+    }
+    if (value.firstName !== "undefined") {
+      if (!value.firstName.match(/^[a-zA-Z]+$/)) {
+        formIsValid = false;
+        errors["firstName"] = "Nur Buchstaben";
+      }
+    }
+    if (!value.lastName) {
+      formIsValid = false;
+      errors["lastName"] = "Vorname darf nicht leer sein";
+    }
+    if (value.lastName !== "undefined") {
+      if (!value.lastName.match(/^[a-zA-Z]+$/)) {
+        formIsValid = false;
+        errors["lastName"] = "Nur Buchstaben";
+      }
+    }
+    if (!value.phone) {
+      formIsValid = false;
+      errors["phone"] = "Telefonnummer darf nicht leer sein";
+    }
+    setErrors(errors);
+    return formIsValid;
   }
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    const config = {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
+  const config = {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  };
+  const mutation = useMutation(() =>
     axios
       .post(
-        `/api/user/`,
+        `/api/user/update`,
         {
           firstName: value.firstName,
           lastName: value.lastName,
@@ -50,7 +83,18 @@ export default function ProfileForm({ token, user }) {
         },
         config
       )
-      .catch((error) => console.error(error.message));
+      .catch((error) => console.error(error.message))
+  );
+
+  function handleChange(event) {
+    setValue({ ...value, [event.target.name]: event.target.value });
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    if (handleValidation()) {
+      mutation.mutate(value);
+    }
   }
 
   return (
@@ -62,10 +106,10 @@ export default function ProfileForm({ token, user }) {
         value={value.firstName}
         helperText={"Vorname"}
         placeholder={user?.firstName}
-        required={true}
+        required={false}
         type={"text"}
-        className={classes.textfield}
       />
+      <span style={{ color: "red" }}>{errors["firstName"]}</span>
       <TextField
         variant={"filled"}
         name={"lastName"}
@@ -73,10 +117,10 @@ export default function ProfileForm({ token, user }) {
         value={value.lastName}
         placeholder={user?.lastName}
         helperText={"Nachname"}
-        required={true}
+        required={false}
         type={"text"}
-        className={classes.textfield}
       />
+      <span style={{ color: "red" }}>{errors["lastName"]}</span>
       <TextField
         variant={"filled"}
         name={"phone"}
@@ -84,10 +128,10 @@ export default function ProfileForm({ token, user }) {
         value={value.phone}
         placeholder={user?.phone}
         helperText={"Telefonnummer"}
-        required={true}
+        required={false}
         type={"text"}
-        className={classes.textfield}
       />
+      <span style={{ color: "red" }}>{errors["phone"]}</span>
       <TextField
         variant={"filled"}
         name={"notes"}
@@ -95,9 +139,8 @@ export default function ProfileForm({ token, user }) {
         value={value.notes}
         placeholder={user?.notes}
         helperText={"Anmerkungen"}
-        required={true}
+        required={false}
         type={"text"}
-        className={classes.textfield}
       />
       <Button
         variant="contained"
@@ -110,6 +153,11 @@ export default function ProfileForm({ token, user }) {
       >
         Absenden
       </Button>
+      {mutation.isSuccess && (
+        <span style={{ color: "green", alignSelf: "center" }}>
+          Profil aktualisiert
+        </span>
+      )}
     </form>
   );
 }

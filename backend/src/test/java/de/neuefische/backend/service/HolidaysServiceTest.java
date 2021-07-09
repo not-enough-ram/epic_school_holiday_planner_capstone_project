@@ -1,6 +1,9 @@
 package de.neuefische.backend.service;
 
+import de.neuefische.backend.dto.BookingByChild;
+import de.neuefische.backend.dto.BookingDto;
 import de.neuefische.backend.model.Booking;
+import de.neuefische.backend.model.Child;
 import de.neuefische.backend.model.Holidays;
 import de.neuefische.backend.repository.BookingRepository;
 import de.neuefische.backend.repository.ChildRepository;
@@ -40,7 +43,7 @@ class HolidaysServiceTest {
                         .endDate(LocalDate.of(2022, 1, 1))
                         .build()));
         //WHEN
-        List<Holidays> holidaysList = holidaysRepository.findAll();
+        List<Holidays> holidaysList = holidaysService.getListOfHolidays();
 
         assertThat(holidaysList, is(List.of(Holidays.builder()
                         .name("Sommerferien 2020")
@@ -56,7 +59,7 @@ class HolidaysServiceTest {
     }
 
     @Test
-    void addNewHolidays() {
+    void addNewHolidaysAddsNewHolidaysToDatabase() {
         //GIVEN
         when(holidaysRepository.save(Holidays.builder()
                 .name("Sommerferien 2020")
@@ -69,7 +72,7 @@ class HolidaysServiceTest {
                 .build());
 
         //WHEN
-        Holidays holidays = holidaysRepository.save(Holidays.builder()
+        Holidays holidays = holidaysService.addNewHolidays(Holidays.builder()
                 .name("Sommerferien 2020")
                 .startDate(LocalDate.of(2020, 1, 1))
                 .endDate(LocalDate.of(2021, 1, 1))
@@ -89,9 +92,9 @@ class HolidaysServiceTest {
     }
 
     @Test
-    void getBookings() {
+    void getBookingsReturnsAllBookingsForLoggedInUser() {
         //GIVEN
-        when(bookingRepository.findAll()).thenReturn(List.of(
+        when(bookingRepository.findBylogin("foobar")).thenReturn(List.of(
                 Booking.builder()
                         .holidayName("Sommerferien 2020")
                         .childName("baz")
@@ -100,7 +103,7 @@ class HolidaysServiceTest {
                         .endDate(LocalDate.of(2021, 1, 1))
                         .build()));
         //WHEN
-        List<Booking> bookingList = bookingRepository.findAll();
+        List<Booking> bookingList = holidaysService.getBookingsByUser("foobar");
 
         //THEN
         assertThat(bookingList, is(List.of(
@@ -111,11 +114,11 @@ class HolidaysServiceTest {
                         .startDate(LocalDate.of(2020, 1, 1))
                         .endDate(LocalDate.of(2021, 1, 1))
                         .build())));
-        verify(bookingRepository, times(1)).findAll();
+        verify(bookingRepository, times(1)).findBylogin("foobar");
     }
 
     @Test
-    void getHolidaysByName() {
+    void getHolidaysByNameReturnsHolidaysWithMatchingName() {
         //GIVEN
         when(holidaysRepository.findById("Sommerferien 2020")).thenReturn(Optional.of(Holidays.builder()
                 .name("Sommerferien 2020")
@@ -123,19 +126,19 @@ class HolidaysServiceTest {
                 .endDate(LocalDate.of(2021, 1, 1))
                 .build()));
         //WHEN
-        Optional<Holidays> holidays = holidaysRepository.findById("Sommerferien 2020");
+        Holidays holidays = holidaysService.getHolidaysByName("Sommerferien 2020");
 
         //THEN
-        assertThat(holidays, is(Optional.of(Holidays.builder()
+        assertThat(holidays, is(Holidays.builder()
                 .name("Sommerferien 2020")
                 .startDate(LocalDate.of(2020, 1, 1))
                 .endDate(LocalDate.of(2021, 1, 1))
-                .build())));
+                .build()));
         verify(holidaysRepository, times(1)).findById("Sommerferien 2020");
     }
 
     @Test
-    void getUpcomingHolidays() {
+    void getUpcomingHolidaysReturnsArrayWithOneElementContainingUpcomingHolidaysFromNow() {
         //GIVEN
         when(holidaysService.getUpcomingHolidays()).thenReturn(List.of(Holidays.builder()
                 .name("Sommerferien 2020")
@@ -158,45 +161,120 @@ class HolidaysServiceTest {
     }
 
     @Test
-    void addBookedHolidays() {
+    void addBookedHolidaysReturnsNewBookingObjectAndSavesItInDatabase() {
         //GIVEN
-        when(bookingRepository.save(Booking.builder()
+        when(bookingRepository.saveAll(List.of(Booking.builder()
                 .holidayName("Sommerferien 2020")
+                .login("foobar")
                 .childName("baz")
-                .id("bazSommerferien 2020")
                 .startDate(LocalDate.of(2020, 1, 1))
                 .endDate(LocalDate.of(2021, 1, 1))
-                .build()))
-                .thenReturn(Booking.builder()
+                .build())))
+                .thenReturn(List.of(Booking.builder()
                         .holidayName("Sommerferien 2020")
+                        .login("foobar")
                         .childName("baz")
-                        .id("bazSommerferien 2020")
                         .startDate(LocalDate.of(2020, 1, 1))
                         .endDate(LocalDate.of(2021, 1, 1))
-                        .build());
+                        .build()));
         //WHEN
-        Booking booking = bookingRepository.save(Booking.builder()
+        List<Booking> bookingList = holidaysService.addBooking(BookingDto.builder()
                 .holidayName("Sommerferien 2020")
-                .childName("baz")
-                .id("bazSommerferien 2020")
+                .selectedChild(List.of("baz"))
                 .startDate(LocalDate.of(2020, 1, 1))
                 .endDate(LocalDate.of(2021, 1, 1))
-                .build());
+                .build(), "foobar");
 
         //THEN
-        assertThat(booking, is(Booking.builder()
+        assertThat(bookingList, is(List.of(Booking.builder()
                 .holidayName("Sommerferien 2020")
+                .login("foobar")
                 .childName("baz")
-                .id("bazSommerferien 2020")
+                .startDate(LocalDate.of(2020, 1, 1))
+                .endDate(LocalDate.of(2021, 1, 1))
+                .build())));
+        verify(bookingRepository, times(1)).saveAll(List.of(Booking.builder()
+                .holidayName("Sommerferien 2020")
+                .login("foobar")
+                .childName("baz")
                 .startDate(LocalDate.of(2020, 1, 1))
                 .endDate(LocalDate.of(2021, 1, 1))
                 .build()));
-        verify(bookingRepository, times(1)).save(Booking.builder()
-                .holidayName("Sommerferien 2020")
-                .childName("baz")
-                .id("bazSommerferien 2020")
-                .startDate(LocalDate.of(2020, 1, 1))
-                .endDate(LocalDate.of(2021, 1, 1))
-                .build());
+    }
+
+    @Test
+    void getBookingByChildReturnsAllBookingsForAllChildsOfLoggedInUser() {
+        when(childRepository.findAllByLogin("foobar")).thenReturn(List.of(
+                Child.builder()
+                        .firstName("Foo")
+                        .lastName("Bar")
+                        .schoolClass("2a")
+                        .notes("Hates insects")
+                        .id("42")
+                        .build()));
+        when(bookingRepository.findAllByChildName("Foo")).thenReturn(List.of(
+                Booking.builder()
+                        .childName("Foo")
+                        .startDate(LocalDate.of(2021, 1, 1))
+                        .endDate(LocalDate.of(2022, 1, 1))
+                        .id("Bar")
+                        .build()));
+        //WHEN
+        List<BookingByChild> bookingByChildList = holidaysService.getBookingByChild("foobar");
+
+        //THEN
+        assertThat(bookingByChildList, is(List.of(
+                BookingByChild.builder()
+                        .childName("Foo")
+                        .booking(List.of(
+                                Booking.builder()
+                                        .childName("Foo")
+                                        .startDate(LocalDate.of(2021, 1, 1))
+                                        .endDate(LocalDate.of(2022, 1, 1))
+                                        .id("Bar")
+                                        .build()))
+                        .build())));
+        verify(childRepository, times(1)).findAllByLogin("foobar");
+        verify(bookingRepository, times(1)).findAllByChildName("Foo");
+
+    }
+
+    @Test
+    void getChildrenByHolidays() {
+        //GIVEN
+        when(bookingRepository.findAllByholidayName("Sommerferien")).thenReturn(List.of(
+                Booking.builder()
+                        .login("foobar")
+                        .childName("baz")
+                        .holidayName("Sommerferien")
+                        .build(),
+                Booking.builder()
+                        .login("foobar")
+                        .childName("omega")
+                        .holidayName("Sommerferien")
+                        .build()));
+        when(childRepository.findByLoginAndFirstName("foobar", "baz")).thenReturn(
+                Child.builder().firstName("baz").lastName("super").login("foobar").build());
+        when(childRepository.findByLoginAndFirstName("foobar", "omega")).thenReturn(
+                Child.builder().firstName("omega").lastName("super").login("foobar").build());
+
+        //WHEN
+        List<Child> childList = holidaysService.getChildrenByHolidays("Sommerferien");
+
+        //THEN
+        assertThat(childList, is(List.of(
+                Child.builder()
+                        .firstName("baz")
+                        .lastName("super")
+                        .login("foobar")
+                        .build(),
+                Child.builder()
+                        .firstName("omega")
+                        .lastName("super")
+                        .login("foobar")
+                        .build())));
+        verify(bookingRepository, times(1)).findAllByholidayName("Sommerferien");
+        verify(childRepository, times(1)).findByLoginAndFirstName("foobar", "baz");
+        verify(childRepository, times(1)).findByLoginAndFirstName("foobar", "omega");
     }
 }

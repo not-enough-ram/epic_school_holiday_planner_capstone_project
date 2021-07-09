@@ -1,4 +1,4 @@
-import ProfileForm from "../components/ProfileForm";
+import ProfileForm from "../forms/ProfileForm";
 import useChildren from "../hooks/useChildren";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { IconButton, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
+import Child from "../components/Child";
 
 const useStyles = makeStyles({
   root: {
@@ -27,6 +28,9 @@ const useStyles = makeStyles({
   children: {
     marginLeft: 10,
   },
+  child: {
+    marginBottom: 10,
+  },
   mychildren: {
     marginLeft: 10,
   },
@@ -44,6 +48,8 @@ export default function ProfilePage() {
 
   if (isLoading) return "is loading ...";
 
+  if (error) return "something went wrong";
+
   return (
     <section className={classes.root}>
       <Typography className={classes.myprofile} variant={"h5"}>
@@ -58,9 +64,7 @@ export default function ProfilePage() {
       {children &&
         children.map((child) => (
           <section className={classes.children}>
-            <p>
-              {child?.firstName} {child?.schoolClass}
-            </p>
+            <Child child={child} className={classes.child} />
           </section>
         ))}
       <IconButton

@@ -1,7 +1,9 @@
 package de.neuefische.backend.controller;
 
+import de.neuefische.backend.dto.BookingByChild;
 import de.neuefische.backend.dto.BookingDto;
 import de.neuefische.backend.model.Booking;
+import de.neuefische.backend.model.Child;
 import de.neuefische.backend.model.Holidays;
 import de.neuefische.backend.service.HolidaysService;
 import org.junit.jupiter.api.Test;
@@ -15,6 +17,7 @@ import static org.mockito.Mockito.*;
 
 class HolidaysControllerTest {
     HolidaysService holidaysService = mock(HolidaysService.class);
+    HolidaysController holidaysController = new HolidaysController(holidaysService);
 
     @Test
     void holidayListReturnsAListOfAllHolidays() {
@@ -33,7 +36,7 @@ class HolidaysControllerTest {
                                 .build()));
 
         //WHEN
-        List<Holidays> holidaysList = holidaysService.getListOfHolidays();
+        List<Holidays> holidaysList = holidaysController.getListOfHolidays();
 
         //THEN
         assertThat(holidaysList, is(List.of(
@@ -60,7 +63,7 @@ class HolidaysControllerTest {
                 .build());
 
         //WHEN
-        Holidays holidays = holidaysService.getHolidaysByName("Sommerferien 2020");
+        Holidays holidays = holidaysController.getHolidaysByName("Sommerferien 2020");
 
         //THEN
         assertThat(holidays, is(Holidays.builder()
@@ -81,7 +84,7 @@ class HolidaysControllerTest {
                 .build()));
 
         //WHEN
-        List<Holidays> holidaysList = holidaysService.getUpcomingHolidays();
+        List<Holidays> holidaysList = holidaysController.getUpcomingHolidays();
 
         //THEN
         assertThat(holidaysList, is(List.of(Holidays.builder()
@@ -95,7 +98,7 @@ class HolidaysControllerTest {
     @Test
     void getBookedholidaysReturnsListOfAllBookedHolidays() {
         //GIVEN
-        when(holidaysService.getBookings("foobar"))
+        when(holidaysService.getBookingsByUser("foobar"))
                 .thenReturn(List.of(
                         Booking.builder()
                                 .holidayName("Sommerferien 2020")
@@ -106,7 +109,7 @@ class HolidaysControllerTest {
                                 .build()));
 
         //WHEN
-        List<Booking> bookingList = holidaysService.getBookings("foobar");
+        List<Booking> bookingList = holidaysController.getBookingsByUser(() -> "foobar");
 
         //THEN
         assertThat(bookingList, is(List.of(
@@ -117,12 +120,12 @@ class HolidaysControllerTest {
                         .startDate(LocalDate.of(2020, 1, 1))
                         .endDate(LocalDate.of(2021, 1, 1))
                         .build())));
-        verify(holidaysService, times(1)).getBookings("foobar");
+        verify(holidaysService, times(1)).getBookingsByUser("foobar");
     }
 
     @Test
     void addBookedHolidaysStoresBookingInDbAndReturnsSavedBooking() {
-        when(holidaysService.addBookedHolidays(BookingDto.builder()
+        when(holidaysService.addBooking(BookingDto.builder()
                 .holidayName("Sommerferien 2020")
                 .selectedChild(List.of("baz"))
                 .startDate(LocalDate.of(2020, 1, 1))
@@ -136,12 +139,12 @@ class HolidaysControllerTest {
                         .endDate(LocalDate.of(2021, 1, 1))
                         .build()));
         //WHEN
-        List<Booking> bookingList = holidaysService.addBookedHolidays(BookingDto.builder()
+        List<Booking> bookingList = holidaysController.addBookedHolidays(BookingDto.builder()
                 .holidayName("Sommerferien 2020")
                 .selectedChild(List.of("baz"))
                 .startDate(LocalDate.of(2020, 1, 1))
                 .endDate(LocalDate.of(2021, 1, 1))
-                .build(), "foobar");
+                .build(), () -> "foobar");
 
         //THEN
         assertThat(bookingList, is(List.of(Booking.builder()
@@ -151,7 +154,7 @@ class HolidaysControllerTest {
                 .startDate(LocalDate.of(2020, 1, 1))
                 .endDate(LocalDate.of(2021, 1, 1))
                 .build())));
-        verify(holidaysService, times(1)).addBookedHolidays(BookingDto.builder()
+        verify(holidaysService, times(1)).addBooking(BookingDto.builder()
                 .holidayName("Sommerferien 2020")
                 .selectedChild(List.of("baz"))
                 .startDate(LocalDate.of(2020, 1, 1))
@@ -173,7 +176,7 @@ class HolidaysControllerTest {
                         .endDate(LocalDate.of(2021, 1, 1))
                         .build());
         //WHEN
-        Holidays holidays = holidaysService.addNewHolidays(Holidays.builder()
+        Holidays holidays = holidaysController.addNewHolidays(Holidays.builder()
                 .name("Sommerferien 2020")
                 .startDate(LocalDate.of(2020, 1, 1))
                 .endDate(LocalDate.of(2021, 1, 1))
@@ -189,5 +192,64 @@ class HolidaysControllerTest {
                 .startDate(LocalDate.of(2020, 1, 1))
                 .endDate(LocalDate.of(2021, 1, 1))
                 .build());
+    }
+
+    @Test
+    void getBookingByChildReturnsBookingsForAllChildaOfLoggedInUser() {
+        //GIVEN
+        when(holidaysService.getBookingByChild("foobar")).thenReturn(List.of(
+                BookingByChild.builder()
+                        .childName("Foo")
+                        .booking(List.of(
+                                Booking.builder()
+                                        .childName("Foo")
+                                        .holidayName("Sommerferien")
+                                        .startDate(LocalDate.of(2021, 1, 1))
+                                        .endDate(LocalDate.of(2022, 1, 1))
+                                        .build()
+                        )).build()));
+
+        //WHEN
+        List<BookingByChild> bookingByChild = holidaysController.getBookingByChild(() -> "foobar");
+
+        //THEN
+        assertThat(bookingByChild, is(List.of(
+                BookingByChild.builder()
+                        .childName("Foo")
+                        .booking(List.of(
+                                Booking.builder()
+                                        .childName("Foo")
+                                        .holidayName("Sommerferien")
+                                        .startDate(LocalDate.of(2021, 1, 1))
+                                        .endDate(LocalDate.of(2022, 1, 1))
+                                        .build()
+                        )).build())));
+        verify(holidaysService, times(1)).getBookingByChild("foobar");
+    }
+
+    @Test
+    void getChildrenByHolidaysReturnsListOfAllChildrenVisitingGivenHolidays() {
+        //GIVEN
+        when(holidaysService.getChildrenByHolidays("Sommerferien")).thenReturn(List.of(
+                Child.builder()
+                        .firstName("Foo")
+                        .lastName("Bar")
+                        .schoolClass("2a")
+                        .notes("Hates insects")
+                        .id("42")
+                        .build()));
+        //WHEN
+        List<Child> childList = holidaysController.getChildrenByHolidays("Sommerferien");
+
+        //THEN
+        assertThat(childList, is(List.of(
+                Child.builder()
+                        .firstName("Foo")
+                        .lastName("Bar")
+                        .schoolClass("2a")
+                        .notes("Hates insects")
+                        .id("42")
+                        .build())));
+        verify(holidaysService, times(1)).getChildrenByHolidays("Sommerferien");
     }
 }

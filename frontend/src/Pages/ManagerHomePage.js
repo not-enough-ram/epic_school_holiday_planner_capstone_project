@@ -23,7 +23,7 @@ const useStyles = makeStyles({
   },
   attendingchildren: {
     display: "flex",
-    flexFlow: "row wrap",
+    flexWrap: "wrap",
   },
 });
 

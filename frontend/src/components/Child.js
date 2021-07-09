@@ -9,6 +9,7 @@ const useStyles = makeStyles({
     borderRadius: 5,
     width: "max-content",
     padding: 10,
+    marginBottom: 10,
   },
 });
 export default function Child({ child }) {

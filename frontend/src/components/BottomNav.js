@@ -36,7 +36,7 @@ export default function BottomNavi() {
       onChange={handleChange}
       showLabels
       className={classes.root}
-      color={"primary"}
+      color={"secondary"}
     >
       {jwtDecoded && (
         <BottomNavigationAction
@@ -62,7 +62,7 @@ export default function BottomNavi() {
       {jwtDecoded && jwtDecoded.role === "USER" && (
         <BottomNavigationAction
           value={"/mybookings"}
-          label="Gebuchte Ferien"
+          label="Meine Buchungen"
           icon={<Bookmarks />}
         />
       )}

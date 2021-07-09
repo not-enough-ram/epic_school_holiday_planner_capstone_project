@@ -12,7 +12,7 @@ export default function ChildrenByHolidayList({ upcomingHolidays }) {
   return (
     <section>
       {children.map((child) => (
-        <Child child={child} />
+        <Child key={child.id} child={child} />
       ))}
     </section>
   );
