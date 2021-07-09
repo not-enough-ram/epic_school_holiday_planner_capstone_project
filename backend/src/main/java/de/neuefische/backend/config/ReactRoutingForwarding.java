@@ -11,3 +11,4 @@ public class ReactRoutingForwarding {
         return "forward:/";
     }
 }
+
