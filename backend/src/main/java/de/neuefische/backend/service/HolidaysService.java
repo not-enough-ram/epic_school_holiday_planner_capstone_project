@@ -69,7 +69,7 @@ public class HolidaysService {
                         .childName(child)
                         .startDate(dto.getStartDate())
                         .endDate(dto.getEndDate())
-                        .id(dto.getHolidayName() + dto.getStartDate().getYear())
+                        .id(dto.getHolidayName())
                         .build()))
                 .collect(Collectors.toList());
         return bookingRepository.saveAll(bookingList);
