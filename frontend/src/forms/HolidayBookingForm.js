@@ -167,6 +167,9 @@ export default function HolidayBookingForm({ holidays, children, token }) {
           minDate={minDate}
           maxDate={maxDate}
           initialFocusedDate={minDate}
+          minDateMessage={"Bitte ein Datum innerhalb der Ferien wählen"}
+          maxDateMessage={"Bitte ein Datum innerhalb der Ferien wählen"}
+          autoOk
         />
         <DatePicker
           label={"Ende"}
@@ -179,6 +182,9 @@ export default function HolidayBookingForm({ holidays, children, token }) {
           minDate={minDate}
           maxDate={maxDate}
           initialFocusedDate={minDate}
+          minDateMessage={"Bitte ein Datum innerhalb der Ferien wählen"}
+          maxDateMessage={"Bitte ein Datum innerhalb der Ferien wählen"}
+          autoOk
         />
         <span style={{ color: "red" }}>{errors["endDate"]}</span>
       </MuiPickersUtilsProvider>
