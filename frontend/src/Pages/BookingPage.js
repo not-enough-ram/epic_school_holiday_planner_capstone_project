@@ -23,6 +23,9 @@ const useStyles = makeStyles({
     justifySelf: "flex-start",
     marginLeft: 10,
   },
+  bookingform: {
+    margin: 20,
+  },
 });
 
 export default function BookingPage() {
@@ -43,6 +46,7 @@ export default function BookingPage() {
           holidays={holidays}
           children={children}
           token={token}
+          className={classes.bookingform}
         />
       )}
     </section>
