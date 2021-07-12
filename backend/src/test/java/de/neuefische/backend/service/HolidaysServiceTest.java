@@ -169,7 +169,7 @@ class HolidaysServiceTest {
                 .childName("baz")
                 .startDate(LocalDate.of(2020, 1, 1))
                 .endDate(LocalDate.of(2021, 1, 1))
-                .id("Sommerferien 2020")
+                .id("Sommerferien 2020" + "baz")
                 .build())))
                 .thenReturn(List.of(Booking.builder()
                         .holidayName("Sommerferien 2020")
@@ -177,7 +177,7 @@ class HolidaysServiceTest {
                         .childName("baz")
                         .startDate(LocalDate.of(2020, 1, 1))
                         .endDate(LocalDate.of(2021, 1, 1))
-                        .id("Sommerferien 2020")
+                        .id("Sommerferien 2020" + "baz")
                         .build()));
         //WHEN
         List<Booking> bookingList = holidaysService.addBooking(BookingDto.builder()
@@ -194,7 +194,7 @@ class HolidaysServiceTest {
                 .childName("baz")
                 .startDate(LocalDate.of(2020, 1, 1))
                 .endDate(LocalDate.of(2021, 1, 1))
-                .id("Sommerferien 2020")
+                .id("Sommerferien 2020" + "baz")
                 .build())));
         verify(bookingRepository, times(1)).saveAll(List.of(Booking.builder()
                 .holidayName("Sommerferien 2020")
@@ -202,7 +202,7 @@ class HolidaysServiceTest {
                 .childName("baz")
                 .startDate(LocalDate.of(2020, 1, 1))
                 .endDate(LocalDate.of(2021, 1, 1))
-                .id("Sommerferien 2020")
+                .id("Sommerferien 2020" + "baz")
                 .build()));
     }
 
