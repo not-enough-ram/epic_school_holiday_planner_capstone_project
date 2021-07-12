@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import AuthContext from "../context/AuthContext";
 import { TextField, Typography } from "@material-ui/core";
@@ -189,6 +189,11 @@ export default function AddChildrenForm(child) {
       >
         Absenden
       </Button>
+      {mutation.isSuccess && (
+        <span style={{ color: "green", alignSelf: "center" }}>
+          Kind hinzugefügt
+        </span>
+      )}
     </form>
   );
 }
