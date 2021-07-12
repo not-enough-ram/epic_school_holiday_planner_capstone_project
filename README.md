@@ -20,4 +20,5 @@ There are two roles
   - can see all set holidays
 
 ## Small demo?
+<img src="img/demo.gif" width="375px" height="667px"/>
 ![Demo](img/demo.gif)
