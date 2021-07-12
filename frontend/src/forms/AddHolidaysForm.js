@@ -161,34 +161,6 @@ export default function AddHolidaysForm() {
           />
           <span style={{ color: "red" }}>{errors["endDate"]}</span>
         </MuiPickersUtilsProvider>
-        {/*<FormControl className={classes.formcontrol}>*/}
-        {/*  <TextField*/}
-        {/*    className={classes.datefield}*/}
-        {/*    name="startDate"*/}
-        {/*    label="Start"*/}
-        {/*    type="date"*/}
-        {/*    value={value.startDate}*/}
-        {/*    onChange={handleDateChange}*/}
-        {/*    InputLabelProps={{*/}
-        {/*      shrink: true,*/}
-        {/*    }}*/}
-        {/*  />*/}
-        {/*  <span style={{ color: "red" }}>{errors["startDate"]}</span>*/}
-        {/*</FormControl>*/}
-        {/*<FormControl className={classes.formcontrol}>*/}
-        {/*  <TextField*/}
-        {/*    className={classes.datefield}*/}
-        {/*    name="endDate"*/}
-        {/*    label="Ende"*/}
-        {/*    type="date"*/}
-        {/*    value={value.endDate}*/}
-        {/*    onChange={handleDateChange}*/}
-        {/*    InputLabelProps={{*/}
-        {/*      shrink: true,*/}
-        {/*    }}*/}
-        {/*  />*/}
-        {/*  <span style={{ color: "red" }}>{errors["endDate"]}</span>*/}
-        {/*</FormControl>*/}
         <Button
           variant="contained"
           color="primary"
