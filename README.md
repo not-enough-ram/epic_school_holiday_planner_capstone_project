@@ -20,4 +20,4 @@ There are two roles
   - can see all set holidays
 
 ## Small demo?
-[Demo](img/demo.mov)
+![Demo](img/demo.gif)
