@@ -21,7 +21,6 @@ const useStyles = makeStyles({
     marginTop: 20,
   },
   textfield: {
-    width: "100%",
     marginBottom: 10,
   },
   datefield: {
@@ -30,6 +29,9 @@ const useStyles = makeStyles({
   },
   addholidays: {
     marginBottom: 10,
+  },
+  formcontrol: {
+    margin: 0,
   },
 });
 
@@ -132,7 +134,7 @@ export default function AddHolidaysForm() {
           className={classes.textfield}
         />
         <span style={{ color: "red" }}>{errors["name"]}</span>
-        <FormControl>
+        <FormControl className={classes.formcontrol}>
           <TextField
             className={classes.datefield}
             name="startDate"
@@ -146,7 +148,7 @@ export default function AddHolidaysForm() {
           />
           <span style={{ color: "red" }}>{errors["startDate"]}</span>
         </FormControl>
-        <FormControl>
+        <FormControl className={classes.formcontrol}>
           <TextField
             className={classes.datefield}
             name="endDate"
@@ -171,6 +173,11 @@ export default function AddHolidaysForm() {
         >
           Absenden
         </Button>
+        {mutation.isSuccess && (
+          <span style={{ color: "green", alignSelf: "center" }}>
+            Ferien hinzugefügt
+          </span>
+        )}
       </form>
     </Fragment>
   );

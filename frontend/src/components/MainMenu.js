@@ -63,9 +63,11 @@ export default function MainMenu() {
             Nutzer anlegen
           </MenuItem>
         )}
-        <MenuItem onClick={handleClose} component={Link} to={"/profile"}>
-          Profil
-        </MenuItem>
+        {jwtDecoded.role === "USER" && (
+          <MenuItem onClick={handleClose} component={Link} to={"/profile"}>
+            Profil
+          </MenuItem>
+        )}
         <MenuItem onClick={handleClose} component={Link} to={"/"}>
           Logout
         </MenuItem>

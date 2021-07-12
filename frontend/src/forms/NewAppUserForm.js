@@ -152,6 +152,11 @@ export default function NewAppUserForm() {
       >
         Absenden
       </Button>
+      {mutation.isSuccess && (
+        <span style={{ color: "green", alignSelf: "center" }}>
+          Nutzer hinzugefügt
+        </span>
+      )}
     </form>
   );
 }

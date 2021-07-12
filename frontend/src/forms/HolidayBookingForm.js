@@ -33,7 +33,7 @@ const useStyles = makeStyles({
     alignSelf: "center",
     width: "auto",
   },
-  datepicker: {
+  formcontrol: {
     margin: 20,
   },
 });
@@ -134,7 +134,7 @@ export default function HolidayBookingForm({ holidays, children, token }) {
 
   return (
     <form onSubmit={handleSubmit} className={classes.root}>
-      <FormControl className={classes.formControl}>
+      <FormControl className={classes.formcontrol}>
         <InputLabel id={"selectHolidays"}>Ferien</InputLabel>
         <Select
           required={true}
@@ -153,10 +153,10 @@ export default function HolidayBookingForm({ holidays, children, token }) {
       </FormControl>
       <MuiPickersUtilsProvider
         utils={DateFnsUtils}
-        className={classes.formControl}
+        className={classes.formcontrol}
       >
         <DatePicker
-          className={"classes.datepicker"}
+          className={classes.formcontrol}
           label={"Start"}
           name={"startDate"}
           onChange={handleStartDateChange}
@@ -172,6 +172,7 @@ export default function HolidayBookingForm({ holidays, children, token }) {
           autoOk
         />
         <DatePicker
+          className={classes.formcontrol}
           label={"Ende"}
           name={"endDate"}
           onChange={handleEndDateChange}
@@ -199,7 +200,6 @@ export default function HolidayBookingForm({ holidays, children, token }) {
                   onChange={handleCheckBoxChange}
                   name={child.firstName}
                   value={child.firstName}
-                  required={true}
                 />
               }
               label={child.firstName}
@@ -219,6 +219,11 @@ export default function HolidayBookingForm({ holidays, children, token }) {
       >
         Absenden
       </Button>
+      {mutation.isSuccess && (
+        <span style={{ color: "green", alignSelf: "center" }}>
+          Buchung erfolgreich
+        </span>
+      )}
     </form>
   );
 }
