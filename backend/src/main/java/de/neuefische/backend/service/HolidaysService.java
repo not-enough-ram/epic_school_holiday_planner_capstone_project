@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,7 +38,10 @@ public class HolidaysService {
 
 
     public List<Holidays> getListOfHolidays() {
-        return holidaysRepository.findAll();
+        return holidaysRepository.findAll()
+                .stream()
+                .sorted(Comparator.comparing(Holidays::getStartDate))
+                .collect(Collectors.toList());
     }
 
     public Holidays addNewHolidays(Holidays holidays) {
@@ -79,8 +83,15 @@ public class HolidaysService {
         List<Child> allUserChildren = childRepository.findAllByLogin(user);
         return allUserChildren.stream().map((child) -> BookingByChild.builder()
                 .childName(child.getFirstName())
-                .booking(bookingRepository.findAllByChildName(child.getFirstName()))
+                .booking(findAllByChildNameSortedByStartDate(child.getFirstName()))
                 .build()).collect(Collectors.toList());
+    }
+
+    public List<Booking> findAllByChildNameSortedByStartDate(String childname) {
+        List<Booking> unsortedList = bookingRepository.findAllByChildName(childname);
+        return unsortedList.stream()
+                .sorted(Comparator.comparing(Booking::getStartDate))
+                .collect(Collectors.toList());
     }
 
     public List<Child> getChildrenByHolidays(String holiday) {
