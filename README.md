@@ -18,3 +18,6 @@ There are two roles
   - can add children to his account
   - can book holidays for children related to his account
   - can see all set holidays
+
+## Small demo?
+[Demo](img/demo.mov)
