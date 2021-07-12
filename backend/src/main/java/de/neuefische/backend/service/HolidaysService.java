@@ -81,15 +81,19 @@ public class HolidaysService {
 
     public List<BookingByChild> getBookingByChild(String user) {
         List<Child> allUserChildren = childRepository.findAllByLogin(user);
-        return allUserChildren.stream().map((child) -> BookingByChild.builder()
-                .childName(child.getFirstName())
-                .booking(findAllByChildNameSortedByStartDate(child.getFirstName()))
-                .build()).collect(Collectors.toList());
+        return allUserChildren
+                .stream()
+                .map((child) -> BookingByChild.builder()
+                        .childName(child.getFirstName())
+                        .booking(findAllByChildNameSortedByStartDate(child.getFirstName()))
+                        .build())
+                .collect(Collectors.toList());
     }
 
     public List<Booking> findAllByChildNameSortedByStartDate(String childname) {
         List<Booking> unsortedList = bookingRepository.findAllByChildName(childname);
-        return unsortedList.stream()
+        return unsortedList
+                .stream()
                 .sorted(Comparator.comparing(Booking::getStartDate))
                 .collect(Collectors.toList());
     }
@@ -100,8 +104,11 @@ public class HolidaysService {
     }
 
     private List<Child> getChildInfosFromRepository(List<Booking> bookings) {
-        return bookings.stream().map((booking) -> (
-                childRepository.findByLoginAndFirstName(booking.getLogin(), booking.getChildName())
-        )).collect(Collectors.toList());
+        return bookings
+                .stream()
+                .map((booking) -> (
+                        childRepository.findByLoginAndFirstName(booking.getLogin(), booking.getChildName())
+                ))
+                .collect(Collectors.toList());
     }
 }
