@@ -1,12 +1,14 @@
 import axios from "axios";
 import React, { Fragment, useContext, useState } from "react";
 import AuthContext from "../context/AuthContext";
-import { FormControl, TextField, Typography } from "@material-ui/core";
+import { TextField, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import SendIcon from "@material-ui/icons/Send";
 import Button from "@material-ui/core/Button";
 import { useHistory } from "react-router-dom";
 import { useMutation } from "react-query";
+import DateFnsUtils from "@date-io/date-fns";
+import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 
 const useStyles = makeStyles({
   root: {
@@ -48,9 +50,9 @@ export default function AddHolidaysForm() {
       .post(
         `/api/holidays`,
         {
-          name: value.name + " " + selectedDate.startDate.getFullYear(),
-          startDate: selectedDate.startDate,
-          endDate: selectedDate.endDate,
+          name: value.name + " " + selectedStartDate.getFullYear(),
+          startDate: selectedStartDate,
+          endDate: selectedEndDate,
         },
         config
       )
@@ -58,7 +60,6 @@ export default function AddHolidaysForm() {
   );
 
   let history = useHistory();
-  const [selectedDate, setSelectedDate] = useState(new Date());
   const classes = useStyles();
   const [value, setValue] = useState({
     holidayName: "",
@@ -78,19 +79,19 @@ export default function AddHolidaysForm() {
         errors["name"] = "Nur Buchstaben";
       }
     }
-    if (!selectedDate.startDate) {
+    if (!selectedStartDate) {
       formIsValid = false;
       errors["startDate"] = "Startdatum darf nicht leer sein";
     }
-    if (selectedDate.startDate.getTime() > selectedDate.endDate.getTime()) {
+    if (selectedStartDate.getTime() > selectedEndDate.getTime()) {
       formIsValid = false;
       errors["startDate"] = "Keine Reisen in die Vergangenheit möglich.";
     }
-    if (!selectedDate.endDate) {
+    if (!selectedEndDate) {
       formIsValid = false;
       errors["endDate"] = "Startdatum darf nicht leer sein";
     }
-    if (selectedDate.endDate.getTime() < selectedDate.startDate.getTime()) {
+    if (selectedEndDate.getTime() < selectedStartDate.getTime()) {
       formIsValid = false;
       errors["endDate"] = "Das Enddatum liegt vor dem Startdatum.";
     }
@@ -98,10 +99,8 @@ export default function AddHolidaysForm() {
     return formIsValid;
   }
 
-  function handleDateChange(event) {
-    let date = new Date(event.target.value);
-    setSelectedDate({ ...selectedDate, [event.target.name]: date });
-  }
+  const [selectedStartDate, handleStartDateChange] = useState(new Date());
+  const [selectedEndDate, handleEndDateChange] = useState(new Date());
 
   function handleChange(event) {
     setValue({ ...value, [event.target.name]: event.target.value });
@@ -134,34 +133,34 @@ export default function AddHolidaysForm() {
           className={classes.textfield}
         />
         <span style={{ color: "red" }}>{errors["name"]}</span>
-        <FormControl className={classes.formcontrol}>
-          <TextField
-            className={classes.datefield}
-            name="startDate"
-            label="Start"
-            type="date"
-            value={value.startDate}
-            onChange={handleDateChange}
-            InputLabelProps={{
-              shrink: true,
-            }}
+        <MuiPickersUtilsProvider
+          utils={DateFnsUtils}
+          className={classes.formcontrol}
+        >
+          <DatePicker
+            className={classes.formcontrol}
+            label={"Start"}
+            name={"startDate"}
+            onChange={handleStartDateChange}
+            value={selectedStartDate}
+            disablePast
+            animateYearScrolling
+            format={"dd/MM/yyyy"}
+            autoOk
           />
-          <span style={{ color: "red" }}>{errors["startDate"]}</span>
-        </FormControl>
-        <FormControl className={classes.formcontrol}>
-          <TextField
-            className={classes.datefield}
-            name="endDate"
-            label="Ende"
-            type="date"
-            value={value.endDate}
-            onChange={handleDateChange}
-            InputLabelProps={{
-              shrink: true,
-            }}
+          <DatePicker
+            className={classes.formcontrol}
+            label={"Ende"}
+            name={"endDate"}
+            onChange={handleEndDateChange}
+            value={selectedEndDate}
+            disablePast
+            animateYearScrolling
+            format={"dd/MM/yyyy"}
+            autoOk
           />
           <span style={{ color: "red" }}>{errors["endDate"]}</span>
-        </FormControl>
+        </MuiPickersUtilsProvider>
         <Button
           variant="contained"
           color="primary"
