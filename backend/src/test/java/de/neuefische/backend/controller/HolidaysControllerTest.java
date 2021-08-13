@@ -7,6 +7,8 @@ import de.neuefische.backend.model.Child;
 import de.neuefische.backend.model.Holidays;
 import de.neuefische.backend.service.HolidaysService;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;

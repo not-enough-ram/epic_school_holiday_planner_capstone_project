@@ -15,6 +15,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,6 +57,18 @@ class HolidaysServiceTest {
                         .endDate(LocalDate.of(2022, 1, 1))
                         .build())));
         verify(holidaysRepository, times(1)).findAll();
+    }
+
+    @Test
+    void getListOfHolidaysReturnsAnEmptyListIfNoHolidaysArePresent(){
+        //GIVEN
+        when(holidaysRepository.findAll()).thenReturn(Collections.emptyList());
+
+        //WHEN
+        List<Holidays> holidaysList = holidaysService.getListOfHolidays();
+
+        //THEN
+        assertThat(holidaysList, is(Collections.emptyList()));
     }
 
     @Test
